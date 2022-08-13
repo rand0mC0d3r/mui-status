@@ -1,10 +1,10 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { createContext, useEffect, useState } from 'react'
 import MuiPanelManager from '../MuiPanelManager'
-import { oppositeSide } from '../utils'
+// import { oppositeSide } from '../utils'
 import MuiDebug from './MuiDebug'
 
-const localStorageKey = 'material-ui-panel.layout'
+// const localStorageKey = 'material-ui-panel.layout'
 const settingsStorageKey = 'material-ui-panel.settings'
 const statusStorageKey = 'material-ui-panel.status'
 
@@ -15,16 +15,17 @@ const DataContext = createContext(null)
 const getRandomId = () => (Math.random() + 1).toString(36).substring(7)
 
 function MuiPanelProvider({
-  expand,
+  expand = true,
   allowRightClick,
-  initialSide = 'left',
-  markerColor,
-  inverseMarkers,
+  // initialSide = 'left',
+  // markerColor,
+  // inverseMarkers,
   debugMode,
   upperBar,
   tooltipComponent,
-  showCollapseButton,
-  showSplitterButton,
+  // showCollapseButton,
+  // showSplitterButton,
+  children,
   ...props }) {
 
   const [status, setStatus] = useState(props['status'] || [])
@@ -49,6 +50,7 @@ function MuiPanelProvider({
 
   const [settings, setSettings] = useState(props['settings'] || {
     isCollapsed: false,
+    expand: true,
     canSplitter: true,
     statusBarAnnounced: false,
     inverseMarkers: false,
@@ -81,41 +83,11 @@ function MuiPanelProvider({
     setStatus(status => [...status.filter(lo => lo.uniqueId !== id)])
   }
 
-
-
-
-  const updateParentSummary = (layout) => {
-    return layout.map(layoutObject =>
-      (layoutObject.parentId === null)
-        ? {
-				  ...layoutObject,
-				  notifications: {
-				    ...layoutObject.notifications,
-				    summary: layout.reduce((acc, value) => {
-				      if (value.parentId === layoutObject.uniqueId) {
-				        acc = acc + value.notifications.count
-				      }
-
-				      return acc
-				    }, 0) + layoutObject.notifications.count,
-				  }
-        }
-				: layoutObject
-    )
-  }
-
-
-
-  const handleSetStatusElements = ({ uniqueId, elements }) => {
-    setStatus(status => status.map(statusObject => statusObject.uniqueId === uniqueId
-			? { ...statusObject, elements }
-			: statusObject))
-  }
-
-
-
-
-
+  // const handleSetStatusElements = ({ uniqueId, elements }) => {
+  //   setStatus(status => status.map(statusObject => statusObject.uniqueId === uniqueId
+  // 		? { ...statusObject, elements }
+  // 		: statusObject))
+  // }
 
   const toggleSettingIsCollapsed = (collapsed) => setSettings(settings => ({ ...settings, isCollapsed: collapsed ? collapsed : !settings.isCollapsed }))
 
@@ -126,11 +98,11 @@ function MuiPanelProvider({
   }
 
   useEffect(() => setSettings(settings =>
-    ({ ...settings, inverseMarkers, allowRightClick, debugMode, upperBar })),
-  [inverseMarkers, allowRightClick, debugMode, upperBar])
+    ({ ...settings, expand, allowRightClick, debugMode, upperBar })),
+  [allowRightClick, expand, debugMode, upperBar])
 
 
-  useEffect(() => !!markerColor && setSettings(settings => ({ ...settings, markerColor })), [markerColor])
+  // useEffect(() => !!markerColor && setSettings(settings => ({ ...settings, markerColor })), [markerColor])
 
   useEffect(() => {
     localStorage.setItem(settingsStorageKey, JSON.stringify(settings))
@@ -143,48 +115,25 @@ function MuiPanelProvider({
   return <DataContext.Provider
     id="provider"
     value={{
-      // layout, setLayout,
-      settings, setSettings,
-      // sections, setSections,
-      status,
-
+      // passthru props
       tooltipComponent,
 
-      // showContent,
-      // addZoneToSection, removeZoneFromSection,
-
-      // splitContent,
-      // splitContentNg,
-
-      handleStatusVisibilityToggle,
-      // toggleSectionDirection,
-      // chooseTypeForSection,
-      // setSectionUrl,
-      // toggleCollapseSection,
-      // addPanelToSection, removePanelFromSection,
-
-      // handleUnSetAsEmbedded,
+      // settings state + crud
+      settings, setSettings,
       toggleSettingIsCollapsed,
-      // handleSetAsGroup,
-      handleStatusUpdate,
-      // handleSetVisible,
-      // handlePanelAlerts,
-      // handleSetSide,
-      // handleSetDisabled,
-      // handleToggleCollapse,
-      triggerStatusBarAnnounced,
-      // handleSetAsEmbedded,
-      // handleSetIcon,
-      // handlePanelAnnouncement,
-      // handleContentAnnouncement,
-      // handlePanelDestroy,
 
+      // status - wrapper
+      triggerStatusBarAnnounced,
+
+      // status state + crud
+      status,
+      handleStatusVisibilityToggle,
+      handleStatusUpdate,
       handleStatusAnnouncement,
       handleStatusDestroy,
-      handleSetStatusElements,
     }}>
-    <MuiPanelManager {...{ allowRightClick, showCollapseButton, showSplitterButton }}>
-      {props.children}
+    <MuiPanelManager {...{ expand }}>
+      {children}
     </MuiPanelManager>
     {settings.debugMode && <MuiDebug />}
   </DataContext.Provider>
