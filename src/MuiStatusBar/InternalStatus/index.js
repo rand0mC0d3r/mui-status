@@ -7,7 +7,6 @@ import DataProvider from '../../MuiPanelStore'
 
 const useStyles = makeStyles((theme) => ({
   statusBar: {
-    // padding: '0px 8px',
     gap: '4px',
     display: 'flex',
     minHeight: '28px',

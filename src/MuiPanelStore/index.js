@@ -1,4 +1,3 @@
-/* eslint-disable no-mixed-spaces-and-tabs */
 import { createContext, useEffect, useState } from 'react'
 import MuiPanelManager from '../MuiPanelManager'
 
@@ -6,8 +5,6 @@ const settingsStorageKey = 'material-ui-panel.settings'
 const statusStorageKey = 'material-ui-panel.status'
 
 const DataContext = createContext(null)
-
-const getRandomId = () => (Math.random() + 1).toString(36).substring(7)
 
 function MuiPanelProvider({
   expand = true,
@@ -113,7 +110,6 @@ function MuiPanelProvider({
       handleStatusDestroy,
     }}>
     <MuiPanelManager {...{ children }} />
-    {/* {settings.debugMode && <MuiDebug />} */}
   </DataContext.Provider>
 }
 

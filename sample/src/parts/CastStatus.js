@@ -4,8 +4,7 @@ import MuiStatusChild from '../components/MuiStatusChild'
 
 export default () => <MuiStatus
   id="triggerChromeCastPanel"
-  focusOnClick='chromecastPanel'
-  tooltip="Toggle visibility for panel"
+  tooltip="Awaiting for connections"
 >
-  <MuiStatusChild icon={<CastConnectedIcon />} text={'Toggle Panel'} />
+  <MuiStatusChild icon={<CastConnectedIcon />} text='0 Devices connected' />
 </MuiStatus>

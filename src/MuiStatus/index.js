@@ -55,7 +55,6 @@ const MuiStatus = ({
   id,
   secondary,
   style,
-  focusOnClick,
   onClick = false,
   onContextMenu,
   highlight = 'default',
@@ -63,7 +62,7 @@ const MuiStatus = ({
   children
 }) => {
   const {
-    status, settings, handleSetVisible, tooltipComponent,
+    status, settings, tooltipComponent,
     handleStatusUpdate, handleStatusAnnouncement, handleStatusDestroy
   } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState(null)
@@ -116,7 +115,7 @@ const MuiStatus = ({
       highlight !== 'default' && classes.hightlight,
       highlight === 'primary' && classes.hightlightPrimary,
 
-      (onClick || focusOnClick) && [
+      (onClick) && [
         classes.interactive,
         highlight === 'default' && classes.actionNormal,
         highlight !== 'default' && classes.actionHighlight,
@@ -132,7 +131,7 @@ const MuiStatus = ({
         id={id}
         key={`MupStatus_${id}_wrapper`}
         onClick={(e) => {
-              focusOnClick ? handleSetVisible({ uniqueId: focusOnClick }) : onClick ? callbackOnClick(e) : null
+              onClick ? callbackOnClick(e) : null
               handleStatusUpdate({ id, children })
         }}
         onContextMenu={(e) => settings.allowRightClick
@@ -159,7 +158,6 @@ MuiStatus.defaultProps = {
 MuiStatus.propTypes = {
   id: PropTypes.string.isRequired,
   secondary: PropTypes.bool,
-  focusOnClick: PropTypes.string,
   asMenu: PropTypes.any,
   style: PropTypes.any,
   onClick: PropTypes.func,
