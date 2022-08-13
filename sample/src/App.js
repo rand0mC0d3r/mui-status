@@ -10,7 +10,7 @@ function App() {
   const [help, setHelp] = useState(false)
   const [collapseMode, setCollapseMode] = useState(true)
   const [inverseMarkers, setInverseMarkers] = useState(false)
-  const [wikiUrl, setWikiUrl] = useState('https://en.wikipedia.org/wiki/Comparison_of_Material_Design_implementations')
+  const [wikiUrl, setWikiUrl] = useState('http://localhost:3000')
 
   const theme = useMemo(() => createTheme({
     palette: {
@@ -31,41 +31,16 @@ function App() {
   const toggleCollapseMode = () => setCollapseMode(!collapseMode)
   const toggleInverseMarkers = () => setInverseMarkers(!inverseMarkers)
 
-  const constructImplementation = <ImplementationFrame {...{
-    darkMode, toggleDarkMode,
-    help, toggleHelp,
-    debugMode, toggleDebugMode,
-    upperBar, toggleUpperBar,
-    collapseMode, toggleCollapseMode,
-    inverseMarkers, toggleInverseMarkers,
-    wikiUrl, setWikiUrl
-  }} />
-
   return <ThemeProvider {...{ theme }} >
-    {help
-      ? <div style={{
-        display: 'flex',
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        alignContent: 'center',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-        <div style={{
-          position: 'relative',
-          borderRadius: '30px',
-          // minWidth: '1200px',
-          maxWidth: '90%',
-          width: '70%',
-          border: '45px solid #333333',
-          height: '70%'
-        }}>
-          {constructImplementation}
-          <div style={{ position: 'absolute', left: '-200px', textAlign: 'right' }}>UpperBar section</div>
-        </div>
-      </div>
-      : constructImplementation}
+    <ImplementationFrame {...{
+      darkMode, toggleDarkMode,
+      help, toggleHelp,
+      debugMode, toggleDebugMode,
+      upperBar, toggleUpperBar,
+      collapseMode, toggleCollapseMode,
+      inverseMarkers, toggleInverseMarkers,
+      wikiUrl, setWikiUrl
+    }} />
   </ThemeProvider>
 }
 

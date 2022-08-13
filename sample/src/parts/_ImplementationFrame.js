@@ -65,18 +65,19 @@ function ImplementationFrame({
       // borderTop: '3px solid #41a0ff',
     }}/>
 
-    <MupContent>
-      <iframe
-        title="Random Wiki article"
-        style={{
-          width: '100%',
-          backgroundColor: '#FFF',
-          height: '100%',
-          border: '0px none'
-        }}
-        src={window.location.search.split('url=')[1] || wikiUrl}
-      />
-    </MupContent>
+    {/* <MupContent> */}
+    {/* <iframe
+      title="Random Wiki article"
+      style={{
+        width: '100%',
+        backgroundColor: '#FFF',
+        height: '100%',
+        border: '0px none'
+      }}
+      src={window.location.search.split('url=')[1] || wikiUrl}
+    /> */}
+    <div>demo content</div>
+    {/* </MupContent> */}
   </MuiPanelProvider>
 }
 
