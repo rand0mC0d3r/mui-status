@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 import { useContext } from 'react'
 import DataProvider from '../MuiPanelStore'
-import InternalStatus from './../MuiStatusBar/InternalStatus'
+import InternalStatus from '../MuiStatusBar/InternalStatus'
 
 const useStyles = makeStyles(() => ({
   box: {
@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const MuiPanelManager = ({ children }) => {
+const MuiWrapper = ({ children }) => {
   const { settings } = useContext(DataProvider)
   const classes = useStyles()
 
@@ -33,8 +33,8 @@ const MuiPanelManager = ({ children }) => {
   </Box>
 }
 
-MuiPanelManager.propTypes = {
+MuiWrapper.propTypes = {
   children: PropTypes.any.isRequired,
 }
 
-export default MuiPanelManager
+export default MuiWrapper

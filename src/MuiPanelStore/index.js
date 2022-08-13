@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react'
-import MuiPanelManager from '../MuiPanelManager'
+import MuiWrapper from '../MuiWrapper'
 
 const settingsStorageKey = 'material-ui-panel.settings'
 const statusStorageKey = 'material-ui-panel.status'
@@ -109,7 +109,7 @@ function MuiPanelProvider({
       handleStatusAnnouncement,
       handleStatusDestroy,
     }}>
-    <MuiPanelManager {...{ children }} />
+    <MuiWrapper {...{ children }} />
   </DataContext.Provider>
 }
 

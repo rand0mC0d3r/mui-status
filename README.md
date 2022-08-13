@@ -55,19 +55,6 @@ yarn i @kadarka/material-ui-panel
 ---
 ## 🎛️ Architecture & Structure
 
-#### DOM & CSS Grid wise
-
-The base structure it's a grid with 5 columns, at most 5, at least 3 all the time visible, with 1 or 2 always potentially ```width: 0px```
-
-Grid-columns are ```[ ( 'leftMenu' '{leftPanel?}' ) 'main' ( '{rightPanel?}' 'rightMenu' ) ]```.
-Side note:  ```leftPanel``` and ```rightPanel``` are only visible if needed. Internally they are a ```grid-area``` sub-populated as a ```flex``` with direction ```column```
-
-##### Visually
-
-| leftMenu | leftPanel | main | rightPanel | rightMenu |
-|----------|-----------|------|------------|-----------|
-| announced panels for side: ```left``` | panels[ ] qualifying for side and visibility properties | *user main app* | panels[ ] qualifying for side and visibility properties | announced panels for side: ```right``` |
-
 ### 📑 - < MuiPanelProvider >
 
 The ```<MuiPanelProvider>``` is a HOC Context driven manager suggested to be added close the the root of the document, preferably outside the ±```<Router>``` but inside the ```<MuiTheme>```
@@ -105,9 +92,7 @@ export default (): JSX.Element => {
 | Argument | Type |Default | Description |
 |-----|----|----|--------|
 | *allowRightClick* | boolean | ```false``` | Determines if the panel allows opening the default browser context menu on right click |
-| *initialSide* | string | ```left``` | A side option to define for a new user the preference of the menu. Options ```left``` and ```right``` |
-| *inverseMarkers* | boolean | ```false``` | Determines is the highlight markers are oriented towards the outer borders of the screen, or towards the main content of the screen |
-| *markerColor* | string | ```textPrimary``` | Sets on of the material-UI ```Typography``` range of available colors. Options ```textPrimary```, ```textSecondary```, ```primary```, ```secondary``` |
+| *position* | string | ```left``` | A side option to define for a new user the preference of the menu. Options ```left``` and ```right``` |
 
 ---
 
@@ -140,45 +125,14 @@ Self organizing manager wrapper that renders all children given
 ```
 ---
 
-## < MuiPanelManager >
+## ```<MuiWrapper>``` - 🤖 Status + Children Wrapper
 
-Self organizing manager wrapper that renders all children given
-
----
-## ```<MuiDebug>``` - 🕵️ (Internal) - Debug component
-
-A utility modal to display the current state of the panels, layout, settings and the rest of the store. It's constantly updated via the **Provider** hooks.
-
-```
-...
-<MuiPanelProvider debugMode={true}...>
-  ...
-</MuiPanelProvider>
-...
-```
-
-
----
-## < Mui Splitter >
-
-Self organizing manager wrapper that renders all children given
-
----
-
-## ```<MupPanel>``` - 🪟  Panel Component
-#####  The component creates a panel object to host the contents given. It's self registered and managed
-
-![/media/preview.png](/media/mupPanel1.png)
-**Hint**: Panels can issue notifications
-
-![/media/preview.png](/media/mupPanel2.png)
-**Hint**: Panels can feature automatic padding
-
----
+Wrapper for instantiating the status wrapper and a pass-thru for the children.
+It is a HOC that renders the children and the status wrapper.
 
 ## ```<MupStatus>``` - 📟 Status Bar Component
 
-The component creates an object for the status bar that can be clicked. It's self registered and managed
+The component creates an object for the status bar that can be clicked. It's self registered and managed by the context provider provided by the library
 
 ![/media/preview.png](/media/mupStatus1.png)
 
@@ -362,10 +316,6 @@ Internally the ```<MuiPanelProvider>``` is made aware of the ```<MupButton>``` i
   </>
   ```
 
----
-## ```<MupContent>``` - ⚠️  Your Content Component -
-
-This is the observable wrapper of your entire application. This should be included as close to root as possible where content represents your view or a representation of your current application UI.
 
 ##### Available arguments
 
