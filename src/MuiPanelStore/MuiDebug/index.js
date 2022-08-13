@@ -56,15 +56,12 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const MupDebug = () => {
-  const { settings, status, sections, layout } = useContext(DataProvider)
+  const { settings, status, layout } = useContext(DataProvider)
   const localStorageKey = 'material-ui-panel.debug'
   const theme = useTheme()
   const classes = useStyles(theme)
 
   const [dumps, setDumps] = useState([{
-    title: 'Sections',
-    collapsed: true,
-  }, {
     title: 'Layout',
     collapsed: false,
   }, {
@@ -86,22 +83,22 @@ const MupDebug = () => {
     localStorage.setItem(localStorageKey, JSON.stringify(dumps.map(({ title, collapsed }) => ({ title, collapsed }))))
   }, [dumps])
 
-  const processDump = (title, dump, removeKeys) => {
-    return dump.title === title
-      ? {
-        ...dump, dataSource: sections.map(obj => <div className={classes.storeElement}><pre
-          key={`section_${obj.uniqueId}`}
-          className={classes.dumpText}>
-          {JSON.stringify({ ...obj, ...removeKeys }, null, 4)}
-        </pre></div>)
-      }
-    : dump
-  }
+  // const processDump = (title, dump, removeKeys) => {
+  //   return dump.title === title
+  //     ? {
+  //       ...dump, dataSource: sections.map(obj => <div className={classes.storeElement}><pre
+  //         key={`section_${obj.uniqueId}`}
+  //         className={classes.dumpText}>
+  //         {JSON.stringify({ ...obj, ...removeKeys }, null, 4)}
+  //       </pre></div>)
+  //     }
+  //   : dump
+  // }
 
 
-  useEffect(() => {
-    setDumps(dumps => dumps.map(dump => processDump('Sections', dump)))
-  }, [sections, classes.dumpText])
+  // useEffect(() => {
+  //   setDumps(dumps => dumps.map(dump => processDump('Sections', dump)))
+  // }, [sections, classes.dumpText])
 
   useEffect(() => {
     setDumps(dumps => dumps.map(d => {
