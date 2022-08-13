@@ -1,30 +1,21 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { createContext, useEffect, useState } from 'react'
 import MuiPanelManager from '../MuiPanelManager'
-// import { oppositeSide } from '../utils'
 import MuiDebug from './MuiDebug'
 
-// const localStorageKey = 'material-ui-panel.layout'
 const settingsStorageKey = 'material-ui-panel.settings'
 const statusStorageKey = 'material-ui-panel.status'
 
 const DataContext = createContext(null)
 
-// const getRandomColor = () => '#' + Math.random().toString(16).substr(-6)
-
 const getRandomId = () => (Math.random() + 1).toString(36).substring(7)
 
 function MuiPanelProvider({
   expand = true,
-  allowRightClick,
-  // initialSide = 'left',
-  // markerColor,
-  // inverseMarkers,
+  position = 'top',
+  allowRightClick = true,
   debugMode,
-  upperBar,
   tooltipComponent,
-  // showCollapseButton,
-  // showSplitterButton,
   children,
   ...props }) {
 
@@ -49,13 +40,9 @@ function MuiPanelProvider({
   }, [storedStatus])
 
   const [settings, setSettings] = useState(props['settings'] || {
-    isCollapsed: false,
     expand: true,
-    canSplitter: true,
     statusBarAnnounced: false,
-    inverseMarkers: false,
     allowRightClick: false,
-    markerColor: 'textPrimary',
     debugMode: false,
   })
 
@@ -83,13 +70,6 @@ function MuiPanelProvider({
     setStatus(status => [...status.filter(lo => lo.uniqueId !== id)])
   }
 
-  // const handleSetStatusElements = ({ uniqueId, elements }) => {
-  //   setStatus(status => status.map(statusObject => statusObject.uniqueId === uniqueId
-  // 		? { ...statusObject, elements }
-  // 		: statusObject))
-  // }
-
-  const toggleSettingIsCollapsed = (collapsed) => setSettings(settings => ({ ...settings, isCollapsed: collapsed ? collapsed : !settings.isCollapsed }))
 
   const triggerStatusBarAnnounced = () => {
     if (!settings.statusBarAnnounced) {
@@ -98,11 +78,8 @@ function MuiPanelProvider({
   }
 
   useEffect(() => setSettings(settings =>
-    ({ ...settings, expand, allowRightClick, debugMode, upperBar })),
-  [allowRightClick, expand, debugMode, upperBar])
-
-
-  // useEffect(() => !!markerColor && setSettings(settings => ({ ...settings, markerColor })), [markerColor])
+    ({ ...settings, expand, position, allowRightClick, debugMode })),
+  [allowRightClick, expand, position, debugMode])
 
   useEffect(() => {
     localStorage.setItem(settingsStorageKey, JSON.stringify(settings))
@@ -120,7 +97,6 @@ function MuiPanelProvider({
 
       // settings state + crud
       settings, setSettings,
-      toggleSettingIsCollapsed,
 
       // status - wrapper
       triggerStatusBarAnnounced,
@@ -132,9 +108,7 @@ function MuiPanelProvider({
       handleStatusAnnouncement,
       handleStatusDestroy,
     }}>
-    <MuiPanelManager {...{ expand }}>
-      {children}
-    </MuiPanelManager>
+    <MuiPanelManager {...{ children }} />
     {settings.debugMode && <MuiDebug />}
   </DataContext.Provider>
 }
