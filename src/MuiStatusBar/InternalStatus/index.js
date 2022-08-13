@@ -7,7 +7,7 @@ import DataProvider from '../../MuiPanelStore'
 
 const useStyles = makeStyles((theme) => ({
   statusBar: {
-    padding: '0px 8px',
+    // padding: '0px 8px',
     gap: '4px',
     display: 'flex',
     minHeight: '28px',
@@ -89,7 +89,7 @@ export default ({ style, className }) => {
   </div>
 
   const entryWrapper = (s) => <Fragment key={s.uniqueId}>{tooltipComponent !== undefined
-    ? <>{tooltipComponent('Toggle visiblity of tile', statusEntry(s))}</>
+    ? <>{tooltipComponent('Toggle visibility of tile', statusEntry(s))}</>
     : statusEntry(s)}
   </Fragment>
 
@@ -103,7 +103,7 @@ export default ({ style, className }) => {
       className={[
         className,
         classes.statusBar,
-        settings.upperBar ? classes.upper : classes.lower
+        settings.position === 'top' ? classes.upper : classes.lower
       ].filter(e => !!e).join(' ')}
     >
       {['primary', 'secondary'].map((side, i) => <div

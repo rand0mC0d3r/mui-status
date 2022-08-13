@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 const useStyles = makeStyles(theme => ({
   box: {
     gap: '4px',
-    color: theme.palette.action,
+    color: theme.palette.action.active,
   },
   icon: {
     fontSize: 20
@@ -22,21 +22,13 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const MuiStatusChild = ({
-  icon,
-  text,
-  image,
-  mask,
-  className,
-}) => {
+const MuiStatusChild = ({ icon, text, image, mask, className, style }) => {
   const theme = useTheme()
   const classes = useStyles(theme)
 
-  return <Box
-    display="flex"
-    alignItems="center"
-    flexWrap="nowrap"
-    className={clsx([classes.box, className])}
+  return <Box {...{ style }}
+    display="flex" alignItems="center" justifyContent="space-between"
+    flexWrap="nowrap" className={clsx([classes.box, className])}
   >
     {icon && <SvgIcon
       id="MupStatus_icon"

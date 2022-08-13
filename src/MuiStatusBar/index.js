@@ -8,7 +8,7 @@ export default ({ style, className }) => {
   const [documentElement, setDocumentElement] = useState(null)
 
   useEffect(() => {
-    setDocumentElement(document.getElementById('material-ui-panel-statusBar'))
+    setDocumentElement(document.getElementById('muiStatus-statusBar'))
     triggerStatusBarAnnounced()
   }, [])
 

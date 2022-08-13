@@ -1,6 +1,5 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { createContext, useEffect, useState } from 'react'
-// import MuiDebug from '../MuiDebug'
 import MuiPanelManager from '../MuiPanelManager'
 
 const settingsStorageKey = 'material-ui-panel.settings'

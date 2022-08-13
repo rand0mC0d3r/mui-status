@@ -1,6 +1,6 @@
 import { Tooltip } from '@material-ui/core'
 import { MuiPanelProvider } from '../components/MuiPanelStore'
-import MuiStatusBar from '../components/MuiStatusBar'
+// import MuiStatusBar from '../components/MuiStatusBar'
 import AliveStatus from './AliveStatus'
 import AvatarsStatuses from './AvatarsStatuses'
 import AvatarStatus from './AvatarStatus'
@@ -38,11 +38,11 @@ function ImplementationFrame({
     <AliveStatus />
     <DynamicInjectStatus />
 
-    <MuiStatusBar style={{
+    {/* <MuiStatusBar style={{
       // height: '32px',
       // backgroundColor: '#41a0ff42',
       // borderTop: '3px solid #41a0ff',
-    }}/>
+    }}/> */}
 
     <div>demo content</div>
   </MuiPanelProvider>

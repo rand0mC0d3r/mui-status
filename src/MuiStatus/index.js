@@ -62,7 +62,10 @@ const MuiStatus = ({
   tooltip,
   children
 }) => {
-  const { status, settings, handleSetVisible, tooltipComponent, handleStatusUpdate, handleStatusAnnouncement, handleStatusDestroy } = useContext(DataProvider)
+  const {
+    status, settings, handleSetVisible, tooltipComponent,
+    handleStatusUpdate, handleStatusAnnouncement, handleStatusDestroy
+  } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState(null)
   const [elementFound, setElementFound] = useState(null)
   const theme = useTheme()

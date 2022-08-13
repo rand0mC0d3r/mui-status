@@ -30,13 +30,13 @@ export default () => {
         src="https://quickchart.io/chart?bkg=white&c={type:'bar',data:{labels:['Q','2'],datasets: [{label:'Users',data:[50,60]}]}}"
         style={{ width: '120px' }}
       />
-      <div>text</div>
+      <div>Speed estimation over time</div>
     </div>}
   >
     <MuiStatusChild
       icon={highlight === 'secondary' ? <SignalWifi1BarIcon /> : <SignalWifi4BarIcon />}
       text={`${speed} KB/s`}
-      textStyle={{ minWidth: '60px' }}
+      style={{ minWidth: '84px' }}
     />
   </MuiStatus>
 }

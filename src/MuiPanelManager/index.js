@@ -16,25 +16,25 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const MuiPanelStatus = ({ children }) => {
+const MuiPanelManager = ({ children }) => {
   const { settings } = useContext(DataProvider)
   const classes = useStyles()
 
   return <Box
-    id="MuiPanelStatus"
+    id="MuiPanelManager"
     display="flex"
     flexDirection={settings.position === 'top' ? 'column-reverse' : 'column'}
     className={classes.box}
   >
     <div className={classes.children}>{children}</div>
-    <div id="material-ui-panel-statusBar">
+    <div id="muiStatus-statusBar">
       {!settings.statusBarAnnounced && <InternalStatus />}
     </div>
   </Box>
 }
 
-MuiPanelStatus.propTypes = {
+MuiPanelManager.propTypes = {
   children: PropTypes.any.isRequired,
 }
 
-export default MuiPanelStatus
+export default MuiPanelManager

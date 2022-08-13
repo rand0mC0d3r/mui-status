@@ -60,7 +60,7 @@ const MuiStatusPanel = ({
 MuiStatusPanel.defaultProps = {
   secondary: false,
   tooltip: '',
-  elevation: 1,
+  elevation: 4,
 }
 
 MuiStatusPanel.propTypes = {
