@@ -3,8 +3,8 @@ import CloudDoneOutlinedIcon from '@material-ui/icons/CloudDoneOutlined'
 import CloudOffOutlinedIcon from '@material-ui/icons/CloudOffOutlined'
 import CloudOutlinedIcon from '@material-ui/icons/CloudOutlined'
 import { useState } from 'react'
+import MuiStatusChild from '../components/MuiStatusChild'
 import MupStatus from '../components/MupStatus'
-import MupStatusChild from '../components/MupStatusChild'
 
 const SaveStatus = () => {
   const [open, setOpen] = useState(false)
@@ -36,7 +36,7 @@ const SaveStatus = () => {
       onClick={() => setOpen(true)}
       tooltip="Save Document?"
     >
-      {elements.map(({ key, text, icon }) => <MupStatusChild {...{ key, text, icon }} />)}
+      {elements.map(({ key, text, icon }) => <MuiStatusChild {...{ key, text, icon }} />)}
     </MupStatus>
 
     <Dialog

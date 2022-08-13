@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'react'
 import DataProvider from '../MuiPanelStore'
 import MupStatus from '../MupStatus'
 
-const MupStatusPanel = ({
+const MuiStatusPanel = ({
   id,
   secondary,
   elevation,
@@ -57,13 +57,13 @@ const MupStatusPanel = ({
   </>
 }
 
-MupStatusPanel.defaultProps = {
+MuiStatusPanel.defaultProps = {
   secondary: false,
   tooltip: '',
   elevation: 1,
 }
 
-MupStatusPanel.propTypes = {
+MuiStatusPanel.propTypes = {
   id: PropTypes.string.isRequired,
   secondary: PropTypes.bool,
   style: PropTypes.any,
@@ -73,4 +73,4 @@ MupStatusPanel.propTypes = {
   popover: PropTypes.any,
 }
 
-export default MupStatusPanel
+export default MuiStatusPanel

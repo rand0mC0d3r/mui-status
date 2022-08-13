@@ -1,5 +1,5 @@
 import { Avatar } from '@material-ui/core'
-import MupStatusPanel from '../components/MupStatusPanel'
+import MuiStatusPanel from '../components/MuiStatusPanel'
 
 const popover = <div style={{ width: '350px', display: 'flex', padding: '16px', margin: '16px', gap: '16px' }}>
   {['34', '55', '69'].map(image => <img
@@ -10,7 +10,7 @@ const popover = <div style={{ width: '350px', display: 'flex', padding: '16px', 
   />)}
 </div>
 
-export default () => <MupStatusPanel id='avatars' {...{ popover }}>
+export default () => <MuiStatusPanel id='avatars' {...{ popover }}>
   <div style={{ display: 'flex', gap: '0px', maxHeight: '20px' }}>
     {['34', '55', '69'].map((image, i) => <img
       src={`https://picsum.photos/id/${image}/20/20`}
@@ -20,4 +20,4 @@ export default () => <MupStatusPanel id='avatars' {...{ popover }}>
     />)}
     <Avatar style={{ fontSize: '12px', width: '20px', height: '20px', marginLeft: '-8px' }}>5</Avatar>
   </div>
-</MupStatusPanel>
+</MuiStatusPanel>

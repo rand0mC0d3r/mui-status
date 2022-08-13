@@ -1,9 +1,9 @@
 import { MenuItem, MenuList } from '@material-ui/core'
 import ListAltIcon from '@material-ui/icons/ListAlt'
-import MupStatusChild from '../components/MupStatusChild'
-import MupStatusPanel from '../components/MupStatusPanel'
+import MuiStatusChild from '../components/MuiStatusChild'
+import MuiStatusPanel from '../components/MuiStatusPanel'
 
-export default () => <MupStatusPanel
+export default () => <MuiStatusPanel
   id='statusSampleMenu'
   tooltip="Open Sample menu..."
   popover={<MenuList id="menu-list-grow" onKeyDown={() => { }}>
@@ -12,5 +12,5 @@ export default () => <MupStatusPanel
     <MenuItem onClick={() => { }}>Logout</MenuItem>
   </MenuList>}
 >
-  <MupStatusChild icon={<ListAltIcon />} text="Menu" />
-</MupStatusPanel>
+  <MuiStatusChild icon={<ListAltIcon />} text="Menu" />
+</MuiStatusPanel>

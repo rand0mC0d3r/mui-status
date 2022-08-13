@@ -3,8 +3,8 @@ import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked'
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
 import ToysIcon from '@material-ui/icons/Toys'
 import { useState } from 'react'
+import MuiStatusChild from '../components/MuiStatusChild'
 import MupStatus from '../components/MupStatus'
-import MupStatusChild from '../components/MupStatusChild'
 
 const AliveStatus = () => {
   const [injectElement, setInjectElement] = useState(false)
@@ -16,11 +16,11 @@ const AliveStatus = () => {
       id='statusAlive'
       tooltip="Toggle injected status"
     >
-      <MupStatusChild icon={injectElement ? <RadioButtonCheckedIcon />  : <RadioButtonUncheckedIcon />} text='Toggle injection' />
+      <MuiStatusChild icon={injectElement ? <RadioButtonCheckedIcon />  : <RadioButtonUncheckedIcon />} text='Toggle injection' />
     </MupStatus>
 
     {injectElement && <MupStatus id='dummyObject' tooltip="Dummy element">
-      <MupStatusChild icon={<ToysIcon />} text='Injected' />
+      <MuiStatusChild icon={<ToysIcon />} text='Injected' />
     </MupStatus>}
 
     <MupStatus id='dummyButton' tooltip="Dummy element" >

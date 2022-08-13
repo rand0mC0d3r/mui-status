@@ -1,8 +1,8 @@
 import SignalWifi1BarIcon from '@material-ui/icons/SignalWifi1Bar'
 import SignalWifi4BarIcon from '@material-ui/icons/SignalWifi4Bar'
 import { useEffect, useState } from 'react'
+import MuiStatusChild from '../components/MuiStatusChild'
 import MupStatus from '../components/MupStatus'
-import MupStatusChild from '../components/MupStatusChild'
 
 const breakpoint = 60
 const max = 300
@@ -33,7 +33,7 @@ export default () => {
       <div>text</div>
     </div>}
   >
-    <MupStatusChild
+    <MuiStatusChild
       icon={highlight === 'secondary' ? <SignalWifi1BarIcon /> : <SignalWifi4BarIcon />}
       text={`${speed} KB/s`}
       textStyle={{ minWidth: '60px' }}

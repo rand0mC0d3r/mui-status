@@ -3,8 +3,9 @@ import { useContext, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import DataProvider from '../MuiPanelStore'
 
-const MupContent = ({ children }) => {
-  const { layout, sections,  handleContentAnnouncement } = useContext(DataProvider)
+const MuiContent = ({ children }) => {
+  const { layout, sections, handleContentAnnouncement } = useContext(DataProvider)
+
   const [layoutObject, setLayoutObject] = useState()
   const [elemRef, setElemRef] = useState()
 
@@ -15,23 +16,21 @@ const MupContent = ({ children }) => {
     if (findObject) { setLayoutObject(findObject)}
   }, [layout])
 
-  return (layoutObject && elemRef)
-    ? createPortal(
-      <div style={{
-        order: layoutObject.parentId ? '' : '-1',
-        flex: !layoutObject.parentId ? '1 1 auto' : '0 0 auto',
-        display: 'flex',
-        height:  layoutObject.parentId ? 'unset' :'100%',
-        flexDirection: 'column'
-      }}>
-        {children}
-      </div>,
-      elemRef)
-    : null
+  return <>{(layoutObject && elemRef)
+    && createPortal(<div style={{
+      order: layoutObject.parentId ? '' : '-1',
+      flex: !layoutObject.parentId ? '1 1 auto' : '0 0 auto',
+      display: 'flex',
+      height: layoutObject.parentId ? 'unset' : '100%',
+      flexDirection: 'column'
+    }}>
+      {children}
+    </div>, elemRef)}
+  </>
 }
 
-MupContent.propTypes = {
+MuiContent.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-export default MupContent
+export default MuiContent

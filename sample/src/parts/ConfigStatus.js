@@ -1,7 +1,7 @@
 import SettingsIcon from '@material-ui/icons/Settings'
 import { Skeleton } from '@material-ui/lab'
-import MupStatusChild from '../components/MupStatusChild'
-import MupStatusPanel from '../components/MupStatusPanel'
+import MuiStatusChild from '../components/MuiStatusChild'
+import MuiStatusPanel from '../components/MuiStatusPanel'
 
 const popover = <div style={{ width: '350px', padding: '16px', margin: '16px' }}>
   Lorem ipsum dolor sit amet,
@@ -19,11 +19,11 @@ const popover = <div style={{ width: '350px', padding: '16px', margin: '16px' }}
   </div>
 </div>
 
-export default () => <MupStatusPanel
+export default () => <MuiStatusPanel
   id='statusPopoverMenu'
   secondary
   tooltip="Popover Menu external ..."
   popover={popover}
 >
-  <MupStatusChild icon={<SettingsIcon />} />
-</MupStatusPanel>
+  <MuiStatusChild icon={<SettingsIcon />} />
+</MuiStatusPanel>

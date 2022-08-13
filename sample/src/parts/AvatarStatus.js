@@ -1,6 +1,6 @@
 import { useTheme } from '@material-ui/core/styles'
+import MuiStatusChild from '../components/MuiStatusChild'
 import MupStatus from '../components/MupStatus'
-import MupStatusChild from '../components/MupStatusChild'
 
 export default () => {
   const theme = useTheme()
@@ -8,6 +8,6 @@ export default () => {
   return <MupStatus {...{ id: 'avatarStatus' }}
     style={{ borderRight: `1px solid ${theme.palette.divider}`, minWidth: '48px' }}
   >
-    <MupStatusChild mask image='https://picsum.photos/32/32' />
+    <MuiStatusChild mask image='https://picsum.photos/32/32' />
   </MupStatus>
 }

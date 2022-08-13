@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const MupStatusChild = ({
+const MuiStatusChild = ({
   icon,
   text,
   image,
@@ -64,11 +64,11 @@ const MupStatusChild = ({
   </Box>
 }
 
-MupStatusChild.defaultProps = {
+MuiStatusChild.defaultProps = {
   mask: false,
 }
 
-MupStatusChild.propTypes = {
+MuiStatusChild.propTypes = {
   icon: PropTypes.any,
   text: PropTypes.string,
   image: PropTypes.any,
@@ -76,4 +76,4 @@ MupStatusChild.propTypes = {
   className: PropTypes.any,
 }
 
-export default MupStatusChild
+export default MuiStatusChild
