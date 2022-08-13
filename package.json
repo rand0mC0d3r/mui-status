@@ -1,6 +1,6 @@
 {
   "name": "material-ui-panel-manager",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "<MupPanel> component for material-ui",
   "main": "lib/index.js",
   "private": false,
