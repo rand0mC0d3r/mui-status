@@ -16,8 +16,8 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import ShareIcon from '@material-ui/icons/Share'
 import { useState } from 'react'
+import MuiStatus from '../components/MuiStatus'
 import MuiStatusChild from '../components/MuiStatusChild'
-import MupStatus from '../components/MupStatus'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,13 +51,13 @@ const GalleryStatus = () => {
   const handleClose = () => { setOpen(false) }
 
   return <>
-    <MupStatus
+    <MuiStatus
       id='statusSimilarDocuments'
       onClick={handleClickOpen}
       tooltip="View Documents ... - (Last checked - 3 min ago)"
     >
       <MuiStatusChild icon={<AllInboxIcon />} text="4 Related" />
-    </MupStatus>
+    </MuiStatus>
     <Dialog
       open={open}
       maxWidth='md'

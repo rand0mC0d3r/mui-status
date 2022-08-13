@@ -1,7 +1,7 @@
 import CheckBoxOutlineBlankOutlinedIcon from '@material-ui/icons/CheckBoxOutlineBlankOutlined'
 import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined'
+import MuiStatus from '../components/MuiStatus'
 import MuiStatusChild from '../components/MuiStatusChild'
-import MupStatus from '../components/MupStatus'
 
 export default ({
   toggleDarkMode, darkMode,
@@ -46,7 +46,7 @@ export default ({
 
   return <>{toggles
     .filter(toggle => toggle.status !== undefined)
-    .map(toggle => <MupStatus
+    .map(toggle => <MuiStatus
       secondary
       key={`toggle_${toggle.title}`}
       id={`toggle_${toggle.title}`}
@@ -59,5 +59,5 @@ export default ({
           ? <CheckBoxOutlinedIcon />
           : <CheckBoxOutlineBlankOutlinedIcon />
         } />
-    </MupStatus>)}</>
+    </MuiStatus>)}</>
 }

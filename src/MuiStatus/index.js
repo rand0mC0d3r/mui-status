@@ -51,11 +51,10 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const MupStatus = ({
+const MuiStatus = ({
   id,
   secondary,
   style,
-  // hasToggled,
   focusOnClick,
   onClick = false,
   onContextMenu,
@@ -72,12 +71,6 @@ const MupStatus = ({
   const callbackOnClick = useCallback((e) => {
     onClick(e)
   }, [onClick])
-
-  // useEffect(() => {
-  //   if (hasToggled) {
-  //     hasToggled(settings.upperBar)
-  //   }
-  // }, [settings.upperBar])
 
   useEffect(() => {
     const elementSearched = document.getElementById(`material-ui-panel-statusBar-${secondary ? 'secondary' : 'primary'}`)
@@ -153,14 +146,14 @@ const MupStatus = ({
   </>}</>
 }
 
-MupStatus.defaultProps = {
+MuiStatus.defaultProps = {
   secondary: false,
   highlight: 'default',
   tooltip: '',
   asButton: false,
 }
 
-MupStatus.propTypes = {
+MuiStatus.propTypes = {
   id: PropTypes.string.isRequired,
   secondary: PropTypes.bool,
   focusOnClick: PropTypes.string,
@@ -173,4 +166,4 @@ MupStatus.propTypes = {
   children: PropTypes.any,
 }
 
-export default MupStatus
+export default MuiStatus

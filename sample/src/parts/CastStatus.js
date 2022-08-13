@@ -1,11 +1,11 @@
 import CastConnectedIcon from '@material-ui/icons/CastConnected'
+import MuiStatus from '../components/MuiStatus'
 import MuiStatusChild from '../components/MuiStatusChild'
-import MupStatus from '../components/MupStatus'
 
-export default () => <MupStatus
+export default () => <MuiStatus
   id="triggerChromeCastPanel"
   focusOnClick='chromecastPanel'
   tooltip="Toggle visibility for panel"
 >
   <MuiStatusChild icon={<CastConnectedIcon />} text={'Toggle Panel'} />
-</MupStatus>
+</MuiStatus>

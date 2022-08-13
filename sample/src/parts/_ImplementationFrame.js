@@ -1,9 +1,6 @@
-/* eslint-disable no-unused-vars */
 import { Tooltip } from '@material-ui/core'
-import { useState } from 'react'
 import { MuiPanelProvider } from '../components/MuiPanelStore'
 import MuiStatusBar from '../components/MuiStatusBar'
-import MupContent from '../components/MupContent'
 import AliveStatus from './AliveStatus'
 import AvatarsStatuses from './AvatarsStatuses'
 import AvatarStatus from './AvatarStatus'
@@ -22,11 +19,23 @@ function ImplementationFrame({
   upperBar, toggleUpperBar,
   collapseMode, toggleCollapseMode,
   inverseMarkers, toggleInverseMarkers,
-  wikiUrl, setWikiUrl
 }) {
-  const [markerColor, setMarkerColor] = useState('primary')
+  return <MuiPanelProvider
+    showSplitterButton={false}
+    initialSide='left'
+    tooltipComponent={(tooltip, component) => <Tooltip arrow title={tooltip}>{component}</Tooltip>}
+    {...{ debugMode, inverseMarkers, upperBar }}
+    showCollapseButton={collapseMode}>
 
-  const statusBlock = <>
+    <ToggleTheme {...{
+      toggleUpperBar, upperBar,
+      toggleDebugMode, debugMode,
+      help, toggleHelp,
+      toggleDarkMode, darkMode,
+      toggleCollapseMode, collapseMode,
+      toggleInverseMarkers, inverseMarkers,
+    }} />
+
     <AvatarStatus />
     <MenuStatus />
     <ConfigStatus />
@@ -37,27 +46,6 @@ function ImplementationFrame({
 
     <AliveStatus />
     <DynamicInjectStatus />
-  </>
-
-  return <MuiPanelProvider
-    showSplitterButton={false}
-    initialSide='left'
-    tooltipComponent={(tooltip, component) => <Tooltip arrow title={tooltip}>{component}</Tooltip>}
-    {...{ debugMode, markerColor, inverseMarkers, upperBar }}
-    showCollapseButton={collapseMode}>
-
-    <ToggleTheme {...{
-      toggleUpperBar, upperBar,
-      toggleDebugMode, debugMode,
-      help, toggleHelp,
-      toggleDarkMode, darkMode,
-      toggleCollapseMode, collapseMode,
-      toggleInverseMarkers, inverseMarkers,
-      markerColor, setMarkerColor
-    }} />
-
-
-    {statusBlock}
 
     <MuiStatusBar style={{
       // height: '32px',
@@ -65,19 +53,7 @@ function ImplementationFrame({
       // borderTop: '3px solid #41a0ff',
     }}/>
 
-    {/* <MupContent> */}
-    {/* <iframe
-      title="Random Wiki article"
-      style={{
-        width: '100%',
-        backgroundColor: '#FFF',
-        height: '100%',
-        border: '0px none'
-      }}
-      src={window.location.search.split('url=')[1] || wikiUrl}
-    /> */}
     <div>demo content</div>
-    {/* </MupContent> */}
   </MuiPanelProvider>
 }
 

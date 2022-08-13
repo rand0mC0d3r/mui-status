@@ -1,8 +1,8 @@
 import SignalWifi1BarIcon from '@material-ui/icons/SignalWifi1Bar'
 import SignalWifi4BarIcon from '@material-ui/icons/SignalWifi4Bar'
 import { useEffect, useState } from 'react'
+import MuiStatus from '../components/MuiStatus'
 import MuiStatusChild from '../components/MuiStatusChild'
-import MupStatus from '../components/MupStatus'
 
 const breakpoint = 60
 const max = 300
@@ -22,7 +22,7 @@ export default () => {
     return () => clearInterval(interval)
   }, [])
 
-  return <MupStatus {...{ highlight }}
+  return <MuiStatus {...{ highlight }}
     secondary
     id='statusAliveUpdating'
     tooltip={<div>
@@ -38,5 +38,5 @@ export default () => {
       text={`${speed} KB/s`}
       textStyle={{ minWidth: '60px' }}
     />
-  </MupStatus>
+  </MuiStatus>
 }

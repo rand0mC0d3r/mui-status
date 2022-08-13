@@ -43,7 +43,7 @@
   "author": "rand0mC0d3r",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently \"npm run copy.component\" \"cd sample && npx react-scripts start\"",
+    "dev": "concurrently \"rm -rf sample/src/components/* && npm run copy.component\" \"cd sample && npx react-scripts start\"",
     "start": "serve -s build",
     "prebuild": "npm install ./sample && npm run clone.component",
     "build": "rm -rf ./build && cd sample && npx react-scripts build && mv ./build ../",
