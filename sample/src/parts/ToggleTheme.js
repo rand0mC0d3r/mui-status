@@ -4,60 +4,44 @@ import MuiStatus from '../components/MuiStatus'
 import MuiStatusChild from '../components/MuiStatusChild'
 
 export default ({
+  setPosition, position,
+  toggleDebug, debug,
   toggleDarkMode, darkMode,
-  toggleUpperBar, upperBar,
-  toggleHelp, help,
-  toggleDebugMode, debugMode,
-  toggleCollapseMode, collapseMode,
-  toggleInverseMarkers, inverseMarkers,
 }) => {
   const toggles = [
     {
       title: 'Debug',
-      status: debugMode,
-      statusToggle: toggleDebugMode,
+      status: debug,
+      statusToggle: toggleDebug,
     },
     {
-      title: 'Help',
-      status: help,
-      statusToggle: toggleHelp,
-    },
-    {
-      title: 'Dark',
+      title: 'Dark Mode',
       status: darkMode,
       statusToggle: toggleDarkMode,
     },
     {
-      title: 'Upper Bar',
-      status: upperBar,
-      statusToggle: toggleUpperBar,
-    },
-    {
-      title: 'Collapse',
-      status: collapseMode,
-      statusToggle: toggleCollapseMode,
-    },
-    {
-      title: 'Inverse',
-      status: inverseMarkers,
-      statusToggle: toggleInverseMarkers,
+      title: 'Position on Top',
+      status: position === 'top',
+      statusToggle: () => setPosition(position === 'top' ? 'bottom' : 'top'),
     },
   ]
 
-  return <>{toggles
-    .filter(toggle => toggle.status !== undefined)
-    .map(toggle => <MuiStatus
-      secondary
-      key={`toggle_${toggle.title}`}
-      id={`toggle_${toggle.title}`}
-      tooltip={`Toggle the ${toggle.title} flag: ${toggle.status ? 'off' : 'on'}`}
-      onClick={() => toggle.statusToggle()}
-    >
-      <MuiStatusChild
-        text={toggle.title}
-        icon={toggle.status
-          ? <CheckBoxOutlinedIcon />
-          : <CheckBoxOutlineBlankOutlinedIcon />
-        } />
-    </MuiStatus>)}</>
+  return <>
+    {position}
+    {toggles
+      .filter(toggle => toggle.status !== undefined)
+      .map(toggle => <MuiStatus
+        secondary
+        key={`toggle_${toggle.title}`}
+        id={`toggle_${toggle.title}`}
+        tooltip={`Toggle the ${toggle.title} flag: ${toggle.status ? 'off' : 'on'}`}
+        onClick={() => toggle.statusToggle()}
+      >
+        <MuiStatusChild
+          text={toggle.title}
+          icon={toggle.status
+            ? <CheckBoxOutlinedIcon />
+            : <CheckBoxOutlineBlankOutlinedIcon />
+          } />
+      </MuiStatus>)}</>
 }

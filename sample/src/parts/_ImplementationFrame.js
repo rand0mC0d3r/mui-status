@@ -14,26 +14,17 @@ import ToggleTheme from './ToggleTheme'
 
 function ImplementationFrame({
   darkMode, toggleDarkMode,
-  help, toggleHelp,
-  debugMode, toggleDebugMode,
-  upperBar, toggleUpperBar,
-  collapseMode, toggleCollapseMode,
-  inverseMarkers, toggleInverseMarkers,
+  debug, toggleDebug,
+  position, setPosition
 }) {
-  return <MuiPanelProvider
-    showSplitterButton={false}
-    initialSide='left'
+  return <MuiPanelProvider {...{ debug, position }}
     tooltipComponent={(tooltip, component) => <Tooltip arrow title={tooltip}>{component}</Tooltip>}
-    {...{ debugMode, inverseMarkers, upperBar }}
-    showCollapseButton={collapseMode}>
+  >
 
     <ToggleTheme {...{
-      toggleUpperBar, upperBar,
-      toggleDebugMode, debugMode,
-      help, toggleHelp,
+      toggleDebug, debug,
       toggleDarkMode, darkMode,
-      toggleCollapseMode, collapseMode,
-      toggleInverseMarkers, inverseMarkers,
+      setPosition, position,
     }} />
 
     <AvatarStatus />

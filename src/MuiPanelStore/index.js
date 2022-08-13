@@ -1,7 +1,7 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { createContext, useEffect, useState } from 'react'
+// import MuiDebug from '../MuiDebug'
 import MuiPanelManager from '../MuiPanelManager'
-import MuiDebug from './MuiDebug'
 
 const settingsStorageKey = 'material-ui-panel.settings'
 const statusStorageKey = 'material-ui-panel.status'
@@ -14,7 +14,7 @@ function MuiPanelProvider({
   expand = true,
   position = 'top',
   allowRightClick = true,
-  debugMode,
+  debug,
   tooltipComponent,
   children,
   ...props }) {
@@ -43,7 +43,7 @@ function MuiPanelProvider({
     expand: true,
     statusBarAnnounced: false,
     allowRightClick: false,
-    debugMode: false,
+    debug: false,
   })
 
   const handleStatusAnnouncement = ({ id, secondary }) => {
@@ -77,8 +77,8 @@ function MuiPanelProvider({
   }
 
   useEffect(() => setSettings(settings =>
-    ({ ...settings, expand, position, allowRightClick, debugMode })),
-  [allowRightClick, expand, position, debugMode])
+    ({ ...settings, expand, position, allowRightClick, debug })),
+  [allowRightClick, expand, position, debug])
 
   useEffect(() => {
     localStorage.setItem(settingsStorageKey, JSON.stringify(settings))
@@ -87,6 +87,12 @@ function MuiPanelProvider({
   useEffect(() => {
     localStorage.setItem(statusStorageKey, JSON.stringify(status.map(s => ({ ...s, children: undefined }))))
   }, [status])
+
+  useEffect(() => {
+    if (settings.debug) {
+      console.log('MuiPanelProvider:', { ...settings, ...status })
+    }
+  }, [settings, status])
 
   return <DataContext.Provider
     id="provider"
@@ -108,7 +114,7 @@ function MuiPanelProvider({
       handleStatusDestroy,
     }}>
     <MuiPanelManager {...{ children }} />
-    {settings.debugMode && <MuiDebug />}
+    {/* {settings.debugMode && <MuiDebug />} */}
   </DataContext.Provider>
 }
 
