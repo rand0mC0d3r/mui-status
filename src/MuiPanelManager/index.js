@@ -5,7 +5,7 @@ import DataProvider from '../MuiPanelStore'
 import InternalStatus from './../MuiStatusBar/InternalStatus'
 
 const useStyles = makeStyles((theme) => ({
-  wrapper: {
+  box: {
     height: '100%',
     width: '100%',
     position: 'absolute',
@@ -31,7 +31,7 @@ const MuiPanelStatus = ({ children }) => {
     id="MuiPanelStatus"
     display="flex"
     flexDirection={settings.upperBar ? 'column-reverse' : 'column'}
-    className={classes.wrapper}
+    className={classes.box}
   >
     <div id="MuiPanels" className={`${classes.root}`}>{children}</div>
     <div id="material-ui-panel-statusBar">{!settings.statusBarAnnounced && <InternalStatus />}</div>

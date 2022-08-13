@@ -11,6 +11,8 @@ const MupStatusPanel = ({
   style,
   tooltip,
   children,
+  popoverStyle,
+  popoverClassName,
   popover
 }) => {
   const { status } = useContext(DataProvider)
@@ -21,27 +23,34 @@ const MupStatusPanel = ({
   const open = Boolean(anchorEl)
 
   useEffect(() => {
-    if (statusObject === null && status.some(item => item.uniqueId === id)) {
-      setStatusObject(status.find(item => item.uniqueId === id))
+    const foundObject = status.find(item => item.uniqueId === id)
+    if (statusObject === null && foundObject) {
+      setStatusObject(foundObject)
     }
   }, [status, id, statusObject])
 
+  const onClick = (e) => {
+    setAnchorEl(e.currentTarget)
+    setIsToggled(e.pageY < screen.height / 2)
+  }
   const onClose = () => setAnchorEl(null)
 
   return <>
-    <MupStatus {...{ id, tooltip, secondary }}
-      onClick={e => setAnchorEl(e.currentTarget)}
-      hasToggled={() => { setIsToggled(!isToggled) }}
-      style={{ ...style, minWidth: '24px' }}
-    >
+    <MupStatus {...{ id, tooltip, secondary, onClick }} style={{ ...style, minWidth: '24px' }}>
       {children}
     </MupStatus>
-
     <Popover {...{ open, anchorEl, onClose, elevation }}
       id={`${id}-status-popover`}
-      anchorOrigin={{ vertical: isToggled ? 'top' : 'bottom', horizontal: statusObject?.secondary ? 'right' : 'left' }}
-      transformOrigin={{ vertical: !isToggled ? 'bottom' : 'top', horizontal: statusObject?.secondary ? 'right' : 'left' }}
-      style={{ marginTop: `${(isToggled ? 1 : -1) * 12}px` }}
+      className={popoverClassName}
+      style={{ ...popoverStyle, marginTop: `${(isToggled ? 1 : -1) * 12}px` }}
+      anchorOrigin={{
+        vertical: isToggled ? 'top' : 'bottom',
+        horizontal: statusObject?.secondary ? 'right' : 'left'
+      }}
+      transformOrigin={{
+        vertical: !isToggled ? 'bottom' : 'top',
+        horizontal: statusObject?.secondary ? 'right' : 'left'
+      }}
     >
       {popover}
     </Popover>

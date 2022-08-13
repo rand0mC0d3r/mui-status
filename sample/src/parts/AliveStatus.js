@@ -25,7 +25,13 @@ export default () => {
   return <MupStatus {...{ highlight }}
     secondary
     id='statusAliveUpdating'
-    tooltip={`Server connection bandwidth ${speed} KB/s`}
+    tooltip={<div>
+      <img
+        src="https://quickchart.io/chart?bkg=white&c={type:'bar',data:{labels:['Q','2'],datasets: [{label:'Users',data:[50,60]}]}}"
+        style={{ width: '120px' }}
+      />
+      <div>text</div>
+    </div>}
   >
     <MupStatusChild
       icon={highlight === 'secondary' ? <SignalWifi1BarIcon /> : <SignalWifi4BarIcon />}

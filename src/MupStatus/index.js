@@ -1,7 +1,7 @@
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import PropTypes from 'prop-types'
-import { useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import DataProvider from '../MuiPanelStore'
 
@@ -55,7 +55,7 @@ const MupStatus = ({
   id,
   secondary,
   style,
-  hasToggled,
+  // hasToggled,
   focusOnClick,
   onClick = false,
   onContextMenu,
@@ -73,11 +73,11 @@ const MupStatus = ({
     onClick(e)
   }, [onClick])
 
-  useEffect(() => {
-    if (hasToggled) {
-      hasToggled(settings.upperBar)
-    }
-  }, [settings.upperBar])
+  // useEffect(() => {
+  //   if (hasToggled) {
+  //     hasToggled(settings.upperBar)
+  //   }
+  // }, [settings.upperBar])
 
   useEffect(() => {
     const elementSearched = document.getElementById(`material-ui-panel-statusBar-${secondary ? 'secondary' : 'primary'}`)
@@ -130,30 +130,26 @@ const MupStatus = ({
     ])
   }
 
-  const generateComponent = (statusObject) => {
-    return <>
-      <div
+  return <>{(statusObject !== null && !!id && elementFound) && <>
+    {createPortal(statusObject.visible
+      ? <div
         id={id}
         key={`MupStatus_${id}_wrapper`}
         onClick={(e) => {
-          focusOnClick ? handleSetVisible({ uniqueId: focusOnClick }) : onClick ? callbackOnClick(e) : null
-          handleStatusUpdate({ id, children })
+              focusOnClick ? handleSetVisible({ uniqueId: focusOnClick }) : onClick ? callbackOnClick(e) : null
+              handleStatusUpdate({ id, children })
         }}
         onContextMenu={(e) => settings.allowRightClick
-          ? onContextMenu ? onContextMenu(e) : null
-        : e.preventDefault()}
+              ? onContextMenu ? onContextMenu(e) : null
+            : e.preventDefault()}
         className={generateClasses()}
         style={{ ...style, order: statusObject.index }}
       >
         {tooltipComponent !== undefined
-        ? <>{tooltipComponent(tooltip, <span>{children}</span>)}</>
-        : children}
+            ? <>{tooltipComponent(tooltip, <span>{children}</span>)}</>
+            : children}
       </div>
-    </>
-  }
-
-  return <>{(statusObject !== null && !!id && elementFound) && <>
-    {createPortal(statusObject.visible ? generateComponent(statusObject) : <></>, elementFound)}
+      : <></>, elementFound)}
   </>}</>
 }
 
@@ -173,7 +169,7 @@ MupStatus.propTypes = {
   onClick: PropTypes.func,
   onContextMenu: PropTypes.func,
   highlight: PropTypes.oneOf(['default', 'primary', 'secondary']),
-  tooltip: PropTypes.string,
+  tooltip: PropTypes.any,
   children: PropTypes.any,
 }
 
