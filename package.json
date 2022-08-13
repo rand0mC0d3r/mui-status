@@ -1,21 +1,21 @@
 {
-  "name": "material-ui-panel-manager",
-  "version": "0.1.14",
-  "description": "<MupPanel> component for material-ui",
+  "name": "mui-status",
+  "version": "0.0.1",
+  "description": "<MuiStatus> VSCode like status self-managed component system with mui5 interface",
   "main": "lib/index.js",
   "private": false,
   "devDependencies": {
-    "@babel/cli": "^7.16.0",
-    "@babel/core": "^7.16.0",
-    "@babel/preset-env": "^7.16.4",
-    "@babel/preset-react": "^7.16.0",
-    "@babel/types": "^7.16.0",
-    "babel-eslint": "^10.0.3",
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/types": "^7.18.10",
+    "babel-eslint": "^10.1.0",
     "babel-loader": "8.1.0",
-    "concurrently": "^6.5.1",
+    "concurrently": "^7.3.0",
     "copy-and-watch": "^0.1.6",
     "eslint-plugin-mui-unused-classes": "^1.0.3",
-    "npm-check-updates": "^12.5.12"
+    "npm-check-updates": "^16.0.5"
   },
   "dependencies": {
     "@material-ui/core": "4.12.4",
@@ -24,8 +24,7 @@
     "css": "^3.0.0",
     "prop-types": "^15.8.1",
     "react": ">=17.0.2",
-    "sample": "file:sample",
-    "serve": "13.0.2"
+    "sample": "file:sample"
   },
   "files": [
     "LICENSE",
@@ -48,6 +47,7 @@
     "prebuild": "npm install ./sample && npm run clone.component",
     "build": "rm -rf ./build && cd sample && npx react-scripts build && mv ./build ../",
     "build.lib": "babel ./src -d lib --copy-files",
+    "build.all": "npm install && npm run build && npm run build.lib",
     "test": "react-scripts test",
     "clone.component": "mkdir -p ./sample/src/components/ && cp -r src/* sample/src/components/",
     "copy.component": "npm run clone.component && copy-and-watch src/* sample/src/components/ --watch",
