@@ -12,6 +12,7 @@ function MuiPanelProvider({
   allowRightClick = true,
   debug,
   tooltipComponent,
+  popoverComponent,
   children,
   ...props }) {
 
@@ -54,6 +55,7 @@ function MuiPanelProvider({
   }
 
   const handleStatusUpdate = ({ id, children }) => {
+    console.log('handleStatusUpdate', id, children)
     setStatus(status => status.map(lo => lo.uniqueId !== id ? lo : { ...lo, children }))
   }
 
@@ -95,6 +97,7 @@ function MuiPanelProvider({
     value={{
       // passthru props
       tooltipComponent,
+      popoverComponent,
 
       // settings state + crud
       settings, setSettings,

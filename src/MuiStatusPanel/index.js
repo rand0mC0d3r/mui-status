@@ -15,7 +15,7 @@ const MuiStatusPanel = ({
   popoverClassName,
   popover
 }) => {
-  const { status } = useContext(DataProvider)
+  const { status, popoverComponent } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState(null)
 
   const [anchorEl, setAnchorEl] = useState(null)
@@ -39,7 +39,46 @@ const MuiStatusPanel = ({
     <MupStatus {...{ id, tooltip, secondary, onClick }} style={{ ...style, minWidth: '24px' }}>
       {children}
     </MupStatus>
-    <Popover {...{ open, anchorEl, onClose, elevation }}
+    {popoverComponent !== undefined
+      ? <>
+        {popoverComponent({
+          position: isToggled? 'top': 'bottom',
+          isSecondary: statusObject?.secondary,
+          popover,
+          popoverProps: {
+            anchorEl,
+            onClose,
+            open,
+            style:{ marginTop: `${(isToggled ? 1 : -1) * 12}px` },
+            anchorOrigin:{
+              vertical: isToggled ? 'top' : 'bottom',
+              horizontal: statusObject?.secondary ? 'right' : 'left'
+            },
+            transformOrigin:{
+              vertical: !isToggled ? 'bottom' : 'top',
+              horizontal: statusObject?.secondary ? 'right' : 'left'
+            }
+          }
+        })}
+      </>
+      : <>
+        <Popover {...{ open, anchorEl, onClose, elevation }}
+          id={`${id}-status-popover`}
+          className={popoverClassName}
+          style={{ ...popoverStyle, marginTop: `${(isToggled ? 1 : -1) * 12}px` }}
+          anchorOrigin={{
+            vertical: isToggled ? 'top' : 'bottom',
+            horizontal: statusObject?.secondary ? 'right' : 'left'
+          }}
+          transformOrigin={{
+            vertical: !isToggled ? 'bottom' : 'top',
+            horizontal: statusObject?.secondary ? 'right' : 'left'
+          }}
+        >
+          {popover}
+        </Popover>
+      </>}
+    {/* <Popover {...{ open, anchorEl, onClose, elevation }}
       id={`${id}-status-popover`}
       className={popoverClassName}
       style={{ ...popoverStyle, marginTop: `${(isToggled ? 1 : -1) * 12}px` }}
@@ -53,7 +92,7 @@ const MuiStatusPanel = ({
       }}
     >
       {popover}
-    </Popover>
+    </Popover> */}
   </>
 }
 

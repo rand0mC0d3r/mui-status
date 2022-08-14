@@ -81,6 +81,10 @@ const MuiStatus = ({
     }
   }, [secondary, statusObject])
 
+  useEffect(() => {
+    handleStatusUpdate({ id, children })
+  }, [id, children])
+
   const callbackHandleStatusAnnouncement = useCallback((id) => {
     handleStatusAnnouncement({ id, secondary, children })
   }, [secondary, children, handleStatusAnnouncement])
