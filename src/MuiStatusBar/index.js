@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import DataProvider from '../MuiPanelStore'
+import DataProvider from '../MuiStore'
 import InternalStatus from './InternalStatus'
 
 export default ({ style, className }) => {

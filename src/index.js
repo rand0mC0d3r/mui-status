@@ -1,4 +1,4 @@
-export { default as MuiPanelStore } from './MuiPanelStore'
+export { default as MuiStore } from './MuiStore'
 export { default as MuiStatus } from './MuiStatus'
 export { default as MuiStatusBar } from './MuiStatusBar'
 export { default as MuiStatusChild } from './MuiStatusChild'

@@ -1,5 +1,5 @@
 import { Popover, Tooltip } from '@material-ui/core'
-import { MuiPanelProvider } from '../components/MuiPanelStore'
+import { MuiStatusProvider } from '../components/MuiStore'
 import AliveStatus from './AliveStatus'
 import AvatarsStatuses from './AvatarsStatuses'
 import AvatarStatus from './AvatarStatus'
@@ -16,7 +16,7 @@ function ImplementationFrame({
   debug, toggleDebug,
   position, setPosition
 }) {
-  return <MuiPanelProvider {...{ debug, position }}
+  return <MuiStatusProvider {...{ debug, position }}
     popoverComponent={({ popover, popoverProps }) => <Popover {...{ ...popoverProps }}>{popover}</Popover>}
     tooltipComponent={(tooltip, component) => <Tooltip arrow title={tooltip}>{component}</Tooltip>}
   >
@@ -55,7 +55,7 @@ function ImplementationFrame({
       src='https://en.wikipedia.org/wiki/Thessaloniki#20th_century_and_since'
     />
 
-  </MuiPanelProvider>
+  </MuiStatusProvider>
 }
 
 export default ImplementationFrame

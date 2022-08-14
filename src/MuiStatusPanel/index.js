@@ -1,7 +1,7 @@
 import { Popover } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import { useContext, useEffect, useState } from 'react'
-import DataProvider from '../MuiPanelStore'
+import DataProvider from '../MuiStore'
 import MupStatus from '../MuiStatus'
 
 const MuiStatusPanel = ({

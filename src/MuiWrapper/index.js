@@ -2,7 +2,7 @@ import { Box } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 import { useContext } from 'react'
-import DataProvider from '../MuiPanelStore'
+import DataProvider from '../MuiStore'
 import InternalStatus from '../MuiStatusBar/InternalStatus'
 
 const useStyles = makeStyles(() => ({

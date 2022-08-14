@@ -1,8 +1,8 @@
-# 📑 material-ui-panel
+# 📑 mui-status
 
 ### Alpha version (https://materal-ui-panel.herokuapp.com/)
 
-##### Documentation: https://rand0mc0d3r.github.io/material-ui-panel/
+##### Documentation: https://rand0mc0d3r.github.io/mui-status/
 
 <br />
 
@@ -45,11 +45,11 @@ Install the latest version with your favorite package manager.
 
 
 ```
-npm install @kadarka/material-ui-panel --save
+npm install @kadarka/mui-status --save
 ```
 
 ```
-yarn i @kadarka/material-ui-panel
+yarn i @kadarka/mui-status
 ```
 
 ---

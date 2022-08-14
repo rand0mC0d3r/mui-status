@@ -3,7 +3,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import CheckBoxOutlineBlankOutlinedIcon from '@material-ui/icons/CheckBoxOutlineBlankOutlined'
 import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined'
 import { Fragment, useContext, useState } from 'react'
-import DataProvider from '../../MuiPanelStore'
+import DataProvider from '../../MuiStore'
 
 const useStyles = makeStyles((theme) => ({
   statusBar: {
@@ -94,7 +94,7 @@ export default ({ style, className }) => {
 
   return <>
     {status.length > 0 && <div {...{ style }}
-      id="material-ui-panel-statusBar-wrapper"
+      id="mui-status-statusBar-wrapper"
       onContextMenu={e => {
         e.preventDefault()
         setAnchorEl(e.currentTarget)
@@ -106,7 +106,7 @@ export default ({ style, className }) => {
       ].filter(e => !!e).join(' ')}
     >
       {['primary', 'secondary'].map((side, i) => <div
-        id={`material-ui-panel-statusBar-${side}`}
+        id={`mui-status-statusBar-${side}`}
         key={`${side}_status`}
         className={[
           classes.child,

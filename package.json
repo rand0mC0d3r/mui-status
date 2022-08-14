@@ -64,12 +64,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rand0mC0d3r/material-ui-panel.git"
+    "url": "git+https://github.com/rand0mC0d3r/mui-status.git"
   },
   "bugs": {
-    "url": "https://github.com/rand0mC0d3r/material-ui-panel/issues"
+    "url": "https://github.com/rand0mC0d3r/mui-status/issues"
   },
-  "homepage": "https://github.com/rand0mC0d3r/material-ui-panel/blob/master/README.md",
+  "homepage": "https://github.com/rand0mC0d3r/mui-status/blob/master/README.md",
   "browserslist": {
     "production": [
       ">0.2%",

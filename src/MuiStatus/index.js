@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import PropTypes from 'prop-types'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import DataProvider from '../MuiPanelStore'
+import DataProvider from '../MuiStore'
 
 const useStyles = makeStyles(theme => ({
   default: {
@@ -75,7 +75,7 @@ const MuiStatus = ({
   }, [onClick])
 
   useEffect(() => {
-    const elementSearched = document.getElementById(`material-ui-panel-statusBar-${secondary ? 'secondary' : 'primary'}`)
+    const elementSearched = document.getElementById(`mui-status-statusBar-${secondary ? 'secondary' : 'primary'}`)
     if (elementSearched !== null) {
       setElementFound(elementSearched)
     }
