@@ -43,13 +43,14 @@ function MuiPanelProvider({
     debug: false,
   })
 
-  const handleStatusAnnouncement = ({ id, secondary }) => {
+  const handleStatusAnnouncement = ({ id, secondary, children }) => {
     setStatus(status => [...status.filter(lo => lo.uniqueId !== id),
       {
         index: status.length,
         uniqueId: id,
         visible: true,
         secondary,
+        children
       }
     ])
   }
