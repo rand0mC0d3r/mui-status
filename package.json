@@ -1,6 +1,6 @@
 {
   "name": "mui-status",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "<MuiStatus> VSCode like status self-managed component system with mui5 interface",
   "main": "lib/index.js",
   "private": false,
