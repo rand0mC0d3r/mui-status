@@ -2,8 +2,9 @@
   "name": "mui-status",
   "version": "0.0.15",
   "description": "<MuiStatus> VSCode like status self-managed component system with mui5 interface",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "types": "./lib/esm/index.d.ts",
   "private": false,
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
@@ -22,7 +23,8 @@
     "typescript": "^4.7.4"
   },
   "peerDependencies": {
-    "react": "^17.0.2"
+    "react": "16.14.0",
+    "react-dom": "16.14.0"
   },
   "dependencies": {
     "@material-ui/core": "4.12.4",
@@ -30,7 +32,8 @@
     "clsx": "^1.2.1",
     "css": "^3.0.0",
     "prop-types": "^15.8.1",
-    "react": ">=16.14.0",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
     "sample": "file:sample"
   },
   "files": [
@@ -40,7 +43,6 @@
     "lib",
     "dist"
   ],
-  "types": "dist/index.d.ts",
   "keywords": [
     "reactjs",
     "self managed status",
@@ -56,7 +58,9 @@
     "prebuild": "npm install ./sample && npm run clone.component",
     "build": "rm -rf ./build && cd sample && npx react-scripts build && mv ./build ../",
     "build.lib.old": "rm -rf ./lib && babel ./src -d lib --copy-files",
-    "build.lib": "rm -rf ./dist &&  mkdir -p dist && cd dist && cd .. && rollup -c && cd dist && ls -al",
+    "build:esm": "tsc",
+    "build:cjs": "tsc --module commonjs --outDir lib/cjs",
+    "build.lib": "rm -rf ./lib &&  mkdir -p lib && npm run build:esm && npm run build:cjs",
     "build.all": "npm install && npm run build && npm run build.lib",
     "test": "react-scripts test",
     "clone.component": "mkdir -p ./sample/src/components/ && cp -r src/* sample/src/components/",
