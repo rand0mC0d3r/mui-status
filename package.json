@@ -39,9 +39,7 @@
   "files": [
     "LICENSE",
     "*.md",
-    "main.js",
-    "lib",
-    "dist"
+    "lib"
   ],
   "keywords": [
     "reactjs",
