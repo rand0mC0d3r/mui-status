@@ -1,13 +1,5 @@
-const MuiStatus = require('./lib/MuiStatus')
-const MuiStatusBar = require('./lib/MuiStatusBar')
-const MuiStatusChild = require('./lib/MuiStatusChild')
-const MuiStatusPanel = require('./lib/MuiStatusPanel')
-const MuiStore = require('./lib/MuiStore')
-
-module.exports = {
-  MuiStore: MuiStore,
-  MuiStatusPanel: MuiStatusPanel,
-  MuiStatusChild: MuiStatusChild,
-  MuiStatusBar: MuiStatusBar,
-  MuiStatus: MuiStatus,
-}
+export { default as MuiStatus } from './lib/MuiStatus'
+export { default as MuiStatusBar } from './lib/MuiStatusBar'
+export { default as MuiStatusChild } from './lib/MuiStatusChild'
+export { default as MupStatusPanel } from './lib/MuiStatusPanel'
+export { default as MuiStore, MuiStatusProvider } from './lib/MuiStore'
