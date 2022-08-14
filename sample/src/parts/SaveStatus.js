@@ -1,17 +1,21 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core'
+import AddToPhotosIcon from '@material-ui/icons/AddToPhotos'
 import CloudDoneOutlinedIcon from '@material-ui/icons/CloudDoneOutlined'
 import CloudOffOutlinedIcon from '@material-ui/icons/CloudOffOutlined'
-import CloudOutlinedIcon from '@material-ui/icons/CloudOutlined'
 import { useState } from 'react'
 import MuiStatus from '../components/MuiStatus'
 import MuiStatusChild from '../components/MuiStatusChild'
 
 const SaveStatus = () => {
   const [open, setOpen] = useState(false)
-  const [elements, setElements] = useState([{ key: 'document', icon: <CloudOutlinedIcon />, text: 'Document ready' }])
+  const [elements, setElements] = useState([{ key: 'document', icon: <AddToPhotosIcon />, text: 'SaveFile Demo' }])
   const [highlight, setHighlight] = useState('default')
 
-  const handleClose = () => { setOpen(false)}
+  const handleClose = () => {
+    setElements([{ key: 'document', icon: <AddToPhotosIcon />, text: 'SaveFile Demo' }])
+    setHighlight('default')
+    setOpen(false)
+  }
 
   const handleDefault = () => {
     setElements([{ key: 'document', icon: <CloudDoneOutlinedIcon />, text: 'Document saved' }])

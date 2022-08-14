@@ -44,7 +44,17 @@ function ImplementationFrame({
       // borderTop: '3px solid #41a0ff',
     }}/> */}
 
-    <div>demo content</div>
+    <iframe
+      title="Random Wiki article"
+      style={{
+        width: '100%',
+        backgroundColor: '#FFF',
+        height: '100%',
+        border: '0px none'
+      }}
+      src='https://en.wikipedia.org/wiki/Thessaloniki#20th_century_and_since'
+    />
+
   </MuiPanelProvider>
 }
 

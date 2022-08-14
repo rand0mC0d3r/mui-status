@@ -27,7 +27,6 @@ export default ({
   ]
 
   return <>
-    {position}
     {toggles
       .filter(toggle => toggle.status !== undefined)
       .map(toggle => <MuiStatus
