@@ -65,7 +65,7 @@
     "test": "react-scripts test",
     "clone.component": "mkdir -p ./sample/src/components/ && cp -r src/* sample/src/components/",
     "copy.component": "npm run clone.component && copy-and-watch src/* sample/src/components/ --watch",
-    "tag": "rm -rf dist/* && npm run build.lib.old && git commit -am 'built next version' && npm version patch && git push && git push --tags",
+    "tag": "rm -rf dist/* && npm run build.lib && git commit -am 'built next version' && npm version patch && git push && git push --tags",
     "ship": "npm run build && npm publish",
     "go": "npm run tag && npm run ship"
   },
