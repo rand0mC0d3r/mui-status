@@ -1,12 +1,12 @@
 {
   "name": "mui-status",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "<MuiStatus> VSCode like status self-managed component system with mui5 interface",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "private": false,
   "devDependencies": {
-        "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.0.6",
     "@rollup/plugin-typescript": "^8.3.0",
     "@types/react": "^17.0.34",
