@@ -1,7 +1,7 @@
 import { Box, SvgIcon, Typography } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import clsx from 'clsx'
-import PropTypes from 'prop-types'
+import React from 'react'
 
 const useStyles = makeStyles(theme => ({
   box: {
@@ -22,7 +22,21 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const MuiStatusChild = ({ icon, text, image, mask, className, style }) => {
+const MuiStatusChild = ({
+  icon,
+  text,
+  image,
+  mask = false,
+  className,
+  style
+} : {
+  icon?: any,
+  text?: string,
+  image?: any,
+  mask?: boolean,
+  className?: any,
+  style?: any,
+}) => {
   const theme = useTheme()
   const classes = useStyles(theme)
 
@@ -55,17 +69,4 @@ const MuiStatusChild = ({ icon, text, image, mask, className, style }) => {
       src={image} />}
   </Box>
 }
-
-MuiStatusChild.defaultProps = {
-  mask: false,
-}
-
-MuiStatusChild.propTypes = {
-  icon: PropTypes.any,
-  text: PropTypes.string,
-  image: PropTypes.any,
-  mask: PropTypes.bool,
-  className: PropTypes.any,
-}
-
 export default MuiStatusChild
