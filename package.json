@@ -1,6 +1,6 @@
 {
   "name": "mui-status",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "<MuiStatus> VSCode like status self-managed component system with mui5 interface",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
