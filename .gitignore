@@ -108,6 +108,7 @@ sample/src/components
 sample/build
 
 /build
+/lib
 .npmrc
 
 *.tgz

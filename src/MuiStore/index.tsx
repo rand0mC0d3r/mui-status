@@ -115,14 +115,13 @@ function MuiStatusProvider({
   }, [settings, status])
 
   return <DataContext.Provider
-    id="provider"
     value={{
       // passthru props
       tooltipComponent,
       popoverComponent,
 
       // settings state + crud
-      settings, setSettings,
+      settings,
 
       // status - wrapper
       triggerStatusBarAnnounced,
