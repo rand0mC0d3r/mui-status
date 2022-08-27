@@ -1,6 +1,6 @@
 # 📑 mui-status
 
-### Beta version (https://materal-ui-panel.herokuapp.com/)
+### Beta2 version (https://materal-ui-panel.herokuapp.com/)
 
 ##### Documentation: https://rand0mc0d3r.github.io/mui-status/
 

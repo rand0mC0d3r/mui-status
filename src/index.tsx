@@ -11,7 +11,7 @@ import SayBye from './SayBye'
 const SayHello = ({ name }: { name: string }): JSX.Element => {
 
   useEffect(() => {
-    console.log('SayHello useEffect')
+    console.log('SayHello fff useEffect')
   } , [])
 
   return (<div>Hey {name}, bla bla 33e34</div>)
