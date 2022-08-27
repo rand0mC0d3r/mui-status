@@ -1,19 +1,16 @@
 {
   "name": "mui-status",
   "version": "0.0.19",
-  "description": "<MuiStatus> VSCode like status self-managed component system with mui5 interface",
+  "description": "<MuiStatus> VSCode like status auto-managed component system with MUI5 interface",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "types": "./lib/esm/index.d.ts",
   "private": false,
-  "config": {
-    "helperProjectPath": "../mui-status-helper/node_modules"
-  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
-    "@rollup/plugin-node-resolve": "^13.0.6",
+    "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-typescript": "^8.3.0",
-    "@types/react": "^17.0.34",
+    "@types/react": "^17.0.48",
     "@types/react-dom": "^18.0.6",
     "concurrently": "^7.3.0",
     "copy-and-watch": "^0.1.6",
@@ -21,19 +18,17 @@
     "i": "^0.3.7",
     "nodemon": "^2.0.19",
     "npm": "^8.18.0",
-    "npm-check-updates": "^16.0.5",
+    "npm-check-updates": "^16.0.6",
     "rollup": "^2.60.0",
     "rollup-plugin-dts": "^4.0.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-postcss": "^4.0.1",
+    "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-terser": "^7.0.2",
-    "typescript": "^4.7.4"
+    "typescript": "^4.8.2"
   },
   "peerDependencies": {
     "@material-ui/core": "4.12.4",
-    "@material-ui/icons": "4.11.3",
-    "react": "16.14.0",
-    "react-dom": "16.14.0"
+    "@material-ui/icons": "4.11.3"
   },
   "dependencies": {
     "@material-ui/core": "4.12.4",
@@ -41,8 +36,8 @@
     "clsx": "^1.2.1",
     "css": "^3.0.0",
     "prop-types": "^15.8.1",
-    "react": "16.14.0",
-    "react-dom": "16.14.0"
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
   },
   "files": [
     "LICENSE",
@@ -59,18 +54,19 @@
   "author": "rand0mC0d3r",
   "license": "MIT",
   "scripts": {
-    "xdev": "npm run copy.component && cd ${npm_package_config_helperProjectPath} && npm run start\"",
+    "*DEVELOP*": "--------------------------------------------------------------",
     "dev": "npm run watch.component",
-    "start": "serve -s build",
-    "prebuild": "npm install ./sample && npm run clone.component",
+    "*BUILD*": "----------------------------------------------------------------",
     "prebuild.lib": "rm -rf ./lib && mkdir -p lib",
     "build.lib": "concurrently \"tsc\" \"tsc --module commonjs --outDir lib/cjs\"",
+    "build.all": "concurrently \"tsc\" \"tsc --module commonjs --outDir lib/cjs\"",
     "postbuild.lib": "npm link",
+    "*TEST*": "-----------------------------------------------------------------",
     "test": "react-scripts test",
-    "*COMPONENT*": "###",
+    "*COMPONENT*": "------------------------------------------------------------",
     "watch.component": "nodemon -e tsx,ts --watch ./src --exec \"npm run copy.component\"",
     "copy.component": "rm -rf *.tgz && npm run build.lib",
-    "*RELEASE*": "###",
+    "*RELEASE*": "--------------------------------------------------------------",
     "tag": "rm -rf lib/* && npm run build.lib && git commit -am 'built next version' && npm version patch && git push && git push --tags && npm publish"
   },
   "eslintConfig": {
