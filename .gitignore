@@ -109,3 +109,5 @@ sample/build
 
 /build
 .npmrc
+
+*.tgz

@@ -6,6 +6,9 @@
   "module": "./lib/esm/index.js",
   "types": "./lib/esm/index.d.ts",
   "private": false,
+  "config": {
+    "helperProjectPath": "../mui-status-helper/node_modules"
+  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.0.6",
