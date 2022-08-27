@@ -73,15 +73,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default ({ style, className } : { style?: any, className?: any }) => {
+export default ({
+  style,
+  className
+} : {
+  style?: any,
+  className?: any
+}) => {
   const theme = useTheme()
   const { status, settings, handleStatusVisibilityToggle, tooltipComponent } = useContext(DataProvider)
   const classes = useStyles(theme)
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<any>(null)
   const open = Boolean(anchorEl)
   const onClose = () => setAnchorEl(null)
 
-  const statusEntry = (s) => <div className={classes.statusEntryItem}
+  const statusEntry = (s: any) => <div className={classes.statusEntryItem}
     onClick={() => handleStatusVisibilityToggle({ id: s.uniqueId })}>
     {s.visible ? <CheckBoxOutlinedIcon /> : <CheckBoxOutlineBlankOutlinedIcon />}
     {s.children}

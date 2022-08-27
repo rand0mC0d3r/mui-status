@@ -132,7 +132,6 @@ const MuiStatus = ({
       (onClick) && [
         classes.interactive,
         highlight === 'default' && classes.actionNormal,
-        // highlight !== 'default' && classes.actionHighlight,
         highlight === 'primary' && classes.actionHighlightPrimary,
         highlight === 'secondary' && classes.actionHighlightSecondary
       ],

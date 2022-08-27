@@ -14,6 +14,8 @@ interface DataContextInterface {
   handleStatusUpdate: any;
   handleStatusAnnouncement: any;
   handleStatusDestroy: any;
+  handleStatusVisibilityToggle: any;
+  triggerStatusBarAnnounced: any;
 }
 
 const DataContext = createContext({} as DataContextInterface);
@@ -28,8 +30,8 @@ function MuiStatusProvider({
   children,
   ...props }) {
 
-  const [status, setStatus] = useState(props['status'] || [])
-  const [storedStatus, setStoredStatus] = useState([])
+  const [status, setStatus] = useState(props['status'] || []) as [StatusObject[], any];
+  const [storedStatus, setStoredStatus] = useState<StatusObject[]>([])
 
   useEffect(() => {
     const storedStatusLocal = localStorage.getItem(statusStorageKey)
@@ -40,10 +42,9 @@ function MuiStatusProvider({
 
   useEffect(() => {
     if (storedStatus.length > 0) {
-      setStatus(status => status.map(statusItem => {
+      setStatus((status: StatusObject[]) => status.map(statusItem => {
         const found = storedStatus.find(ss => ss.uniqueId === statusItem.uniqueId)
-
-        return found ? { ...statusItem, ...found } : statusItem
+        return found ? { ...statusItem, found } : statusItem
       }))
     }
   }, [storedStatus])
@@ -55,8 +56,8 @@ function MuiStatusProvider({
     debug: false,
   })
 
-  const handleStatusAnnouncement = ({ id, secondary, children }) => {
-    setStatus(status => [...status.filter(lo => lo.uniqueId !== id),
+  const handleStatusAnnouncement = ({ id, secondary, children } : { id: string, secondary: boolean, children: any }) => {
+    setStatus((status: StatusObject[]) => [...status.filter(lo => lo.uniqueId !== id),
       {
         index: status.length,
         uniqueId: id,
@@ -67,17 +68,17 @@ function MuiStatusProvider({
     ])
   }
 
-  const handleStatusUpdate = ({ id, children }) => {
+  const handleStatusUpdate = ({ id, children }: { id: string, children: any }) => {
     console.log('handleStatusUpdate', id, children)
-    setStatus(status => status.map(lo => lo.uniqueId !== id ? lo : { ...lo, children }))
+    setStatus((status: StatusObject[]) => status.map(lo => lo.uniqueId !== id ? lo : { ...lo, children }))
   }
 
   const handleStatusVisibilityToggle = ({ id }) => {
-    setStatus(status => status.map(lo => (lo.uniqueId === id ? { ...lo, visible: !lo.visible } : lo)))
+    setStatus((status: StatusObject[]) => status.map(lo => (lo.uniqueId === id ? { ...lo, visible: !lo.visible } : lo)))
   }
 
   const handleStatusDestroy = ({ id }) => {
-    setStatus(status => [...status.filter(lo => lo.uniqueId !== id)])
+    setStatus((status: StatusObject[]) => [...status.filter(lo => lo.uniqueId !== id)])
   }
 
 
