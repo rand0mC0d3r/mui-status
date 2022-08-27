@@ -7,7 +7,7 @@ import MuiStatusChild from './MuiStatusChild'
 import MuiStatusPanel from './MuiStatusPanel'
 
 const SayHello = ({ name }: { name: string }): JSX.Element => (
-  <div>Hey {name}, tester</div>
+  <div>Hey {name}, testers xx 23</div>
 )
 
 export default SayHello
