@@ -9,7 +9,7 @@ export default ({
 }: {
   style?: any,
   className?: any
-}) => {
+ }) => {
   const { triggerStatusBarAnnounced  } = useContext(DataProvider)
   const [documentElement, setDocumentElement] = useState<HTMLElement | null>(null)
 

@@ -5,3 +5,7 @@ export interface StatusObject {
   index: number;
   uniqueId: string;
 }
+
+export interface SettingsObject {
+  statusBarAnnounced: boolean;
+}

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import React, { createContext, useEffect, useState } from 'react';
-import { StatusObject } from '../index.types';
+import { SettingsObject, StatusObject } from '../index.types';
 import MuiWrapper from '../MuiWrapper';
 
 const settingsStorageKey = 'mui-status.settings'
@@ -28,26 +28,19 @@ function MuiStatusProvider({
   tooltipComponent,
   popoverComponent,
   children,
-  ...props }) {
+  ...props } : {
+  expand?: boolean,
+  position?: string,
+  allowRightClick?: boolean,
+  debug?: boolean,
+  tooltipComponent?: any,
+  popoverComponent?: any,
+  children?: any,
+  }) {
 
   const [status, setStatus] = useState(props['status'] || []) as [StatusObject[], any];
   const [storedStatus, setStoredStatus] = useState<StatusObject[]>([])
 
-  useEffect(() => {
-    const storedStatusLocal = localStorage.getItem(statusStorageKey)
-    if (storedStatusLocal) {
-      setStoredStatus(JSON.parse(storedStatusLocal))
-    }
-  }, [])
-
-  useEffect(() => {
-    if (storedStatus.length > 0) {
-      setStatus((status: StatusObject[]) => status.map(statusItem => {
-        const found = storedStatus.find(ss => ss.uniqueId === statusItem.uniqueId)
-        return found ? { ...statusItem, found } : statusItem
-      }))
-    }
-  }, [storedStatus])
 
   const [settings, setSettings] = useState(props['settings'] || {
     expand: true,
@@ -55,6 +48,7 @@ function MuiStatusProvider({
     allowRightClick: false,
     debug: false,
   })
+  const [storedSettings, setStoredSettings] = useState<SettingsObject>()
 
   const handleStatusAnnouncement = ({ id, secondary, children } : { id: string, secondary: boolean, children: any }) => {
     setStatus((status: StatusObject[]) => [...status.filter(lo => lo.uniqueId !== id),
@@ -73,32 +67,46 @@ function MuiStatusProvider({
     setStatus((status: StatusObject[]) => status.map(lo => lo.uniqueId !== id ? lo : { ...lo, children }))
   }
 
-  const handleStatusVisibilityToggle = ({ id }) => {
+  const handleStatusVisibilityToggle = ({ id }: { id: string }) => {
     setStatus((status: StatusObject[]) => status.map(lo => (lo.uniqueId === id ? { ...lo, visible: !lo.visible } : lo)))
   }
 
-  const handleStatusDestroy = ({ id }) => {
+  const handleStatusDestroy = ({ id }: { id: string }) => {
     setStatus((status: StatusObject[]) => [...status.filter(lo => lo.uniqueId !== id)])
   }
 
 
   const triggerStatusBarAnnounced = () => {
     if (!settings.statusBarAnnounced) {
-      setSettings(settings => ({ ...settings, statusBarAnnounced: true }))
+      setSettings((settings: SettingsObject) => ({ ...settings, statusBarAnnounced: true }))
     }
   }
 
-  useEffect(() => setSettings(settings =>
-    ({ ...settings, expand, position, allowRightClick, debug })),
-  [allowRightClick, expand, position, debug])
+  useEffect(() => {
+    const storedSettingsLocal = localStorage.getItem(settingsStorageKey)
+    const storedStatusLocal = localStorage.getItem(statusStorageKey)
+
+    if (storedSettingsLocal) setStoredSettings(JSON.parse(storedSettingsLocal))
+    if (storedStatusLocal) setStoredStatus(JSON.parse(storedStatusLocal))
+  }, [])
 
   useEffect(() => {
-    localStorage.setItem(settingsStorageKey, JSON.stringify(settings))
-  }, [settings])
+    if (storedStatus.length > 0) {
+      setStatus((status: StatusObject[]) => status.map(statusItem => {
+        const found = storedStatus.find(ss => ss.uniqueId === statusItem.uniqueId)
+        return found ? { ...statusItem, found } : statusItem
+      }))
+    }
+    if (storedSettings) {
+      setSettings((settings: SettingsObject) => ({ ...settings, ...storedSettings }))
+    }
+  }, [storedStatus, storedSettings])
 
-  useEffect(() => {
-    localStorage.setItem(statusStorageKey, JSON.stringify(status.map(s => ({ ...s, children: undefined }))))
-  }, [status])
+
+  useEffect(() => localStorage.setItem(settingsStorageKey, JSON.stringify(settings)), [settings])
+  useEffect(() => localStorage.setItem(statusStorageKey, JSON.stringify(status.map(s => ({ ...s, children: undefined })))), [status])
+
+  useEffect(() => setSettings((settings: SettingsObject) => ({ ...settings, expand, position, allowRightClick, debug })), [allowRightClick, expand, position, debug])
 
   useEffect(() => {
     if (settings.debug) {
