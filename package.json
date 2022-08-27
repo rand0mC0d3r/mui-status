@@ -62,7 +62,7 @@
     "*TEST*": "-----------------------------------------------------------------",
     "test": "react-scripts test",
     "*COMPONENT*": "------------------------------------------------------------",
-    "watch.component": "nodemon -e tsx,ts --watch ./src --exec \"npm run copy.component\"",
+    "watch.component": "npm link react && nodemon -e tsx,ts --watch ./src --exec \"npm run copy.component\"",
     "copy.component": "rm -rf *.tgz && npm run build.lib && npm link",
     "*RELEASE*": "--------------------------------------------------------------",
     "tag": "rm -rf lib/* && npm run build.lib && git commit -am 'built next version' && npm version patch && git push && git push --tags && npm publish"
