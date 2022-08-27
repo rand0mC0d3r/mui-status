@@ -9,7 +9,7 @@ import { MuiStatusProvider } from './MuiStore'
 import SayBye from './SayBye'
 //
 const SayHello = ({ name }: { name: string }): JSX.Element => (
-  <div>Hey {name}, bla bla 3</div>
+  <div>Hey {name}, bla bla 33e3</div>
 )
 
 export default SayHello
