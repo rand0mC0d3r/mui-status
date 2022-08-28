@@ -51,7 +51,8 @@
   "author": "rand0mC0d3r",
   "license": "MIT",
   "scripts": {
-    "postinstall": "npm run link.all && npm link",
+    "clean": "rm -rf node_modules && npm cache clean --force",
+    "xpostinstall": "npm run link.all && npm link",
     "*DEVELOP*": "--------------------------------------------------------------",
     "dev": "npm run watch.component",
     "*BUILD*": "----------------------------------------------------------------",
