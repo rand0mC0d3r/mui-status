@@ -25,17 +25,6 @@
     "rollup-plugin-terser": "^7.0.2",
     "typescript": "^4.8.2"
   },
-  "peerDependencies": {
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0"
-  },
-  "dependencies": {
-    "clsx": "^1.2.1",
-    "css": "^3.0.0",
-    "prop-types": "^15.8.1",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0"
-  },
   "files": [
     "LICENSE",
     "*.md",
@@ -52,9 +41,8 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf node_modules && npm cache clean --force",
-    "xpostinstall": "npm run link.all && npm link",
     "*DEVELOP*": "--------------------------------------------------------------",
-    "dev": "npm run watch.component",
+    "dev": "npm run link.all && npm link && npm run watch.component",
     "*BUILD*": "----------------------------------------------------------------",
     "prebuild.lib": "rm -rf ./lib && mkdir -p lib",
     "build.lib": "concurrently \"tsc\" \"tsc --module commonjs --outDir lib/cjs\"",
