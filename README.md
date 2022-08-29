@@ -1,5 +1,7 @@
 # 📑 mui-status
 
+run - npm run clean && npm install && npm run dev
+
 ### Beta2 version (https://materal-ui-panel.herokuapp.com/)
 
 ##### Documentation: https://rand0mc0d3r.github.io/mui-status/

@@ -40,6 +40,7 @@
   "author": "rand0mC0d3r",
   "license": "MIT",
   "scripts": {
+    "preclean": "npm ls react | grep \"node_modules\" | grep \"/../\"",
     "clean": "rm -rf node_modules && npm cache clean --force",
     "*DEVELOP*": "--------------------------------------------------------------",
     "dev": "npm run link.all && npm link && npm run watch.component",
