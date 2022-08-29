@@ -25,6 +25,10 @@
     "rollup-plugin-terser": "^7.0.2",
     "typescript": "^4.8.2"
   },
+  "dependencies": {
+    "clsx": "^1.2.1",
+    "css": "^3.0.0"
+  },
   "files": [
     "LICENSE",
     "*.md",
@@ -53,8 +57,9 @@
     "watch.component": "nodemon -e tsx,ts --watch ./src --exec \"npm run copy.component\"",
     "copy.component": "rm -rf *.tgz && npm run build.lib",
     "*LINKING*": "--------------------------------------------------------------",
-    "link.all": "npm run link.react && npm run link.react.dom",
+    "link.all": "npm run link.react && npm run link.react.dom && npm run link.mui",
     "link.react": "npm link react",
+    "link.mui": "npm link @material-ui/core && npm link @material-ui/icons",
     "link.react.dom": "npm link react-dom",
     "*RELEASE*": "--------------------------------------------------------------",
     "tag": "rm -rf lib/* && npm run build.lib && git commit -am 'built next version' && npm version patch && git push && git push --tags && npm publish"
