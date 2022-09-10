@@ -20,5 +20,5 @@ const SayHello = ({ name }: { name: string }): JSX.Element => {
 
 export default SayHello
 // export { SayBye, MuiStatusChild, MuiStatusPanel, MuiStatus, MuiStatusBar, MuiStatusProvider }
-export { SayBye }
+export { SayBye, MuiStatusChild }
 // do not export Wrapper

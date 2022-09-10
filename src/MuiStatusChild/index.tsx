@@ -3,7 +3,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import React from 'react'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme: { palette: { action: { active: any } } }) => ({
   box: {
     gap: '4px',
     color: theme.palette.action.active,
