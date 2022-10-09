@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import React, {
@@ -59,7 +58,7 @@ export default function ({
   id,
   secondary = false,
   style,
-  onClick = false,
+  onClick,
   onContextMenu,
   highlight = 'default',
   tooltip = '',
@@ -70,8 +69,8 @@ export default function ({
   style?: React.CSSProperties,
   onClick?: any,
   onContextMenu?: any,
-  highlight?: any,
-  tooltip?: any,
+  highlight?: 'default' | 'primary' | 'secondary',
+  tooltip?: React.ReactNode | string,
   children?: React.ReactNode,
 }) {
   const {
@@ -84,7 +83,9 @@ export default function ({
   const classes = useStyles(theme)
 
   const callbackOnClick = useCallback(e => {
-    onClick(e)
+    if (onClick) {
+      onClick(e)
+    }
   }, [onClick])
 
   const callbackHandleStatusAnnouncement = useCallback(idIncoming => {

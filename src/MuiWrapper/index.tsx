@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Popover } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import CheckBoxOutlineBlankOutlinedIcon from '@material-ui/icons/CheckBoxOutlineBlankOutlined'
 import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined'
 import React, { Fragment, useContext, useState } from 'react'
+import { StatusObject } from '../index.types'
 import InternalStatus from '../MuiStatusBar/InternalStatus'
 import DataProvider, { Position } from '../MuiStore'
 
@@ -49,25 +49,25 @@ export default function ({
   const theme = useTheme()
   const classes = useStyles(theme)
 
-  const [anchorEl, setAnchorEl] = useState<any>(null)
+  const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null)
   const open = Boolean(anchorEl)
 
-  const onContextMenu = (e: any) => {
+  const onContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
     setAnchorEl(e.currentTarget)
   }
   const onClose = () => setAnchorEl(null)
 
-  const statusEntry = (s: any) => (
-    <div {...{ className: classes.entryItemElem, onClick: () => handleStatusVisibilityToggle({ id: s.uniqueId }) }}>
-      {s.visible ? <CheckBoxOutlinedIcon /> : <CheckBoxOutlineBlankOutlinedIcon />}
-      {s.children}
+  const statusEntry = (statusItem: StatusObject) => (
+    <div {...{ className: classes.entryItemElem, onClick: () => handleStatusVisibilityToggle({ id: statusItem.uniqueId }) }}>
+      {statusItem.visible ? <CheckBoxOutlinedIcon /> : <CheckBoxOutlineBlankOutlinedIcon />}
+      {statusItem.children}
     </div>
   )
 
-  const entryWrapper = (s: any) => (
-    <Fragment key={s.uniqueId}>
-      {tooltipComponent !== undefined ? tooltipComponent('Toggle visibility of tile', statusEntry(s)) : statusEntry(s)}
+  const entryWrapper = (statusItem: StatusObject) => (
+    <Fragment key={statusItem.uniqueId}>
+      {tooltipComponent !== undefined ? tooltipComponent('Toggle visibility of tile', statusEntry(statusItem)) : statusEntry(statusItem)}
     </Fragment>
   )
 
@@ -76,7 +76,6 @@ export default function ({
       <div id="mui-status-children" className={classes.childrenElem}>{children}</div>
       <div id="mui-status-statusBar" {...{ onContextMenu }}>{!settings.statusBarAnnounced && <InternalStatus />}</div>
     </Box>
-
     <Popover
       {...{ open, anchorEl, onClose }}
       elevation={1}

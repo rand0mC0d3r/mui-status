@@ -3,6 +3,7 @@ export interface StatusObject {
   secondary: boolean;
   index: number;
   uniqueId: string;
+  children: any;
 }
 
 export interface SettingsObject {
