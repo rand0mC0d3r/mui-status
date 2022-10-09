@@ -1,141 +1,146 @@
-// /* eslint-disable no-console */
-// import React, { createContext, useEffect, useState } from 'react';
-// import { SettingsObject, StatusObject } from '../index.types';
-// import MuiWrapper from '../MuiWrapper';
+/* eslint-disable no-console */
+import React, { createContext, useEffect, useState } from 'react';
+import { SettingsObject, StatusObject } from '../index.types';
+import MuiWrapper from '../MuiWrapper';
 
-// const settingsStorageKey = 'mui-status.settings'
-// const statusStorageKey = 'mui-status.status'
+const settingsStorageKey = 'mui-status.settings'
+const statusStorageKey = 'mui-status.status'
 
-// interface DataContextInterface {
-//   settings: any;
-//   status: StatusObject[];
-//   popoverComponent: any;
-//   tooltipComponent: any;
-//   handleStatusUpdate: any;
-//   handleStatusAnnouncement: any;
-//   handleStatusDestroy: any;
-//   handleStatusVisibilityToggle: any;
-//   triggerStatusBarAnnounced: any;
-// }
+export enum Position {
+  top = 'top',
+  bottom = 'bottom'
+}
 
-// const DataContext = createContext({} as DataContextInterface);
+interface DataContextInterface {
+  settings: any;
+  status: StatusObject[];
+  popoverComponent: any;
+  tooltipComponent: any;
+  handleStatusUpdate: any;
+  handleStatusAnnouncement: any;
+  handleStatusDestroy: any;
+  handleStatusVisibilityToggle: any;
+  triggerStatusBarAnnounced: any;
+}
 
-// function MuiStatusProvider({
-//   expand = true,
-//   position = 'top',
-//   allowRightClick = true,
-//   debug,
-//   tooltipComponent,
-//   popoverComponent,
-//   children,
-//   ...props } : {
-//   expand?: boolean,
-//   position?: string,
-//   allowRightClick?: boolean,
-//   debug?: boolean,
-//   tooltipComponent?: any,
-//   popoverComponent?: any,
-//   children?: any,
-//   }) {
+const DataContext = createContext({} as DataContextInterface);
 
-//   const [status, setStatus] = useState(props['status'] || []) as [StatusObject[], any];
-//   const [storedStatus, setStoredStatus] = useState<StatusObject[]>([])
+function MuiStatusProvider({
+  expand = true,
+  position = Position.top,
+  allowRightClick = true,
+  debug,
+  tooltipComponent,
+  popoverComponent,
+  children,
+  ...props } : {
+  expand?: boolean,
+  position?: 'top' | 'bottom',
+  allowRightClick?: boolean,
+  debug?: boolean,
+  tooltipComponent?: any,
+  popoverComponent?: any,
+  children?: React.ReactNode,
+  }) {
 
-
-//   const [settings, setSettings] = useState(props['settings'] || {
-//     expand: true,
-//     statusBarAnnounced: false,
-//     allowRightClick: false,
-//     debug: false,
-//   })
-//   const [storedSettings, setStoredSettings] = useState<SettingsObject>()
-
-//   const handleStatusAnnouncement = ({ id, secondary, children } : { id: string, secondary: boolean, children: any }) => {
-//     setStatus((status: StatusObject[]) => [...status.filter(lo => lo.uniqueId !== id),
-//       {
-//         index: status.length,
-//         uniqueId: id,
-//         visible: true,
-//         secondary,
-//         children
-//       }
-//     ])
-//   }
-
-//   const handleStatusUpdate = ({ id, children }: { id: string, children: any }) => {
-//     console.log('handleStatusUpdate', id, children)
-//     setStatus((status: StatusObject[]) => status.map(lo => lo.uniqueId !== id ? lo : { ...lo, children }))
-//   }
-
-//   const handleStatusVisibilityToggle = ({ id }: { id: string }) => {
-//     setStatus((status: StatusObject[]) => status.map(lo => (lo.uniqueId === id ? { ...lo, visible: !lo.visible } : lo)))
-//   }
-
-//   const handleStatusDestroy = ({ id }: { id: string }) => {
-//     setStatus((status: StatusObject[]) => [...status.filter(lo => lo.uniqueId !== id)])
-//   }
+  const [status, setStatus] = useState(props['status'] || []) as [StatusObject[], any];
+  const [storedStatus, setStoredStatus] = useState<StatusObject[]>([])
 
 
-//   const triggerStatusBarAnnounced = () => {
-//     if (!settings.statusBarAnnounced) {
-//       setSettings((settings: SettingsObject) => ({ ...settings, statusBarAnnounced: true }))
-//     }
-//   }
+  const [settings, setSettings] = useState(props['settings'] || {
+    expand: true,
+    statusBarAnnounced: false,
+    allowRightClick: false,
+    debug: false,
+  })
+  const [storedSettings, setStoredSettings] = useState<SettingsObject>()
 
-//   useEffect(() => {
-//     const storedSettingsLocal = localStorage.getItem(settingsStorageKey)
-//     const storedStatusLocal = localStorage.getItem(statusStorageKey)
+  const handleStatusAnnouncement = ({ id, secondary, children } : { id: string, secondary: boolean, children: any }) => {
+    setStatus((status: StatusObject[]) => [...status.filter(lo => lo.uniqueId !== id),
+      {
+        index: status.length,
+        uniqueId: id,
+        visible: true,
+        secondary,
+        children
+      }
+    ])
+  }
 
-//     if (storedSettingsLocal) setStoredSettings(JSON.parse(storedSettingsLocal))
-//     if (storedStatusLocal) setStoredStatus(JSON.parse(storedStatusLocal))
-//   }, [])
+  const handleStatusUpdate = ({ id, children }: { id: string, children: any }) => {
+    console.log('handleStatusUpdate', id, children)
+    setStatus((status: StatusObject[]) => status.map(lo => lo.uniqueId !== id ? lo : { ...lo, children }))
+  }
 
-//   useEffect(() => {
-//     if (storedStatus.length > 0) {
-//       setStatus((status: StatusObject[]) => status.map(statusItem => {
-//         const found = storedStatus.find(ss => ss.uniqueId === statusItem.uniqueId)
-//         return found ? { ...statusItem, found } : statusItem
-//       }))
-//     }
-//     if (storedSettings) {
-//       setSettings((settings: SettingsObject) => ({ ...settings, ...storedSettings }))
-//     }
-//   }, [storedStatus, storedSettings])
+  const handleStatusVisibilityToggle = ({ id }: { id: string }) => {
+    setStatus((status: StatusObject[]) => status.map(lo => (lo.uniqueId === id ? { ...lo, visible: !lo.visible } : lo)))
+  }
+
+  const handleStatusDestroy = ({ id }: { id: string }) => {
+    setStatus((status: StatusObject[]) => [...status.filter(lo => lo.uniqueId !== id)])
+  }
 
 
-//   useEffect(() => localStorage.setItem(settingsStorageKey, JSON.stringify(settings)), [settings])
-//   useEffect(() => localStorage.setItem(statusStorageKey, JSON.stringify(status.map(s => ({ ...s, children: undefined })))), [status])
+  const triggerStatusBarAnnounced = () => {
+    if (!settings.statusBarAnnounced) {
+      setSettings((settings: SettingsObject) => ({ ...settings, statusBarAnnounced: true }))
+    }
+  }
 
-//   useEffect(() => setSettings((settings: SettingsObject) => ({ ...settings, expand, position, allowRightClick, debug })), [allowRightClick, expand, position, debug])
+  useEffect(() => {
+    const storedSettingsLocal = localStorage.getItem(settingsStorageKey)
+    const storedStatusLocal = localStorage.getItem(statusStorageKey)
 
-//   useEffect(() => {
-//     if (settings.debug) {
-//       console.log('MuiStatusProvider:', { ...settings, ...status })
-//     }
-//   }, [settings, status])
+    if (storedSettingsLocal) setStoredSettings(JSON.parse(storedSettingsLocal))
+    if (storedStatusLocal) setStoredStatus(JSON.parse(storedStatusLocal))
+  }, [])
 
-//   return <DataContext.Provider
-//     value={{
-//       // passthru props
-//       tooltipComponent,
-//       popoverComponent,
+  useEffect(() => {
+    if (storedStatus.length > 0) {
+      setStatus((status: StatusObject[]) => status.map(statusItem => {
+        const found = storedStatus.find(ss => ss.uniqueId === statusItem.uniqueId)
+        return found ? { ...statusItem, found } : statusItem
+      }))
+    }
+    if (storedSettings) {
+      setSettings((settings: SettingsObject) => ({ ...settings, ...storedSettings }))
+    }
+  }, [storedStatus, storedSettings])
 
-//       // settings state + crud
-//       settings,
 
-//       // status - wrapper
-//       triggerStatusBarAnnounced,
+  useEffect(() => localStorage.setItem(settingsStorageKey, JSON.stringify(settings)), [settings])
+  useEffect(() => localStorage.setItem(statusStorageKey, JSON.stringify(status.map(s => ({ ...s, children: undefined })))), [status])
 
-//       // status state + crud
-//       status,
-//       handleStatusVisibilityToggle,
-//       handleStatusUpdate,
-//       handleStatusAnnouncement,
-//       handleStatusDestroy,
-//     }}>
-//     <MuiWrapper {...{ children }} />
-//   </DataContext.Provider>
-// }
+  useEffect(() => setSettings((settings: SettingsObject) => ({ ...settings, expand, position, allowRightClick, debug })), [allowRightClick, expand, position, debug])
 
-// export default DataContext
-// export { MuiStatusProvider };
+  useEffect(() => {
+    if (settings.debug) {
+      console.log('MuiStatusProvider:', { ...settings, ...status })
+    }
+  }, [settings, status])
+
+  return <DataContext.Provider
+    value={{
+      // passthru props
+      tooltipComponent,
+      popoverComponent,
+
+      // settings state + crud
+      settings,
+
+      // status - wrapper
+      triggerStatusBarAnnounced,
+
+      // status state + crud
+      status,
+      handleStatusVisibilityToggle,
+      handleStatusUpdate,
+      handleStatusAnnouncement,
+      handleStatusDestroy,
+    }}>
+    <MuiWrapper {...{ children }} />
+  </DataContext.Provider>
+}
+
+export default DataContext
+export { MuiStatusProvider };
