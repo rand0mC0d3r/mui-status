@@ -1,13 +1,10 @@
-import { Popover } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import CheckBoxOutlineBlankOutlinedIcon from '@material-ui/icons/CheckBoxOutlineBlankOutlined'
-import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined'
 import clsx from 'clsx'
-import React, { Fragment, useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import DataProvider from '../../MuiStore'
 
-const useStyles = makeStyles((theme) => ({
-  statusBar: {
+const useStyles = makeStyles(theme => ({
+  statusBarElem: {
     gap: '4px',
     display: 'flex',
     minHeight: '28px',
@@ -17,37 +14,19 @@ const useStyles = makeStyles((theme) => ({
       : theme.palette.background.paper,
     color: `${theme.palette.background.default} !important`,
   },
-  upper: {
+  upperElem: {
     borderBottom: `1px solid ${theme.palette.divider}`,
     borderTop: 'none',
   },
-  lower: {
+  lowerElem: {
     borderBottom: 'none',
     borderTop: `1px solid ${theme.palette.divider}`,
   },
-  child: {
+  childElem: {
     display: 'flex',
     flexWrap: 'nowrap',
   },
-  statusEntry: {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: '16px',
-    padding: '8px',
-  },
-  statusEntryItem: {
-    display: 'flex',
-    minWidth: '165px',
-    flexDirection: 'row',
-    gap: '4px',
-    padding: '4px 8px',
-
-    '&:hover': {
-      backgroundColor: `${theme.palette.augmentColor({ main: theme.palette.primary.light }).light} !important`,
-      color: `${theme.palette.background.default } !important`
-    },
-  },
-  primary: {
+  primaryElem: {
     overflow: 'scroll',
     justifyContent: 'flex-start',
     scrollSnapType: 'both mandatory',
@@ -56,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
       display: 'none'
     },
   },
-  secondary: {
+  secondaryElem: {
     overflow: 'hidden',
     flexWrap: 'nowrap',
     justifyContent: 'flex-end',
@@ -66,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     gap: '4px',
     flex: '1 1 auto',
     width: '0px',
-    minWidth: '80px',
+    minWidth: '18px',
 
     '&::-webkit-scrollbar': {
       display: 'none'
@@ -74,59 +53,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default ({
+export default function ({
   style,
   className
 } : {
-  style?: any,
-  className?: any
-}) => {
+  style?: React.CSSProperties,
+  className?: React.HTMLAttributes<HTMLDivElement>['className'],
+}) {
   const theme = useTheme()
-  const { status, settings, handleStatusVisibilityToggle, tooltipComponent } = useContext(DataProvider)
+  const { status, settings } = useContext(DataProvider)
   const classes = useStyles(theme)
-  const [anchorEl, setAnchorEl] = useState<any>(null)
-  const open = Boolean(anchorEl)
-  const onClose = () => setAnchorEl(null)
-
-  const statusEntry = (s: any) => <div className={classes.statusEntryItem}
-    onClick={() => handleStatusVisibilityToggle({ id: s.uniqueId })}>
-    {s.visible ? <CheckBoxOutlinedIcon /> : <CheckBoxOutlineBlankOutlinedIcon />}
-    {s.children}
-  </div>
-
-  const entryWrapper = (s: any) => <Fragment key={s.uniqueId}>{tooltipComponent !== undefined
-    ? <>{tooltipComponent('Toggle visibility of tile', statusEntry(s))}</>
-    : statusEntry(s)}
-  </Fragment>
 
   return <>
-    {status.length > 0 && <div {...{ style }}
+    {status.some(statusItem => statusItem.visible) && <div
+      {...{ style }}
       id="mui-status-statusBar-wrapper"
-      onContextMenu={e => {
-        e.preventDefault()
-        setAnchorEl(e.currentTarget)
-      }}
-      className={clsx([ className, classes.statusBar, settings.position === 'top' ? classes.upper : classes.lower])}
+      className={clsx([className, classes.statusBarElem, settings.position === 'top' ? classes.upperElem : classes.lowerElem])}
     >
-      {status.some(statusItem => !statusItem.secondary && statusItem.visible) &&
-        <div {...{ id: `mui-status-statusBar-primary`, className: clsx([ classes.child, classes.primary ]) }} />
-      }
-      {status.some(statusItem => statusItem.secondary && statusItem.visible) &&
-        <div {...{ id: `mui-status-statusBar-secondary`, className:clsx([ classes.child, classes.secondary ]) }} />
-      }
+      {status.some(statusItem => !statusItem.secondary)
+        && <div {...{ id: 'mui-status-statusBar-primary', className: clsx([classes.childElem, classes.primaryElem]) }} />}
+      {status.some(statusItem => statusItem.secondary)
+        && <div {...{ id: 'mui-status-statusBar-secondary', className: clsx([classes.childElem, classes.secondaryElem]) }} />}
     </div>}
-
-    <Popover {...{ open, anchorEl, onClose }}
-      elevation={1}
-      id={'toggle-status-popover'}
-      anchorOrigin={{ vertical: settings.upperBar ? 'top' : 'bottom', horizontal: 'center' }}
-      transformOrigin={{ vertical: !settings.upperBar ? 'bottom' : 'top', horizontal: 'center' }}
-      style={{ marginTop: `${(settings.upperBar ? 1 : -1) * 12}px` }}
-    >
-      <div onContextMenu={e => { e.preventDefault() }} className={classes.statusEntry}>
-        <div>{status.filter(s => !s.secondary).map(s => entryWrapper(s))}</div>
-        <div>{status.filter(s => s.secondary).map(s => entryWrapper(s))}</div>
-      </div>
-    </Popover>
   </>
 }

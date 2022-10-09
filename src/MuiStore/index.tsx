@@ -1,7 +1,11 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/jsx-no-constructed-context-values */
+/* eslint-disable no-shadow */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import React, { createContext, useEffect, useState } from 'react';
-import { SettingsObject, StatusObject } from '../index.types';
-import MuiWrapper from '../MuiWrapper';
+import React, { createContext, useEffect, useState } from 'react'
+import { SettingsObject, StatusObject } from '../index.types'
+import MuiWrapper from '../MuiWrapper'
 
 const settingsStorageKey = 'mui-status.settings'
 const statusStorageKey = 'mui-status.status'
@@ -23,17 +27,17 @@ interface DataContextInterface {
   triggerStatusBarAnnounced: any;
 }
 
-const DataContext = createContext({} as DataContextInterface);
+const DataContext = createContext({} as DataContextInterface)
 
 function MuiStatusProvider({
   expand = true,
   position = Position.top,
   allowRightClick = true,
-  debug,
+  debug = false,
   tooltipComponent,
   popoverComponent,
   children,
-  ...props } : {
+} : {
   expand?: boolean,
   position?: 'top' | 'bottom',
   allowRightClick?: boolean,
@@ -42,12 +46,10 @@ function MuiStatusProvider({
   popoverComponent?: any,
   children?: React.ReactNode,
   }) {
-
-  const [status, setStatus] = useState(props['status'] || []) as [StatusObject[], any];
+  const [status, setStatus] = useState<StatusObject[]>([])
   const [storedStatus, setStoredStatus] = useState<StatusObject[]>([])
 
-
-  const [settings, setSettings] = useState(props['settings'] || {
+  const [settings, setSettings] = useState({
     expand: true,
     statusBarAnnounced: false,
     allowRightClick: false,
@@ -80,7 +82,6 @@ function MuiStatusProvider({
     setStatus((status: StatusObject[]) => [...status.filter(lo => lo.uniqueId !== id)])
   }
 
-
   const triggerStatusBarAnnounced = () => {
     if (!settings.statusBarAnnounced) {
       setSettings((settings: SettingsObject) => ({ ...settings, statusBarAnnounced: true }))
@@ -107,11 +108,13 @@ function MuiStatusProvider({
     }
   }, [storedStatus, storedSettings])
 
-
   useEffect(() => localStorage.setItem(settingsStorageKey, JSON.stringify(settings)), [settings])
   useEffect(() => localStorage.setItem(statusStorageKey, JSON.stringify(status.map(s => ({ ...s, children: undefined })))), [status])
 
-  useEffect(() => setSettings((settings: SettingsObject) => ({ ...settings, expand, position, allowRightClick, debug })), [allowRightClick, expand, position, debug])
+  useEffect(
+    () => setSettings((settings: SettingsObject) => ({ ...settings, expand, position, allowRightClick, debug })),
+    [allowRightClick, expand, position, debug]
+  )
 
   useEffect(() => {
     if (settings.debug) {
@@ -137,10 +140,11 @@ function MuiStatusProvider({
       handleStatusUpdate,
       handleStatusAnnouncement,
       handleStatusDestroy,
-    }}>
+    }}
+  >
     <MuiWrapper {...{ children }} />
   </DataContext.Provider>
 }
 
 export default DataContext
-export { MuiStatusProvider };
+export { MuiStatusProvider }

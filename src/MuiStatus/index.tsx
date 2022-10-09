@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import clsx from 'clsx'
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, {
+  useCallback, useContext, useEffect, useState
+} from 'react'
 import { createPortal } from 'react-dom'
 import { StatusObject } from '../index.types'
 import DataProvider from '../MuiStore'
@@ -11,6 +14,7 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
     padding: '0px 4px',
     display: 'flex',
+    flex: '0 0 auto',
     alignItems: 'center',
     gap: '16px',
     justifyContent: 'center',
@@ -22,36 +26,36 @@ const useStyles = makeStyles(theme => ({
   },
   actionNormal: {
     '&:hover': {
-      backgroundColor: `${theme.palette.augmentColor({ main: theme.palette.divider }).light} !important`
-    }
+      backgroundColor: `${theme.palette.augmentColor({ main: theme.palette.divider }).light} !important`,
+    },
   },
   actionHighlightSecondary: {
     '&:hover': {
       backgroundColor: `${theme.palette.augmentColor({ main: theme.palette.secondary.main }).dark} !important`,
-      color: `${theme.palette.background.default } !important`
+      color: `${theme.palette.background.default} !important`,
     },
   },
   actionHighlightPrimary: {
     '&:hover': {
       backgroundColor: `${theme.palette.augmentColor({ main: theme.palette.primary.main }).dark} !important`,
-      color: `${theme.palette.background.default } !important`
+      color: `${theme.palette.background.default} !important`,
     },
   },
   hightlight: {
     backgroundColor: theme.palette.secondary.main,
     '& > div > *': {
-      color: `${theme.palette.background.default } !important`
-    }
+      color: `${theme.palette.background.default} !important`,
+    },
   },
   hightlightPrimary: {
     backgroundColor: theme.palette.primary.main,
     '& > div > *': {
-      color: `${theme.palette.background.default } !important`
-    }
+      color: `${theme.palette.background.default} !important`,
+    },
   },
 }))
 
-const MuiStatus = ({
+export default function ({
   id,
   secondary = false,
   style,
@@ -59,53 +63,58 @@ const MuiStatus = ({
   onContextMenu,
   highlight = 'default',
   tooltip = '',
-  children
+  children,
 } : {
-  id: any,
+  id: string,
   secondary?: boolean,
-  style?: any,
+  style?: React.CSSProperties,
   onClick?: any,
   onContextMenu?: any,
   highlight?: any,
   tooltip?: any,
-  children?: any,
-}) => {
+  children?: React.ReactNode,
+}) {
   const {
     status, settings, tooltipComponent,
-    handleStatusUpdate, handleStatusAnnouncement, handleStatusDestroy
+    handleStatusUpdate, handleStatusAnnouncement, handleStatusDestroy,
   } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
   const [elementFound, setElementFound] = useState<HTMLElement | null>(null)
   const theme = useTheme()
   const classes = useStyles(theme)
 
-  const callbackOnClick = useCallback((e) => {
+  const callbackOnClick = useCallback(e => {
     onClick(e)
   }, [onClick])
 
-  const callbackHandleStatusAnnouncement = useCallback((id) => {
-    handleStatusAnnouncement({ id, secondary, children })
+  const callbackHandleStatusAnnouncement = useCallback(idIncoming => {
+    handleStatusAnnouncement({ id: idIncoming, secondary, children })
   }, [secondary, children, handleStatusAnnouncement])
 
   const callbackHandleStatusDestroy = useCallback(() => {
     handleStatusDestroy({ id })
   }, [id])
 
-  const generateClasses = () => {
-    return clsx([
-      classes.default,
+  const generateClasses = () => clsx([
+    classes.default,
 
-      highlight !== 'default' && classes.hightlight,
-      highlight === 'primary' && classes.hightlightPrimary,
+    highlight !== 'default' && classes.hightlight,
+    highlight === 'primary' && classes.hightlightPrimary,
 
-      (onClick) && [
-        classes.interactive,
-        highlight === 'default' && classes.actionNormal,
-        highlight === 'primary' && classes.actionHighlightPrimary,
-        highlight === 'secondary' && classes.actionHighlightSecondary
-      ],
-    ])
+    (onClick) && [
+      classes.interactive,
+      highlight === 'default' && classes.actionNormal,
+      highlight === 'primary' && classes.actionHighlightPrimary,
+      highlight === 'secondary' && classes.actionHighlightSecondary,
+    ],
+  ])
+
+  const handleOnClick = (e: any) => {
+    if (onClick) { callbackOnClick(e) }
+    handleStatusUpdate({ id, children })
   }
+
+  const handleOnContextMenu = (e: any) => settings.allowRightClick ? onContextMenu && onContextMenu(e) : e.preventDefault()
 
   useEffect(() => {
     const elementSearched = document.getElementById(`mui-status-statusBar-${secondary ? 'secondary' : 'primary'}`)
@@ -118,10 +127,8 @@ const MuiStatus = ({
     handleStatusUpdate({ id, children })
   }, [id, children])
 
-  useEffect(() => {
-    return () => {
-      callbackHandleStatusDestroy()
-    }
+  useEffect(() => () => {
+    callbackHandleStatusDestroy()
   }, [callbackHandleStatusDestroy])
 
   useEffect(() => {
@@ -132,32 +139,26 @@ const MuiStatus = ({
 
   useEffect(() => {
     const foundObject = status.find(item => item.uniqueId === id)
-    if ((statusObject === null || statusObject?.visible !== foundObject?.visible ) && foundObject ) {
+    if ((statusObject === null || statusObject?.visible !== foundObject?.visible) && foundObject) {
       setStatusObject(foundObject)
     }
   }, [status, id, statusObject])
 
-  return <>{(statusObject !== null && !!id && elementFound) && <>
-    {createPortal(statusObject.visible
-      ? <div
-        id={id}
-        key={`MupStatus_${id}_wrapper`}
-        onClick={(e) => {
-              if(onClick) { callbackOnClick(e) }
-              handleStatusUpdate({ id, children })
-        }}
-        onContextMenu={(e) => settings.allowRightClick
-              ? onContextMenu ? onContextMenu(e) : null
-            : e.preventDefault()}
-        className={generateClasses()}
-        style={{ ...style, order: statusObject.index }}
-      >
-        {tooltipComponent !== undefined
-            ? <>{tooltipComponent(tooltip, <span>{children}</span>)}</>
-            : children}
-      </div>
-      : <></>, elementFound)}
-  </>}</>
+  return <>
+    {(statusObject !== null && !!id && elementFound) && <>
+      {createPortal(
+        statusObject.visible
+          ? <div
+              {...{ id, onClick: handleOnClick, onContextMenu: handleOnContextMenu }}
+              key={`MupStatus_${id}_wrapper`}
+              className={generateClasses()}
+              style={{ ...style, order: statusObject.index }}
+          >
+            {tooltipComponent !== undefined ? tooltipComponent(tooltip, <span>{children}</span>) : children}
+          </div>
+          : <></>,
+        elementFound
+      )}
+    </>}
+  </>
 }
-
-export default MuiStatus
