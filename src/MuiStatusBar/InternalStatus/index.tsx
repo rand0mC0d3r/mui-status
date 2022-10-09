@@ -2,6 +2,7 @@ import { Popover } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import CheckBoxOutlineBlankOutlinedIcon from '@material-ui/icons/CheckBoxOutlineBlankOutlined'
 import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined'
+import clsx from 'clsx'
 import React, { Fragment, useContext, useState } from 'react'
 import DataProvider from '../../MuiStore'
 
@@ -105,20 +106,14 @@ export default ({
         e.preventDefault()
         setAnchorEl(e.currentTarget)
       }}
-      className={[
-        className,
-        classes.statusBar,
-        settings.position === 'top' ? classes.upper : classes.lower
-      ].filter(e => !!e).join(' ')}
+      className={clsx([ className, classes.statusBar, settings.position === 'top' ? classes.upper : classes.lower])}
     >
-      {['primary', 'secondary'].map((side, i) => <div
-        id={`mui-status-statusBar-${side}`}
-        key={`${side}_status`}
-        className={[
-          classes.child,
-          i === 0 ? classes.primary : classes.secondary
-        ].filter(e => !!e).join(' ')}
-      />)}
+      {status.some(statusItem => !statusItem.secondary && statusItem.visible) &&
+        <div {...{ id: `mui-status-statusBar-primary`, className: clsx([ classes.child, classes.primary ]) }} />
+      }
+      {status.some(statusItem => statusItem.secondary && statusItem.visible) &&
+        <div {...{ id: `mui-status-statusBar-secondary`, className:clsx([ classes.child, classes.secondary ]) }} />
+      }
     </div>}
 
     <Popover {...{ open, anchorEl, onClose }}
@@ -129,8 +124,8 @@ export default ({
       style={{ marginTop: `${(settings.upperBar ? 1 : -1) * 12}px` }}
     >
       <div onContextMenu={e => { e.preventDefault() }} className={classes.statusEntry}>
-        <div>{status.filter(s=>!s.secondary).map(s => entryWrapper(s))}</div>
-        <div>{status.filter(s=>s.secondary).map(s => entryWrapper(s))}</div>
+        <div>{status.filter(s => !s.secondary).map(s => entryWrapper(s))}</div>
+        <div>{status.filter(s => s.secondary).map(s => entryWrapper(s))}</div>
       </div>
     </Popover>
   </>

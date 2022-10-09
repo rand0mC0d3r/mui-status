@@ -83,6 +83,30 @@ const MuiStatus = ({
     onClick(e)
   }, [onClick])
 
+  const callbackHandleStatusAnnouncement = useCallback((id) => {
+    handleStatusAnnouncement({ id, secondary, children })
+  }, [secondary, children, handleStatusAnnouncement])
+
+  const callbackHandleStatusDestroy = useCallback(() => {
+    handleStatusDestroy({ id })
+  }, [id])
+
+  const generateClasses = () => {
+    return clsx([
+      classes.default,
+
+      highlight !== 'default' && classes.hightlight,
+      highlight === 'primary' && classes.hightlightPrimary,
+
+      (onClick) && [
+        classes.interactive,
+        highlight === 'default' && classes.actionNormal,
+        highlight === 'primary' && classes.actionHighlightPrimary,
+        highlight === 'secondary' && classes.actionHighlightSecondary
+      ],
+    ])
+  }
+
   useEffect(() => {
     const elementSearched = document.getElementById(`mui-status-statusBar-${secondary ? 'secondary' : 'primary'}`)
     if (elementSearched !== null) {
@@ -93,14 +117,6 @@ const MuiStatus = ({
   useEffect(() => {
     handleStatusUpdate({ id, children })
   }, [id, children])
-
-  const callbackHandleStatusAnnouncement = useCallback((id) => {
-    handleStatusAnnouncement({ id, secondary, children })
-  }, [secondary, children, handleStatusAnnouncement])
-
-  const callbackHandleStatusDestroy = useCallback(() => {
-    handleStatusDestroy({ id })
-  }, [id])
 
   useEffect(() => {
     return () => {
@@ -120,22 +136,6 @@ const MuiStatus = ({
       setStatusObject(foundObject)
     }
   }, [status, id, statusObject])
-
-  const generateClasses = () => {
-    return clsx([
-      classes.default,
-
-      highlight !== 'default' && classes.hightlight,
-      highlight === 'primary' && classes.hightlightPrimary,
-
-      (onClick) && [
-        classes.interactive,
-        highlight === 'default' && classes.actionNormal,
-        highlight === 'primary' && classes.actionHighlightPrimary,
-        highlight === 'secondary' && classes.actionHighlightSecondary
-      ],
-    ])
-  }
 
   return <>{(statusObject !== null && !!id && elementFound) && <>
     {createPortal(statusObject.visible

@@ -27,7 +27,7 @@ const MuiWrapper = ({ children }) => {
     className={classes.box}
   >
     <div className={classes.children}>{children}</div>
-    <div id="muiStatus-statusBar">
+    <div id="mui-status-statusBar">
       {!settings.statusBarAnnounced && <InternalStatus />}
     </div>
   </Box>

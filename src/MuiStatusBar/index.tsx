@@ -14,7 +14,7 @@
 //   const [documentElement, setDocumentElement] = useState<HTMLElement | null>(null)
 
 //   useEffect(() => {
-//     const detectDocumentElement = document.getElementById('muiStatus-statusBar')
+//     const detectDocumentElement = document.getElementById('mui-status-statusBar')
 //     if(detectDocumentElement) {
 //       setDocumentElement(detectDocumentElement)
 //       triggerStatusBarAnnounced()
