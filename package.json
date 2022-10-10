@@ -64,7 +64,7 @@
     "test": "react-scripts test",
     "*COMPONENT*": "------------------------------------------------------------",
     "watch.component": "nodemon -e tsx,ts --watch ./src --exec \"npm run copy.component\"",
-    "#precopy.component": "npx eslint 'src/**'",
+    "precopy.component": "npx eslint 'src/**'",
     "copy.component": "rm -rf *.tgz && npm run build.lib",
     "*LINKING*": "--------------------------------------------------------------",
     "link": "npm link @material-ui/core @material-ui/icons react react-dom @types/react",

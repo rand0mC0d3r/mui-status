@@ -4,16 +4,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { createContext, useEffect, useState } from 'react'
-import { SettingsObject, StatusObject } from '../index.types'
+import { PlacementPosition, SettingsObject, StatusObject } from '../index.types'
 import MuiWrapper from '../MuiWrapper'
 
 const settingsStorageKey = 'mui-status.settings'
 const statusStorageKey = 'mui-status.status'
-
-export enum Position {
-  top = 'top',
-  bottom = 'bottom'
-}
 
 interface DataContextInterface {
   settings: any;
@@ -31,7 +26,7 @@ const DataContext = createContext({} as DataContextInterface)
 
 function MuiStatusProvider({
   expand = true,
-  position = Position.top,
+  position = PlacementPosition.Top,
   allowRightClick = true,
   debug = false,
   tooltipComponent,
@@ -47,7 +42,6 @@ function MuiStatusProvider({
   children?: React.ReactNode,
   }) {
   const [status, setStatus] = useState<StatusObject[]>([])
-  const [storedStatus, setStoredStatus] = useState<StatusObject[]>([])
 
   const [settings, setSettings] = useState({
     expand: true,
@@ -55,6 +49,8 @@ function MuiStatusProvider({
     allowRightClick: false,
     debug: false,
   })
+
+  const [storedStatus, setStoredStatus] = useState<StatusObject[]>([])
   const [storedSettings, setStoredSettings] = useState<SettingsObject>()
 
   const handleStatusAnnouncement = ({ id, secondary, children } : { id: string, secondary: boolean, children: any }) => {
@@ -112,7 +108,9 @@ function MuiStatusProvider({
   useEffect(() => localStorage.setItem(statusStorageKey, JSON.stringify(status.map(s => ({ ...s, children: undefined })))), [status])
 
   useEffect(
-    () => setSettings((settings: SettingsObject) => ({ ...settings, expand, position, allowRightClick, debug })),
+    () => setSettings((settings: SettingsObject) => ({
+      ...settings, expand, position, allowRightClick, debug
+    })),
     [allowRightClick, expand, position, debug]
   )
 

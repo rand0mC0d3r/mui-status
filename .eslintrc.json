@@ -53,6 +53,10 @@
         ],
         "no-unused-vars": "error",
         "no-spaced-func": "error",
+        "template-tag-spacing": [
+            "error",
+            "always"
+        ],
         "object-curly-newline": [
             "error",
             {

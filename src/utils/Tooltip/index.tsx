@@ -9,6 +9,5 @@ export default function ({
   children?: React.ReactNode,
 }) {
   const { tooltipComponent } = useContext(DataProvider)
-
   return <>{tooltipComponent !== undefined ? tooltipComponent(tooltip, <span>{children}</span>) : children}</>
 }

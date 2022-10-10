@@ -4,19 +4,19 @@ import clsx from 'clsx'
 import React from 'react'
 
 const useStyles = makeStyles((theme: { palette: { action: { active: string } } }) => ({
-  boxElem: {
+  box: {
     gap: '4px',
     color: theme.palette.action.active,
   },
-  iconElem: {
-    fontSize: 20,
+  svgIcon: {
+    fontSize: 20
   },
-  typographyElem: {
+  typography: {
     lineHeight: '0px',
     whiteSpace: 'nowrap',
     userSelect: 'none',
   },
-  imageElem: {
+  img: {
     width: '20px',
     height: '20px',
   },
@@ -46,18 +46,11 @@ export default function ({
     alignItems: 'center',
     justifyContent: 'space-between',
     flexWrap: 'nowrap',
-    className: clsx([classes.boxElem, className]),
+    className: clsx([classes.box, className]),
   }}
   >
-    {icon && <SvgIcon {...{ className: classes.iconElem, color: 'action' }}>
-      {icon}
-    </SvgIcon>}
-    {text && <Typography {...{ variant: 'subtitle2', color: 'textPrimary', className: classes.typographyElem }}>
-      {text}
-    </Typography>}
-    {image && <img {...{
-      alt: '', className: classes.imageElem, style: { borderRadius: mask ? '50%' : '0px' }, src: image,
-    }}
-    />}
+    {icon && <SvgIcon {...{ className: classes.svgIcon, color: 'action' }}>{icon}</SvgIcon>}
+    {text && <Typography {...{ className: classes.typography, variant: 'subtitle2', color: 'textPrimary' }}>{text}</Typography>}
+    {image && <img {...{ alt: '', className: classes.img, style: { borderRadius: mask ? '50%' : '0px' }, src: image }} />}
   </Box>
 }

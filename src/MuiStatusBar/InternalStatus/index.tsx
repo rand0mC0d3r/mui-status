@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import React, { useContext } from 'react'
 import DataProvider from '../../MuiStore'
 
+const domId = 'mui-status-statusBar'
 const useStyles = makeStyles(theme => ({
   statusBarElem: {
     gap: '4px',
@@ -31,9 +32,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'flex-start',
     scrollSnapType: 'both mandatory',
     gap: '4px',
-    '&::-webkit-scrollbar': {
-      display: 'none'
-    },
+    '&::-webkit-scrollbar': { display: 'none' },
   },
   secondaryElem: {
     overflow: 'hidden',
@@ -47,9 +46,7 @@ const useStyles = makeStyles(theme => ({
     width: '0px',
     minWidth: '18px',
 
-    '&::-webkit-scrollbar': {
-      display: 'none'
-    },
+    '&::-webkit-scrollbar': { display: 'none' },
   },
 }))
 
@@ -60,20 +57,18 @@ export default function ({
   style?: React.CSSProperties,
   className?: React.HTMLAttributes<HTMLDivElement>['className'],
 }) {
-  const theme = useTheme()
   const { status, settings } = useContext(DataProvider)
+
+  const theme = useTheme()
   const classes = useStyles(theme)
+  const wrapperCN = clsx([className, classes.statusBarElem, settings.position === 'top' ? classes.upperElem : classes.lowerElem])
+  const primaryCN = clsx([classes.childElem, classes.primaryElem])
+  const secondaryCN = clsx([classes.childElem, classes.secondaryElem])
 
   return <>
-    {status.some(statusItem => statusItem.visible) && <div
-      {...{ style }}
-      id="mui-status-statusBar-wrapper"
-      className={clsx([className, classes.statusBarElem, settings.position === 'top' ? classes.upperElem : classes.lowerElem])}
-    >
-      {status.some(statusItem => !statusItem.secondary)
-        && <div {...{ id: 'mui-status-statusBar-primary', className: clsx([classes.childElem, classes.primaryElem]) }} />}
-      {status.some(statusItem => statusItem.secondary)
-        && <div {...{ id: 'mui-status-statusBar-secondary', className: clsx([classes.childElem, classes.secondaryElem]) }} />}
+    {status.some(sItem => sItem.visible) && <div {...{ id: `${domId}-wrapper`, style, className: wrapperCN }}>
+      {status.some(sItem => !sItem.secondary) && <div {...{ id: `${domId}-primary`, className: primaryCN }} />}
+      {status.some(sItem => sItem.secondary) && <div {...{ id: `${domId}-secondary`, className: secondaryCN }} />}
     </div>}
   </>
 }

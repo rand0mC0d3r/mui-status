@@ -77,12 +77,7 @@ export default function ({
   }, [status, id, statusObject])
 
   return <>
-    <MupStatus {...{
-      id, tooltip, secondary, onClick, style: { ...style, minWidth: '24px' }
-    }}
-    >
-      {children}
-    </MupStatus>
+    <MupStatus {...{ id, tooltip, secondary, onClick, style: { ...style, minWidth: '24px' } }}>{children}</MupStatus>
     {popoverComponent !== undefined
       ? popoverComponent(ComponentPopoverProps)
       : <Popover {...{

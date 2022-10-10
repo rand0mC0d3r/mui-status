@@ -1,11 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import clsx from 'clsx'
-import React, {
-  useCallback, useContext, useEffect, useState
-} from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { StatusObject } from '../index.types'
 import DataProvider from '../MuiStore'
+import Tooltip from '../utils/Tooltip'
 
 const useStyles = makeStyles(theme => ({
   default: {
@@ -73,20 +73,11 @@ export default function ({
   tooltip?: React.ReactNode | string,
   children?: React.ReactNode,
 }) {
-  const {
-    status, settings, tooltipComponent,
-    handleStatusUpdate, handleStatusAnnouncement, handleStatusDestroy,
-  } = useContext(DataProvider)
+  const { status, settings, handleStatusUpdate, handleStatusAnnouncement, handleStatusDestroy } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
   const [elementFound, setElementFound] = useState<HTMLElement | null>(null)
   const theme = useTheme()
   const classes = useStyles(theme)
-
-  const callbackOnClick = useCallback(e => {
-    if (onClick) {
-      onClick(e)
-    }
-  }, [onClick])
 
   const callbackHandleStatusAnnouncement = useCallback(idIncoming => {
     handleStatusAnnouncement({ id: idIncoming, secondary, children })
@@ -96,7 +87,7 @@ export default function ({
     handleStatusDestroy({ id })
   }, [id])
 
-  const generateClasses = () => clsx([
+  const generateClasses = clsx([
     classes.default,
 
     highlight !== 'default' && classes.hightlight,
@@ -110,12 +101,20 @@ export default function ({
     ],
   ])
 
-  const handleOnClick = (e: any) => {
-    if (onClick) { callbackOnClick(e) }
+  const handleOnClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (onClick) {
+      e.preventDefault()
+      onClick(e)
+    }
     handleStatusUpdate({ id, children })
   }
 
-  const handleOnContextMenu = (e: any) => settings.allowRightClick ? onContextMenu && onContextMenu(e) : e.preventDefault()
+  const handleOnContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    if (settings.allowRightClick && onContextMenu) {
+      onContextMenu(e)
+    }
+  }
 
   useEffect(() => {
     const elementSearched = document.getElementById(`mui-status-statusBar-${secondary ? 'secondary' : 'primary'}`)
@@ -146,20 +145,21 @@ export default function ({
   }, [status, id, statusObject])
 
   return <>
-    {(statusObject !== null && !!id && elementFound) && <>
-      {createPortal(
-        statusObject.visible
-          ? <div
-              {...{ id, onClick: handleOnClick, onContextMenu: handleOnContextMenu }}
-              key={`MupStatus_${id}_wrapper`}
-              className={generateClasses()}
-              style={{ ...style, order: statusObject.index }}
-          >
-            {tooltipComponent !== undefined ? tooltipComponent(tooltip, <span>{children}</span>) : children}
-          </div>
-          : <></>,
-        elementFound
-      )}
-    </>}
+    {(statusObject !== null && !!id && elementFound) && createPortal(
+      statusObject.visible
+        ? <div {...{
+          id,
+          key: `mui-status-${id}`,
+          onClick: handleOnClick,
+          onContextMenu: handleOnContextMenu,
+          className: generateClasses,
+          style: { ...style, order: statusObject.index }
+        }}
+        >
+          <Tooltip {...{ tooltip, children }} />
+        </div>
+        : <></>,
+      elementFound
+    )}
   </>
 }

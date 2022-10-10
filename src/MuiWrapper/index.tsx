@@ -2,10 +2,11 @@ import { Box, Popover } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import CheckBoxOutlineBlankOutlinedIcon from '@material-ui/icons/CheckBoxOutlineBlankOutlined'
 import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined'
-import React, { Fragment, useContext, useState } from 'react'
-import { StatusObject } from '../index.types'
+import React, { useContext, useState } from 'react'
+import { PlacementPosition, StatusObject } from '../index.types'
 import InternalStatus from '../MuiStatusBar/InternalStatus'
-import DataProvider, { Position } from '../MuiStore'
+import DataProvider from '../MuiStore'
+import Tooltip from '../utils/Tooltip'
 
 const useStyles = makeStyles(theme => ({
   boxElem: {
@@ -36,27 +37,26 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const flexDirection = (position: string) => (position === Position.top ? 'column-reverse' : 'column')
+const flexDirection = (position: string) => (position === PlacementPosition.Top ? 'column-reverse' : 'column')
 
 export default function ({
   children,
 } : {
   children: React.ReactNode
 }) {
-  const {
-    status, settings, tooltipComponent, handleStatusVisibilityToggle,
-  } = useContext(DataProvider)
+  const { status, settings, handleStatusVisibilityToggle } = useContext(DataProvider)
+
   const theme = useTheme()
   const classes = useStyles(theme)
 
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null)
   const open = Boolean(anchorEl)
 
+  const onClose = () => setAnchorEl(null)
   const onContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
     setAnchorEl(e.currentTarget)
   }
-  const onClose = () => setAnchorEl(null)
 
   const statusEntry = (statusItem: StatusObject) => (
     <div {...{ className: classes.entryItemElem, onClick: () => handleStatusVisibilityToggle({ id: statusItem.uniqueId }) }}>
@@ -65,11 +65,10 @@ export default function ({
     </div>
   )
 
-  const entryWrapper = (statusItem: StatusObject) => (
-    <Fragment key={statusItem.uniqueId}>
-      {tooltipComponent !== undefined ? tooltipComponent('Toggle visibility of tile', statusEntry(statusItem)) : statusEntry(statusItem)}
-    </Fragment>
-  )
+  const entryWrapper = (statusItem: StatusObject) => <Tooltip
+    key={statusItem.uniqueId}
+    {...{ tooltip: 'Toggle visibility of tile', children: statusEntry(statusItem) }}
+  />
 
   return <>
     <Box id="mui-status-wrapper" {...{ display: 'flex', flexDirection: flexDirection(settings.position), className: classes.boxElem }}>
