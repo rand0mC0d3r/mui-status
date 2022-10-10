@@ -21,12 +21,24 @@ const useStyles = makeStyles((theme: { palette: { action: { active: string } } }
     height: '20px',
   },
 }))
-
+/**
+ *
+ * @param icon - (ReactNode) Icon to display for status element. Expects a Material UI SvgIcon component.
+ * @param text - (string) Text to display for status element.
+ * @param image - (string) Image to display for status element. Expects a valid image path.
+ * @param mask - (boolean) If needs to be applied a circular mask to the image.
+ * @param reverse - (boolean) If needs to be applied a reverse of the default order of the elements
+ * @param className - (HTMLAttribute) Class name to be applied to the root element.
+ * @param style - (CSSProperties) Style to be applied to the root element.
+ *
+ * @returns (JSX.Element) Status element
+ */
 export default function ({
   icon,
   text,
   image,
   mask = false,
+  reverse = false,
   className,
   style,
 } : {
@@ -34,6 +46,7 @@ export default function ({
   text?: string,
   image?: string,
   mask?: boolean,
+  reverse?: boolean,
   className?: React.HTMLAttributes<HTMLDivElement>['className'],
   style?: React.CSSProperties,
 }) {
@@ -42,6 +55,7 @@ export default function ({
 
   return <Box {...{
     style,
+    flexDirection: reverse ? 'row-reverse' : 'row',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',

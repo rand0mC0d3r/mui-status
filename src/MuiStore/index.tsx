@@ -53,21 +53,39 @@ function MuiStatusProvider({
   const [storedStatus, setStoredStatus] = useState<StatusObject[]>([])
   const [storedSettings, setStoredSettings] = useState<SettingsObject>()
 
-  const handleStatusAnnouncement = ({ id, secondary, children } : { id: string, secondary: boolean, children: any }) => {
-    setStatus((status: StatusObject[]) => [...status.filter(lo => lo.uniqueId !== id),
-      {
-        index: status.length,
-        uniqueId: id,
-        visible: true,
-        secondary,
-        children
+  const handleStatusAnnouncement = ({ id, ownId, secondary, children } : { id: string, ownId: string, secondary: boolean, children: any }) => {
+    setStatus((status: StatusObject[]) => {
+      const findError = status.find(sItem => sItem.uniqueId === id && sItem.ownId !== ownId)
+      if (findError) {
+        console.error(`mui-status: ❌ Status entry already registered with id: [${id}] & ownId: [${ownId}], but expected ownId [${findError.ownId}]`)
+        return status
       }
-    ])
+      if (settings.debug) {
+        console.info(`mui-status: 🆗 Status entry registered with id: [${id}] & ownId: [${ownId}]`)
+      }
+      return [
+        ...status.filter(sItem => sItem.uniqueId !== id),
+        {
+          index: status.length,
+          uniqueId: id,
+          ownId,
+          visible: true,
+          secondary,
+          children
+        } as StatusObject
+      ]
+    })
   }
 
-  const handleStatusUpdate = ({ id, children }: { id: string, children: any }) => {
-    console.log('handleStatusUpdate', id, children)
-    setStatus((status: StatusObject[]) => status.map(lo => lo.uniqueId !== id ? lo : { ...lo, children }))
+  const handleStatusUpdate = ({ id, ownId, children }: { id: string, ownId: string, children: React.ReactNode }) => {
+    setStatus((status: StatusObject[]) => {
+      const findError = status.find(sItem => sItem.uniqueId === id)
+      if (findError?.ownId !== ownId) {
+        console.error(`mui-status: ❌ Faulty status update captured for: [${id}] & ownId: [${ownId}], but expected ownId: [${findError?.ownId}]`)
+        return status
+      }
+      return status.map(sItem => (sItem.uniqueId === id && sItem.ownId === ownId) ? { ...sItem, children } : sItem)
+    })
   }
 
   const handleStatusVisibilityToggle = ({ id }: { id: string }) => {
@@ -116,7 +134,7 @@ function MuiStatusProvider({
 
   useEffect(() => {
     if (settings.debug) {
-      console.log('MuiStatusProvider:', { ...settings, ...status })
+      console.log('mui-status-store:', { ...settings, ...status })
     }
   }, [settings, status])
 

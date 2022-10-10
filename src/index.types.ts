@@ -1,3 +1,4 @@
+import React from 'react'
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -6,7 +7,8 @@ export interface StatusObject {
   secondary: boolean;
   index: number;
   uniqueId: string;
-  children: any;
+  ownId: string;
+  children: React.ReactNode;
 }
 
 export interface SettingsObject {
