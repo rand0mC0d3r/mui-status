@@ -106,7 +106,7 @@ export default function ({
   ])
 
   const handleOnClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (onClick) {
+    if (onClick !== undefined) {
       e.preventDefault()
       onClick(e)
       handleStatusUpdate({ id, ownId, children })
@@ -174,7 +174,7 @@ export default function ({
 
   return <>
     {(statusObject !== null && !!id && elementFound) && createPortal(
-      statusObject.visible
+      (statusObject.visible && children)
         ? <div {...{
           id,
           key: `mui-status-${id}`,
