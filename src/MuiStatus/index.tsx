@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
   },
   hightlightPrimary: {
     backgroundColor: theme.palette.primary.main,
-    '& > div > *': {
+    '& > span > div > *': {
       color: `${theme.palette.background.default} !important`,
     },
   },
