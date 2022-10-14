@@ -1,17 +1,22 @@
+import { MouseEvent, ReactNode, useContext, useState } from 'react'
+
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined'
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined'
-import { Box, Popover } from '@mui/material'
+import { Popover } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import React, { useContext, useState } from 'react'
-import { PlacementPosition, StatusObject } from '../index.types'
+
 import InternalStatus from '../MuiStatusBar/InternalStatus'
 import DataProvider from '../MuiStore'
 import Tooltip from '../utils/Tooltip'
 
-const StyledBox = styled(Box)(() => ({
+import { PlacementPosition, StatusObject } from '../index.types'
+
+const StyledBox = styled('div')<{ column?: string }>(({ column }) => ({
   height: '100%',
   width: '100%',
   position: 'absolute',
+  display: 'flex',
+  flexDirection: column === PlacementPosition.Top ? 'column-reverse' : 'column'
 }))
 
 const StyledChildren = styled('div')(() => ({
@@ -38,23 +43,19 @@ const StyledEntryElementItem = styled('div')(({ theme }) => ({
   },
 }))
 
-const flexDirection = (position: string) => (position === PlacementPosition.Top ? 'column-reverse' : 'column')
-
-export default function ({ children } : { children: React.ReactNode }) {
+export default function ({ children } : { children: ReactNode }) {
   const { status, settings, handleStatusVisibilityToggle } = useContext(DataProvider)
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null)
   const open = Boolean(anchorEl)
 
   const onClose = () => setAnchorEl(null)
 
-  const onContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
+  const onContextMenu = (e: MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
     setAnchorEl(e.currentTarget)
   }
 
-  const statusEntry = (statusItem: StatusObject) => <StyledEntryElementItem
-    {...{ onClick: () => handleStatusVisibilityToggle({ id: statusItem.uniqueId }) }}
-  >
+  const statusEntry = (statusItem: StatusObject) => <StyledEntryElementItem onClick={() => handleStatusVisibilityToggle({ id: statusItem.uniqueId })}>
     {statusItem.visible ? <CheckBoxOutlinedIcon /> : <CheckBoxOutlineBlankOutlinedIcon />}
     {statusItem.children}
   </StyledEntryElementItem>
@@ -64,7 +65,7 @@ export default function ({ children } : { children: React.ReactNode }) {
   />
 
   return <>
-    <StyledBox id="mui-status-wrapper" {...{ display: 'flex', flexDirection: flexDirection(settings.position) }}>
+    <StyledBox id="mui-status-wrapper" {...{ column: settings.position }}>
       <StyledChildren id="mui-status-children">{children}</StyledChildren>
       <div id="mui-status-statusBar" {...{ onContextMenu }}>{!settings.statusBarAnnounced && <InternalStatus />}</div>
     </StyledBox>
@@ -75,8 +76,10 @@ export default function ({ children } : { children: React.ReactNode }) {
       transformOrigin={{ vertical: !settings.upperBar ? 'bottom' : 'top', horizontal: 'center' }}
       style={{ marginTop: `${(settings.upperBar ? 1 : -1) * 12}px` }}
     >
-      <StyledEntryElement onContextMenu={e => { e.preventDefault() }}>
-        {[false, true].map(state => <div>{status.filter(statusItem => statusItem.secondary === state).map(statusItem => entryWrapper(statusItem))}</div>)}
+      <StyledEntryElement {...{ onContextMenu: e => { e.preventDefault() } }}>
+        {[false, true].map((state: boolean) => <div key={state.toString()}>
+          {status.filter(statusItem => statusItem.secondary === state).map(statusItem => entryWrapper(statusItem))}
+        </div>)}
       </StyledEntryElement>
     </Popover>
   </>

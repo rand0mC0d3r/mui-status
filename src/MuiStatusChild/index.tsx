@@ -1,10 +1,15 @@
-import { Box, SvgIcon, Typography } from '@mui/material'
+import { SvgIcon, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import React from 'react'
+import { CSSProperties, HTMLAttributes, ReactNode } from 'react'
 
-const StyledBox = styled(Box)(({ theme }) => ({
+const StyledBox = styled('div')<{ reverse?: boolean }>(({ theme, reverse }) => ({
   gap: '4px',
   color: theme.palette.action.active,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  flexWrap: 'nowrap',
+  flexDirection: reverse ? 'row-reverse' : 'row',
 }))
 
 const StyledSvgIcon = styled(SvgIcon)(() => ({
@@ -13,9 +18,9 @@ const StyledSvgIcon = styled(SvgIcon)(() => ({
 }))
 
 const StyledTypography = styled(Typography)(() => ({
-  lineHeight: '0px',
   whiteSpace: 'nowrap',
   userSelect: 'none',
+  lineHeight: '1',
   '-webkit-font-smoothing': 'antialiased',
 }))
 
@@ -45,24 +50,15 @@ export default function ({
   className,
   style,
 } : {
-  icon?: React.ReactNode,
+  icon?: ReactNode,
   text?: string,
   image?: string,
   mask?: boolean,
   reverse?: boolean,
-  className?: React.HTMLAttributes<HTMLDivElement>['className'],
-  style?: React.CSSProperties,
+  className?: HTMLAttributes<HTMLDivElement>['className'],
+  style?: CSSProperties,
 }) {
-  return <StyledBox {...{
-    style,
-    className,
-    flexDirection: reverse ? 'row-reverse' : 'row',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexWrap: 'nowrap',
-  }}
-  >
+  return <StyledBox {...{ style, className, reverse }}>
     {icon && <StyledSvgIcon {...{ color: 'action' }}>{icon}</StyledSvgIcon>}
     {text && <StyledTypography {...{ variant: 'caption', color: 'textPrimary' }}>{text}</StyledTypography>}
     {image && <StyledImg {...{ alt: '', style: { borderRadius: mask ? '50%' : '0px' }, src: image }} />}

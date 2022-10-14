@@ -29,6 +29,7 @@
         "no-restricted-globals": [
             "error"
         ],
+        "react/react-in-jsx-scope": "off",
         "react/jsx-no-useless-fragment": 0,
         "react/jsx-props-no-spreading": 0,
         "react/jsx-wrap-multilines": "off",
