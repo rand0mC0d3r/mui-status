@@ -9,7 +9,7 @@ const StyledStatusBar = styled('div')(({ theme }: any) => ({
   minHeight: '28px',
   justifyContent: 'space-between',
   backgroundColor: theme.palette.mode === 'light'
-    ? theme.palette.divider
+    ? theme.palette.background.default
     : theme.palette.background.paper,
   color: `${theme.palette.background.default} !important`,
   // borderBottom: position === 'top' ? `1px solid ${theme.palette.divider}` : 'none',

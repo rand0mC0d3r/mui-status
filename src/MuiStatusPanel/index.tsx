@@ -31,6 +31,7 @@ export default function ({
   secondary = false,
   elevation = 4,
   style,
+  highlight,
   tooltip = '',
   children,
   popoverStyle,
@@ -41,6 +42,7 @@ export default function ({
   secondary?: boolean,
   elevation?: number,
   style?: React.CSSProperties,
+  highlight?: 'default' | 'primary' | 'secondary',
   tooltip?: any,
   children?: any,
   popoverStyle?: any,
@@ -113,7 +115,7 @@ export default function ({
   }, [status, id, statusObject])
 
   return <>
-    <MupStatus {...{ id, tooltip, secondary, onClick, style: { ...style, minWidth: '24px' } }}>{children}</MupStatus>
+    <MupStatus {...{ id, tooltip, highlight, secondary, onClick, style: { ...style, minWidth: '24px' } }}>{children}</MupStatus>
     {popoverComponent !== undefined
       ? popoverComponent(ComponentPopoverProps)
       : <Popper {...{ keepMounted: keepOpen, ...FallbackPopoverProps }}>
