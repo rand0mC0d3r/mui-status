@@ -69,16 +69,14 @@ export default function ({ children } : { children: React.ReactNode }) {
       <div id="mui-status-statusBar" {...{ onContextMenu }}>{!settings.statusBarAnnounced && <InternalStatus />}</div>
     </StyledBox>
     <Popover
-      {...{ open, anchorEl, onClose }}
-      elevation={1}
       id="toggle-status-popover"
+      {...{ open, anchorEl, onClose, elevation: 1 }}
       anchorOrigin={{ vertical: settings.upperBar ? 'top' : 'bottom', horizontal: 'center' }}
       transformOrigin={{ vertical: !settings.upperBar ? 'bottom' : 'top', horizontal: 'center' }}
       style={{ marginTop: `${(settings.upperBar ? 1 : -1) * 12}px` }}
     >
       <StyledEntryElement onContextMenu={e => { e.preventDefault() }}>
-        <div>{status.filter(statusItem => !statusItem.secondary).map(statusItem => entryWrapper(statusItem))}</div>
-        <div>{status.filter(statusItem => statusItem.secondary).map(statusItem => entryWrapper(statusItem))}</div>
+        {[false, true].map(state => <div>{status.filter(statusItem => statusItem.secondary === state).map(statusItem => entryWrapper(statusItem))}</div>)}
       </StyledEntryElement>
     </Popover>
   </>
