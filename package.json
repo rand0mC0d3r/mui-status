@@ -60,7 +60,7 @@
     "list": "npm list | grep '\\.\\/\\.\\.'",
     "*COMPONENT*": "------------------------------------------------------------",
     "#precopy.component": "npx eslint 'src/**'",
-    "copy.component": "concurrently \"npx eslint 'src/**'\" \"npm run build.lib.esm\"",
+    "copy.component": "concurrently \"npx eslint 'src/**'\" \"npm run build.lib.esm && du -sh ./lib/esm\"",
     "watch.component": "nodemon -e tsx,ts --watch ./src --exec \"npm run copy.component\"",
     "*DEVELOP*": "--------------------------------------------------------------",
     "dev": "npm run link && npm run watch.component",

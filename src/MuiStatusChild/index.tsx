@@ -8,13 +8,15 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }))
 
 const StyledSvgIcon = styled(SvgIcon)(() => ({
-  fontSize: 20
+  fontSize: 20,
+  'shape-rendering': 'geometricprecision',
 }))
 
 const StyledTypography = styled(Typography)(() => ({
   lineHeight: '0px',
   whiteSpace: 'nowrap',
   userSelect: 'none',
+  '-webkit-font-smoothing': 'antialiased',
 }))
 
 const StyledImg = styled('img')(() => ({
@@ -62,7 +64,7 @@ export default function ({
   }}
   >
     {icon && <StyledSvgIcon {...{ color: 'action' }}>{icon}</StyledSvgIcon>}
-    {text && <StyledTypography {...{ variant: 'subtitle2', color: 'textPrimary' }}>{text}</StyledTypography>}
+    {text && <StyledTypography {...{ variant: 'caption', color: 'textPrimary' }}>{text}</StyledTypography>}
     {image && <StyledImg {...{ alt: '', style: { borderRadius: mask ? '50%' : '0px' }, src: image }} />}
   </StyledBox>
 }
