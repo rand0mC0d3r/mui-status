@@ -31,7 +31,6 @@ const StyledBoldTypography = styled(Typography)(() => ({
   userSelect: 'none',
   lineHeight: '1',
   fontSize: '14px',
-  padding: '0px 4px',
   fontWeight: 'bold',
   '-webkit-font-smoothing': 'antialiased',
 }))
