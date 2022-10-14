@@ -44,8 +44,8 @@ const StyledContainer = styled('div')<{ hasClick?: boolean, highlight?: string }
   },
 
   '&:hover': {
-    backgroundColor: `${highlight === 'default' ? theme.palette.divider : onHoverBg(highlight, theme)} !important`,
-    color: `${theme.palette.background.default} !important`,
+    backgroundColor: hasClick ? `${highlight === 'default' ? theme.palette.divider : onHoverBg(highlight, theme)} !important` : '',
+    color: hasClick ? `${theme.palette.background.default} !important` : '',
   },
 }))
 
