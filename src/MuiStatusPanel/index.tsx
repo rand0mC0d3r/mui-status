@@ -33,6 +33,7 @@ export default function ({
   elevation = 4,
   style,
   onClick,
+  onClose,
   highlight,
   tooltip = '',
   children,
@@ -45,6 +46,7 @@ export default function ({
   elevation?: number,
   style?: React.CSSProperties,
   onClick?: any,
+  onClose?: any,
   highlight?: 'default' | 'primary' | 'secondary',
   tooltip?: any,
   children?: any,
@@ -77,7 +79,10 @@ export default function ({
     setIsToggled(e.pageY < screen.height / 2)
   }
 
-  const onClose = () => {
+  const handleOnClose = () => {
+    if (onClose) {
+      onClose()
+    }
     if (!keepOpen) {
       setAnchorEl(null)
     }
@@ -125,7 +130,7 @@ export default function ({
     {popoverComponent !== undefined
       ? popoverComponent(ComponentPopoverProps)
       : <Popper {...{ keepMounted: keepOpen, ...FallbackPopoverProps }}>
-        <ClickAwayListener onClickAway={() => onClose()}>
+        <ClickAwayListener onClickAway={() => handleOnClose()}>
           <StyledContainer {...{ style: { margin: '8px' } }}>
             {popover}
             <StyledLock onClick={() => setKeepOpen(!keepOpen)}>
