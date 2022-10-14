@@ -16,11 +16,17 @@ const StyledBox = styled('div')<{ column?: string }>(({ column }) => ({
   width: '100%',
   position: 'absolute',
   display: 'flex',
+  top: '0px',
+  bottom: '0px',
+  left: '0px',
+  right: '0px',
   flexDirection: column === PlacementPosition.Top ? 'column-reverse' : 'column'
 }))
 
 const StyledChildren = styled('div')(() => ({
-  flex: '1 1 auto'
+  flex: '1 1 auto',
+  overflow: 'hidden',
+  position: 'relative',
 }))
 
 const StyledEntryElement = styled('div')(() => ({
