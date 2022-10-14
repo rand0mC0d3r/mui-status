@@ -1,81 +1,44 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// import { useTheme } from '@mui/material/styles'
-import clsx from 'clsx'
+import { styled } from '@mui/material/styles'
 import React, { useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-// import { makeStyles } from 'tss-react/mui'
-import { styled } from '@mui/material/styles'
 import { StatusObject } from '../index.types'
 import DataProvider from '../MuiStore'
 import Tooltip from '../utils/Tooltip'
-// import { ImageSrc, StyledContainer } from './styles'
 
-// const useStyles = makeStyles(theme => ({
-//   default: {
-//     WebkitFontSmoothing: 'auto',
-//     height: '100%',
-//     padding: '0px 4px',
-//     display: 'flex',
-//     flex: '0 0 auto',
-//     alignItems: 'center',
-//     gap: '16px',
-//     justifyContent: 'center',
-//     alignSelf: 'stretch',
-//     position: 'relative',
-//   },
-//   interactive: {
-//     cursor: 'pointer',
-//   },
-//   actionNormal: {
-//     '&:hover': {
-//       backgroundColor: `${theme.palette.augmentColor({ main: theme.palette.divider }).light} !important`,
-//     },
-//   },
-//   actionHighlightSecondary: {
-//     '&:hover': {
-//       backgroundColor: `${theme.palette.augmentColor({ main: theme.palette.secondary.main }).dark} !important`,
-//       color: `${theme.palette.background.default} !important`,
-//     },
-//   },
-//   actionHighlightPrimary: {
-//     '&:hover': {
-//       backgroundColor: `${theme.palette.augmentColor({ main: theme.palette.primary.main }).dark} !important`,
-//       color: `${theme.palette.background.default} !important`,
-//     },
-//   },
-//   hightlight: {
-//     backgroundColor: theme.palette.secondary.main,
-//     '& > div > *': {
-//       color: `${theme.palette.background.default} !important`,
-//     },
-//   },
-//   hightlightPrimary: {
-//     backgroundColor: theme.palette.primary.main,
-//     '& > span > div > *': {
-//       color: `${theme.palette.background.default} !important`,
-//     },
-//   },
-// }))
+const primaryBg = (highlight: string, theme: { palette: { primary: { main: any } } }) => highlight === 'primary' ? theme.palette.primary.main : ''
+const secondaryBg = (highlight: string, theme: { palette: { secondary: { main: any } } }) => highlight === 'secondary' ? theme.palette.secondary.main : ''
+const onHoverBg = (highlight: string, theme: { palette: any }) => highlight === 'primary' ? theme.palette.primary.dark : theme.palette.secondary.dark
 
-const StyledContainer = styled('span')(({ theme }) => ({
-  height: 3,
-  width: 18,
-  backgroundColor: theme.palette.common.white,
-  position: 'absolute',
-  bottom: -2,
+const StyledContainer = styled('div')<{ hasClick?: boolean, highlight?: string }>(({ theme, hasClick, highlight }: any) => ({
+  WebkitFontSmoothing: 'auto',
+  height: '100%',
+  padding: '0px 8px',
+  display: 'flex',
+  flex: '0 0 auto',
+  alignItems: 'center',
+  gap: '16px',
+  justifyContent: 'center',
+  alignSelf: 'stretch',
+  position: 'relative',
+
+  cursor: hasClick ? 'pointer' : '',
+  backgroundColor: highlight ? primaryBg(highlight, theme) : secondaryBg(highlight, theme),
+
+  '& > div > *': {
+    color: highlight && highlight !== 'primary' ? `${theme.palette.background.default} !important` : '',
+  },
+  '& > span > div > *': {
+    color: highlight && highlight === 'primary' ? `${theme.palette.background.default} !important` : '',
+  },
+
+  '&:hover': {
+    backgroundColor: `${highlight === 'default' ? theme.palette.divider : onHoverBg(highlight, theme)} !important`,
+    color: `${theme.palette.background.default} !important`,
+  },
 }))
-
-const ImageSrc = styled('span')({
-  position: 'absolute',
-  left: 0,
-  right: 0,
-  top: 0,
-  bottom: 0,
-  backgroundSize: 'cover',
-  backgroundPosition: 'center 40%',
-})
 
 export default function ({
   id,
@@ -102,16 +65,6 @@ export default function ({
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
   const [elementFound, setElementFound] = useState<HTMLElement | null>(null)
 
-  const classes = {
-    default: '',
-    interactive: '',
-    actionNormal: '',
-    actionHighlightSecondary: '',
-    actionHighlightPrimary: '',
-    hightlight: '',
-    hightlightPrimary: ''
-  }
-
   const callbackHandleStatusAnnouncement = useCallback(
     idIncoming => handleStatusAnnouncement({ id: idIncoming, ownId, secondary, children }),
     [secondary, ownId, children, handleStatusAnnouncement]
@@ -120,20 +73,6 @@ export default function ({
   const callbackHandleStatusDestroy = useCallback(() => {
     handleStatusDestroy({ id })
   }, [id])
-
-  const generateClasses = clsx([
-    classes.default,
-
-    highlight !== 'default' && classes.hightlight,
-    highlight === 'primary' && classes.hightlightPrimary,
-
-    (onClick) && [
-      classes.interactive,
-      highlight === 'default' && classes.actionNormal,
-      highlight === 'primary' && classes.actionHighlightPrimary,
-      highlight === 'secondary' && classes.actionHighlightSecondary,
-    ],
-  ])
 
   const handleOnClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (onClick !== undefined) {
@@ -203,21 +142,20 @@ export default function ({
   }, [id])
 
   return <>
-    <StyledContainer />
-    <ImageSrc />
     {(statusObject !== null && !!id && elementFound) && createPortal(
       (statusObject.visible && children)
-        ? <div {...{
+        ? <StyledContainer {...{
           id,
+          highlight,
+          hasClick: !!onClick,
           key: `mui-status-${id}`,
           onClick: handleOnClick,
           onContextMenu: handleOnContextMenu,
-          className: generateClasses,
           style: { ...style, order: statusObject.index }
         }}
         >
           <Tooltip {...{ tooltip, children }} />
-        </div>
+        </StyledContainer>
         : <></>,
       elementFound
     )}
