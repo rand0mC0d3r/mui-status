@@ -12,15 +12,17 @@ const StyledBox = styled('div')<{ reverse?: boolean }>(({ theme, reverse }) => (
   flexDirection: reverse ? 'row-reverse' : 'row',
 }))
 
-const StyledSvgIcon = styled(SvgIcon)(() => ({
+const StyledSvgIcon = styled(SvgIcon)<{ reverseIcon?: boolean }>(({ reverseIcon }) => ({
   fontSize: 20,
   'shape-rendering': 'geometricprecision',
+  transform: reverseIcon ? 'scaleX(-1)' : 'scaleX(1)',
 }))
 
 const StyledTypography = styled(Typography)(() => ({
   whiteSpace: 'nowrap',
   userSelect: 'none',
   lineHeight: '1',
+  fontSize: '12px',
   '-webkit-font-smoothing': 'antialiased',
 }))
 
@@ -47,6 +49,7 @@ export default function ({
   image,
   mask = false,
   reverse = false,
+  reverseIcon = false,
   className,
   style,
 } : {
@@ -55,11 +58,12 @@ export default function ({
   image?: string,
   mask?: boolean,
   reverse?: boolean,
+  reverseIcon?: boolean,
   className?: HTMLAttributes<HTMLDivElement>['className'],
   style?: CSSProperties,
 }) {
   return <StyledBox {...{ style, className, reverse }}>
-    {icon && <StyledSvgIcon {...{ color: 'action' }}>{icon}</StyledSvgIcon>}
+    {icon && <StyledSvgIcon {...{ color: 'action', reverseIcon }}>{icon}</StyledSvgIcon>}
     {text && <StyledTypography {...{ variant: 'caption', color: 'textPrimary' }}>{text}</StyledTypography>}
     {image && <StyledImg {...{ alt: '', style: { borderRadius: mask ? '50%' : '0px' }, src: image }} />}
   </StyledBox>
