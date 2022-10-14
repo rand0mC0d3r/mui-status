@@ -23,7 +23,8 @@ const StyledContainer = styled('div')(({ theme }) => ({
   backgroundColor: 'rgba(255,255,255,0.8)',
   backdropFilter: 'blur(5px)',
   borderRadius: '4px',
-  border: `1px solid ${theme.palette.primary.dark}`,
+  border: `1px solid ${theme.palette.primary.main}`,
+  boxShadow: theme.shadows[4]
 }))
 
 export default function ({
