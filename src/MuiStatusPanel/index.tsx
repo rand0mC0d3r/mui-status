@@ -16,13 +16,14 @@ const StyledLock = styled('div')(() => ({
   borderTop: '1px dotted #000000',
 }))
 
-const StyledContainer = styled('div')(() => ({
+const StyledContainer = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'stretch',
   flexDirection: 'column',
   backgroundColor: 'rgba(255,255,255,0.8)',
   backdropFilter: 'blur(5px)',
   borderRadius: '4px',
+  border: `1px solid ${theme.palette.divider}`,
 }))
 
 export default function ({
