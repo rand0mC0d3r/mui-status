@@ -80,7 +80,7 @@ export default function ({
   }
 
   const handleOnClose = () => {
-    if (onClose) {
+    if (onClose && !keepOpen) {
       onClose()
     }
     if (!keepOpen) {
@@ -126,7 +126,17 @@ export default function ({
   }, [status, id, statusObject])
 
   return <>
-    <MupStatus {...{ id, tooltip, highlight, secondary, onClick: handleOnClick, style: { ...style, minWidth: '24px' } }}>{children}</MupStatus>
+    <MupStatus {...{
+      id,
+      tooltip,
+      highlight: (keepOpen || open) ? 'primary' : highlight,
+      secondary,
+      onClick: handleOnClick,
+      style: { ...style, cursor: 'context-menu', minWidth: '24px' }
+    }}
+    >
+      {children}
+    </MupStatus>
     {popoverComponent !== undefined
       ? popoverComponent(ComponentPopoverProps)
       : <Popper {...{ keepMounted: keepOpen, ...FallbackPopoverProps }}>

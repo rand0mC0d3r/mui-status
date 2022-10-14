@@ -12,8 +12,7 @@ const StyledStatusBar = styled('div')<{ position?: string }>(({ theme, position 
     ? theme.palette.background.default
     : theme.palette.background.paper,
   color: `${theme.palette.background.default} !important`,
-  borderBottom: position === 'top' ? `1px solid ${theme.palette.divider}` : 'none',
-  borderTop: position === 'top' ? 'none' : `1px solid ${theme.palette.divider}`,
+  boxShadow: `inset 0px ${position === 'top' ? -3 : 3}px 0px -2px ${theme.palette.divider}`,
 }))
 
 const StyledPrimaryElem = styled('div')(() => ({
