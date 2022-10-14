@@ -1,59 +1,81 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+// import { useTheme } from '@mui/material/styles'
 import clsx from 'clsx'
 import React, { useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
+// import { makeStyles } from 'tss-react/mui'
+import { styled } from '@mui/material/styles'
 import { StatusObject } from '../index.types'
 import DataProvider from '../MuiStore'
 import Tooltip from '../utils/Tooltip'
+// import { ImageSrc, StyledContainer } from './styles'
 
-const useStyles = makeStyles(theme => ({
-  default: {
-    WebkitFontSmoothing: 'auto',
-    height: '100%',
-    padding: '0px 4px',
-    display: 'flex',
-    flex: '0 0 auto',
-    alignItems: 'center',
-    gap: '16px',
-    justifyContent: 'center',
-    alignSelf: 'stretch',
-    position: 'relative',
-  },
-  interactive: {
-    cursor: 'pointer',
-  },
-  actionNormal: {
-    '&:hover': {
-      backgroundColor: `${theme.palette.augmentColor({ main: theme.palette.divider }).light} !important`,
-    },
-  },
-  actionHighlightSecondary: {
-    '&:hover': {
-      backgroundColor: `${theme.palette.augmentColor({ main: theme.palette.secondary.main }).dark} !important`,
-      color: `${theme.palette.background.default} !important`,
-    },
-  },
-  actionHighlightPrimary: {
-    '&:hover': {
-      backgroundColor: `${theme.palette.augmentColor({ main: theme.palette.primary.main }).dark} !important`,
-      color: `${theme.palette.background.default} !important`,
-    },
-  },
-  hightlight: {
-    backgroundColor: theme.palette.secondary.main,
-    '& > div > *': {
-      color: `${theme.palette.background.default} !important`,
-    },
-  },
-  hightlightPrimary: {
-    backgroundColor: theme.palette.primary.main,
-    '& > span > div > *': {
-      color: `${theme.palette.background.default} !important`,
-    },
-  },
+// const useStyles = makeStyles(theme => ({
+//   default: {
+//     WebkitFontSmoothing: 'auto',
+//     height: '100%',
+//     padding: '0px 4px',
+//     display: 'flex',
+//     flex: '0 0 auto',
+//     alignItems: 'center',
+//     gap: '16px',
+//     justifyContent: 'center',
+//     alignSelf: 'stretch',
+//     position: 'relative',
+//   },
+//   interactive: {
+//     cursor: 'pointer',
+//   },
+//   actionNormal: {
+//     '&:hover': {
+//       backgroundColor: `${theme.palette.augmentColor({ main: theme.palette.divider }).light} !important`,
+//     },
+//   },
+//   actionHighlightSecondary: {
+//     '&:hover': {
+//       backgroundColor: `${theme.palette.augmentColor({ main: theme.palette.secondary.main }).dark} !important`,
+//       color: `${theme.palette.background.default} !important`,
+//     },
+//   },
+//   actionHighlightPrimary: {
+//     '&:hover': {
+//       backgroundColor: `${theme.palette.augmentColor({ main: theme.palette.primary.main }).dark} !important`,
+//       color: `${theme.palette.background.default} !important`,
+//     },
+//   },
+//   hightlight: {
+//     backgroundColor: theme.palette.secondary.main,
+//     '& > div > *': {
+//       color: `${theme.palette.background.default} !important`,
+//     },
+//   },
+//   hightlightPrimary: {
+//     backgroundColor: theme.palette.primary.main,
+//     '& > span > div > *': {
+//       color: `${theme.palette.background.default} !important`,
+//     },
+//   },
+// }))
+
+const StyledContainer = styled('span')(({ theme }) => ({
+  height: 3,
+  width: 18,
+  backgroundColor: theme.palette.common.white,
+  position: 'absolute',
+  bottom: -2,
 }))
+
+const ImageSrc = styled('span')({
+  position: 'absolute',
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: 0,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center 40%',
+})
 
 export default function ({
   id,
@@ -79,8 +101,16 @@ export default function ({
   const [isAnnounced, setIsAnnounced] = useState<boolean>(false)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
   const [elementFound, setElementFound] = useState<HTMLElement | null>(null)
-  const theme = useTheme()
-  const classes = useStyles(theme)
+
+  const classes = {
+    default: '',
+    interactive: '',
+    actionNormal: '',
+    actionHighlightSecondary: '',
+    actionHighlightPrimary: '',
+    hightlight: '',
+    hightlightPrimary: ''
+  }
 
   const callbackHandleStatusAnnouncement = useCallback(
     idIncoming => handleStatusAnnouncement({ id: idIncoming, ownId, secondary, children }),
@@ -173,6 +203,8 @@ export default function ({
   }, [id])
 
   return <>
+    <StyledContainer />
+    <ImageSrc />
     {(statusObject !== null && !!id && elementFound) && createPortal(
       (statusObject.visible && children)
         ? <div {...{

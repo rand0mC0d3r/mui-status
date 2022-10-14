@@ -1,54 +1,52 @@
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import clsx from 'clsx'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { styled } from '@mui/material/styles'
 import React, { useContext } from 'react'
 import DataProvider from '../../MuiStore'
 
-const domId = 'mui-status-statusBar'
-const useStyles = makeStyles(theme => ({
-  statusBarElem: {
-    gap: '4px',
-    display: 'flex',
-    minHeight: '28px',
-    justifyContent: 'space-between',
-    backgroundColor: theme.palette.type === 'light'
-      ? theme.palette.augmentColor({ main: theme.palette.divider }).dark
-      : theme.palette.background.paper,
-    color: `${theme.palette.background.default} !important`,
-  },
-  upperElem: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
-    borderTop: 'none',
-  },
-  lowerElem: {
-    borderBottom: 'none',
-    borderTop: `1px solid ${theme.palette.divider}`,
-  },
-  childElem: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-  },
-  primaryElem: {
-    overflow: 'scroll',
-    justifyContent: 'flex-start',
-    scrollSnapType: 'both mandatory',
-    gap: '4px',
-    '&::-webkit-scrollbar': { display: 'none' },
-  },
-  secondaryElem: {
-    overflow: 'hidden',
-    flexWrap: 'nowrap',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    scrollSnapType: 'both mandatory',
+const StyledStatusBar = styled('div')<{ position?: string }>(({ theme, position }: any) => ({
+  gap: '4px',
+  display: 'flex',
+  minHeight: '28px',
+  justifyContent: 'space-between',
+  backgroundColor: theme.palette.mode === 'light'
+    ? theme.palette.divider
+    : theme.palette.background.paper,
+  color: `${theme.palette.background.default} !important`,
+  borderBottom: position === 'top' ? `1px solid ${theme.palette.divider}` : 'none',
+  borderTop: position === 'top' ? 'none' : `1px solid ${theme.palette.divider}`,
+}))
 
-    gap: '4px',
-    flex: '1 1 auto',
-    width: '0px',
-    minWidth: '18px',
+const StyledPrimaryElem = styled('div')(() => ({
+  display: 'flex',
+  flexWrap: 'nowrap',
+  overflow: 'scroll',
+  justifyContent: 'flex-start',
+  scrollSnapType: 'both mandatory',
+  gap: '4px',
 
-    '&::-webkit-scrollbar': { display: 'none' },
+  '&::-webkit-scrollbar': {
+    display: 'none'
   },
 }))
+
+const StyledSecondaryElem = styled('div')(() => ({
+  display: 'flex',
+  flexWrap: 'nowrap',
+  overflow: 'hidden',
+  justifyContent: 'flex-end',
+  alignItems: 'center',
+  scrollSnapType: 'both mandatory',
+  gap: '4px',
+  flex: '1 1 auto',
+  width: '0px',
+  minWidth: '18px',
+
+  '&::-webkit-scrollbar': {
+    display: 'none'
+  },
+}))
+
+const domId = 'mui-status-statusBar'
 
 export default function ({
   style,
@@ -59,16 +57,10 @@ export default function ({
 }) {
   const { status, settings } = useContext(DataProvider)
 
-  const theme = useTheme()
-  const classes = useStyles(theme)
-  const wrapperCN = clsx([className, classes.statusBarElem, settings.position === 'top' ? classes.upperElem : classes.lowerElem])
-  const primaryCN = clsx([classes.childElem, classes.primaryElem])
-  const secondaryCN = clsx([classes.childElem, classes.secondaryElem])
-
   return <>
-    {status.some(sItem => sItem.visible) && <div {...{ id: `${domId}-wrapper`, style, className: wrapperCN }}>
-      {status.some(sItem => !sItem.secondary) && <div {...{ id: `${domId}-primary`, className: primaryCN }} />}
-      {status.some(sItem => sItem.secondary) && <div {...{ id: `${domId}-secondary`, className: secondaryCN }} />}
-    </div>}
+    {status.some(sItem => sItem.visible) && <StyledStatusBar position={settings.position} {...{ id: `${domId}-wrapper`, style, className }}>
+      {status.some(sItem => !sItem.secondary) && <StyledPrimaryElem {...{ id: `${domId}-primary` }} />}
+      {status.some(sItem => sItem.secondary) && <StyledSecondaryElem {...{ id: `${domId}-secondary` }} />}
+    </StyledStatusBar>}
   </>
 }
