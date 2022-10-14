@@ -26,6 +26,16 @@ const StyledTypography = styled(Typography)(() => ({
   '-webkit-font-smoothing': 'antialiased',
 }))
 
+const StyledBoldTypography = styled(Typography)(() => ({
+  whiteSpace: 'nowrap',
+  userSelect: 'none',
+  lineHeight: '1',
+  fontSize: '14px',
+  padding: '0px 4px',
+  fontWeight: 'bold',
+  '-webkit-font-smoothing': 'antialiased',
+}))
+
 const StyledImg = styled('img')(() => ({
   width: '20px',
   height: '20px',
@@ -46,6 +56,7 @@ const StyledImg = styled('img')(() => ({
 export default function ({
   icon,
   text,
+  boldText,
   image,
   mask = false,
   reverse = false,
@@ -55,6 +66,7 @@ export default function ({
 } : {
   icon?: ReactNode,
   text?: string,
+  boldText?: string,
   image?: string,
   mask?: boolean,
   reverse?: boolean,
@@ -64,6 +76,7 @@ export default function ({
 }) {
   return <StyledBox {...{ style, className, reverse }}>
     {icon && <StyledSvgIcon {...{ color: 'action', reverseIcon }}>{icon}</StyledSvgIcon>}
+    {boldText && <StyledBoldTypography {...{ variant: 'subtitle2', color: 'textPrimary' }}>{boldText}</StyledBoldTypography>}
     {text && <StyledTypography {...{ variant: 'caption', color: 'textPrimary' }}>{text}</StyledTypography>}
     {image && <StyledImg {...{ alt: '', style: { borderRadius: mask ? '50%' : '0px' }, src: image }} />}
   </StyledBox>
