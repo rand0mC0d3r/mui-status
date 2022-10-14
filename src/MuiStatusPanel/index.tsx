@@ -31,6 +31,7 @@ export default function ({
   secondary = false,
   elevation = 4,
   style,
+  onClick,
   highlight,
   tooltip = '',
   children,
@@ -42,6 +43,7 @@ export default function ({
   secondary?: boolean,
   elevation?: number,
   style?: React.CSSProperties,
+  onClick?: any,
   highlight?: 'default' | 'primary' | 'secondary',
   tooltip?: any,
   children?: any,
@@ -61,7 +63,10 @@ export default function ({
   const transformVertical = !isToggled ? 'bottom' : 'top'
   const horizontal = statusObject?.secondary ? 'right' : 'left'
 
-  const onClick = (e: any) => {
+  const handleOnClick = (e: any) => {
+    if (onClick) {
+      onClick()
+    }
     if (anchorEl) {
       setAnchorEl(null)
     } else {
@@ -115,7 +120,7 @@ export default function ({
   }, [status, id, statusObject])
 
   return <>
-    <MupStatus {...{ id, tooltip, highlight, secondary, onClick, style: { ...style, minWidth: '24px' } }}>{children}</MupStatus>
+    <MupStatus {...{ id, tooltip, highlight, secondary, onClick: handleOnClick, style: { ...style, minWidth: '24px' } }}>{children}</MupStatus>
     {popoverComponent !== undefined
       ? popoverComponent(ComponentPopoverProps)
       : <Popper {...{ keepMounted: keepOpen, ...FallbackPopoverProps }}>
