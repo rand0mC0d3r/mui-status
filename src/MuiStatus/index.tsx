@@ -28,10 +28,10 @@ const StyledContainer = styled('div')<{ hasClick?: boolean, highlight?: string }
   backgroundColor: highlight ? primaryBg(highlight, theme) : secondaryBg(highlight, theme),
 
   '& > div > *': {
-    color: highlight && highlight !== 'primary' ? `${theme.palette.background.default} !important` : '',
+    color: highlight !== 'default' ? `${theme.palette.background.default} !important` : '',
   },
   '& > span > div > *': {
-    color: highlight && highlight === 'primary' ? `${theme.palette.background.default} !important` : '',
+    color: highlight !== 'default' ? `${theme.palette.background.default} !important` : '',
   },
 
   '&:hover': {
