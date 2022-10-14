@@ -8,9 +8,18 @@ import { StatusObject } from '../index.types'
 import DataProvider from '../MuiStore'
 import Tooltip from '../utils/Tooltip'
 
-const primaryBg = (highlight: string, theme: { palette: { primary: { main: any } } }) => highlight === 'primary' ? theme.palette.primary.main : ''
-const secondaryBg = (highlight: string, theme: { palette: { secondary: { main: any } } }) => highlight === 'secondary' ? theme.palette.secondary.main : ''
-const onHoverBg = (highlight: string, theme: { palette: any }) => highlight === 'primary' ? theme.palette.primary.dark : theme.palette.secondary.dark
+const onHoverBg = (highlight: string, theme: any) => highlight === 'primary' ? theme.palette.primary.dark : theme.palette.secondary.dark
+
+const backgroundColor = (highlight: string, theme: any) => {
+  switch (highlight) {
+    case 'primary':
+      return theme.palette.primary.main
+    case 'secondary':
+      return theme.palette.secondary.main
+    default:
+      return ''
+  }
+}
 
 const StyledContainer = styled('div')<{ hasClick?: boolean, highlight?: string }>(({ theme, hasClick, highlight }: any) => ({
   WebkitFontSmoothing: 'auto',
@@ -25,7 +34,7 @@ const StyledContainer = styled('div')<{ hasClick?: boolean, highlight?: string }
   position: 'relative',
 
   cursor: hasClick ? 'pointer' : '',
-  backgroundColor: highlight ? primaryBg(highlight, theme) : secondaryBg(highlight, theme),
+  backgroundColor: backgroundColor(highlight, theme),
 
   '& > div > *': {
     color: highlight !== 'default' ? `${theme.palette.background.default} !important` : '',
