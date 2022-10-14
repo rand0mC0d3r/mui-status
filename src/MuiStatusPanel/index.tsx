@@ -1,10 +1,29 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Popover } from '@mui/material'
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import { ClickAwayListener, Popper } from '@mui/material'
+import { styled } from '@mui/material/styles'
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusObject } from '../index.types'
 import MupStatus from '../MuiStatus'
 import DataProvider from '../MuiStore'
+
+const StyledLock = styled('div')(() => ({
+  padding: '8px',
+  display: 'flex',
+  justifyContent: 'center',
+  borderTop: '1px dotted #000000',
+}))
+
+const StyledContainer = styled('div')(() => ({
+  display: 'flex',
+  alignItems: 'stretch',
+  flexDirection: 'column',
+  backgroundColor: 'rgba(255,255,255,0.8)',
+  backdropFilter: 'blur(5px)',
+  borderRadius: '4px',
+}))
 
 export default function ({
   id,
@@ -30,6 +49,7 @@ export default function ({
   const { status, popoverComponent } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
 
+  const [keepOpen, setKeepOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const [isToggled, setIsToggled] = useState(false)
   const open = Boolean(anchorEl)
@@ -39,13 +59,23 @@ export default function ({
   const horizontal = statusObject?.secondary ? 'right' : 'left'
 
   const onClick = (e: any) => {
-    setAnchorEl(e.currentTarget)
+    if (anchorEl) {
+      setAnchorEl(null)
+    } else {
+      setAnchorEl(e.currentTarget)
+    }
+
     setIsToggled(e.pageY < screen.height / 2)
   }
 
-  const onClose = () => setAnchorEl(null)
+  const onClose = () => {
+    if (!keepOpen) {
+      setAnchorEl(null)
+    }
+  }
 
   const ComponentPopoverProps = {
+    id: `mui-status-panel-given-popover-${id}`,
     position: isToggled ? 'top' : 'bottom',
     isSecondary: statusObject?.secondary,
     popover,
@@ -64,9 +94,14 @@ export default function ({
     anchorEl,
     onClose,
     elevation,
+    disableEnforceFocus: true,
     id: `mui-status-panel-popover-${id}`,
     className: popoverClassName,
-    style: { ...popoverStyle, marginTop: `${(isToggled ? 1 : -1) * 12}px` },
+    marginThreshold: 36,
+    style: {
+      marginTop: `${(isToggled ? 1 : -1) * 12}px`,
+      ...popoverStyle,
+    },
   }
 
   useEffect(() => {
@@ -80,13 +115,17 @@ export default function ({
     <MupStatus {...{ id, tooltip, secondary, onClick, style: { ...style, minWidth: '24px' } }}>{children}</MupStatus>
     {popoverComponent !== undefined
       ? popoverComponent(ComponentPopoverProps)
-      : <Popover {...{
-        ...FallbackPopoverProps,
-        anchorOrigin: { vertical: anchorVertical, horizontal },
-        transformOrigin: { vertical: transformVertical, horizontal }
-      }}
-      >
-        {popover}
-      </Popover>}
+      : <Popper {...{ keepMounted: keepOpen, ...FallbackPopoverProps }}>
+        <ClickAwayListener onClickAway={() => onClose()}>
+          <StyledContainer {...{ style: { margin: '8px' } }}>
+            {popover}
+            <StyledLock onClick={() => setKeepOpen(!keepOpen)}>
+              {keepOpen
+                ? <LockOutlinedIcon color="primary" style={{ fontSize: 14 }} />
+                : <LockOpenOutlinedIcon style={{ fontSize: 14 }} />}
+            </StyledLock>
+          </StyledContainer>
+        </ClickAwayListener>
+      </Popper>}
   </>
 }
