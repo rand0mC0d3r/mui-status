@@ -48,6 +48,7 @@ const StyledImg = styled('img')(() => ({
  * @param image - (string) Image to display for status element. Expects a valid image path.
  * @param mask - (boolean) If needs to be applied a circular mask to the image.
  * @param reverse - (boolean) If needs to be applied a reverse of the default order of the elements
+ * @param reverseIcon - (boolean) If needs to be applied a reverse of the given icon
  * @param className - (HTMLAttribute) Class name to be applied to the root element.
  * @param style - (CSSProperties) Style to be applied to the root element.
  *
@@ -66,7 +67,7 @@ export default function ({
 } : {
   icon?: ReactNode,
   text?: string,
-  boldText?: string,
+  boldText?: string | number,
   image?: string,
   mask?: boolean,
   reverse?: boolean,
