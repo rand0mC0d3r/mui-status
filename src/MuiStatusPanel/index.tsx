@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Popover } from '@material-ui/core'
+import { Popover } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusObject } from '../index.types'
 import MupStatus from '../MuiStatus'

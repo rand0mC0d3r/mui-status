@@ -1,26 +1,27 @@
-import { Box, SvgIcon, Typography } from '@material-ui/core'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import clsx from 'clsx'
+import { Box, SvgIcon, Typography } from '@mui/material'
+import { styled } from '@mui/material/styles'
 import React from 'react'
 
-const useStyles = makeStyles((theme: { palette: { action: { active: string } } }) => ({
-  box: {
-    gap: '4px',
-    color: theme.palette.action.active,
-  },
-  svgIcon: {
-    fontSize: 20
-  },
-  typography: {
-    lineHeight: '0px',
-    whiteSpace: 'nowrap',
-    userSelect: 'none',
-  },
-  img: {
-    width: '20px',
-    height: '20px',
-  },
+const StyledBox = styled(Box)(({ theme }) => ({
+  gap: '4px',
+  color: theme.palette.action.active,
 }))
+
+const StyledSvgIcon = styled(SvgIcon)(() => ({
+  fontSize: 20
+}))
+
+const StyledTypography = styled(Typography)(() => ({
+  lineHeight: '0px',
+  whiteSpace: 'nowrap',
+  userSelect: 'none',
+}))
+
+const StyledImg = styled('img')(() => ({
+  width: '20px',
+  height: '20px',
+}))
+
 /**
  *
  * @param icon - (ReactNode) Icon to display for status element. Expects a Material UI SvgIcon component.
@@ -50,21 +51,18 @@ export default function ({
   className?: React.HTMLAttributes<HTMLDivElement>['className'],
   style?: React.CSSProperties,
 }) {
-  const theme = useTheme()
-  const classes = useStyles(theme)
-
-  return <Box {...{
+  return <StyledBox {...{
     style,
+    className,
     flexDirection: reverse ? 'row-reverse' : 'row',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     flexWrap: 'nowrap',
-    className: clsx([classes.box, className]),
   }}
   >
-    {icon && <SvgIcon {...{ className: classes.svgIcon, color: 'action' }}>{icon}</SvgIcon>}
-    {text && <Typography {...{ className: classes.typography, variant: 'subtitle2', color: 'textPrimary' }}>{text}</Typography>}
-    {image && <img {...{ alt: '', className: classes.img, style: { borderRadius: mask ? '50%' : '0px' }, src: image }} />}
-  </Box>
+    {icon && <StyledSvgIcon {...{ color: 'action' }}>{icon}</StyledSvgIcon>}
+    {text && <StyledTypography {...{ variant: 'subtitle2', color: 'textPrimary' }}>{text}</StyledTypography>}
+    {image && <StyledImg {...{ alt: '', style: { borderRadius: mask ? '50%' : '0px' }, src: image }} />}
+  </StyledBox>
 }
