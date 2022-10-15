@@ -20,9 +20,10 @@ const StyledContainer = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'stretch',
   flexDirection: 'column',
-  backgroundColor: 'rgba(255,255,255,0.8)',
-  backdropFilter: 'blur(5px)',
+  backgroundColor: 'rgba(255,255,255,0.9)',
+  backdropFilter: 'blur(8px)',
   borderRadius: '4px',
+  margin: '8px',
   border: `1px solid ${theme.palette.primary.main}`,
   boxShadow: theme.shadows[4]
 }))
@@ -141,7 +142,7 @@ export default function ({
       ? popoverComponent(ComponentPopoverProps)
       : <Popper {...{ keepMounted: keepOpen, ...FallbackPopoverProps }}>
         <ClickAwayListener onClickAway={() => handleOnClose()}>
-          <StyledContainer {...{ style: { margin: '8px' } }}>
+          <StyledContainer>
             {popover}
             <StyledLock onClick={() => setKeepOpen(!keepOpen)}>
               {keepOpen

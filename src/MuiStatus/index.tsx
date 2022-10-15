@@ -21,7 +21,7 @@ const backgroundColor = (highlight: string, theme: any) => {
   }
 }
 
-const StyledContainer = styled('div')<{ hasClick?: boolean, highlight?: string }>(({ theme, hasClick, highlight }: any) => ({
+const StyledContainer = styled('div')<{ hasClick?: boolean, highlight?: string, isDisabled?: boolean }>(({ theme, hasClick, highlight, isDisabled }: any) => ({
   WebkitFontSmoothing: 'auto',
   height: '100%',
   padding: '0px 8px',
@@ -33,7 +33,7 @@ const StyledContainer = styled('div')<{ hasClick?: boolean, highlight?: string }
   alignSelf: 'stretch',
   position: 'relative',
 
-  cursor: hasClick ? 'pointer' : '',
+  cursor: (hasClick && !isDisabled) ? 'pointer' : '',
   backgroundColor: backgroundColor(highlight, theme),
 
   '& > div > *': {
@@ -55,6 +55,7 @@ export default function ({
   style,
   onClick,
   onContextMenu,
+  disabled = false,
   highlight = 'default',
   tooltip = '',
   children,
@@ -64,6 +65,7 @@ export default function ({
   style?: React.CSSProperties,
   onClick?: any,
   onContextMenu?: any,
+  disabled?: boolean,
   highlight?: 'default' | 'primary' | 'secondary',
   tooltip?: React.ReactNode | string,
   children?: React.ReactNode,
@@ -84,7 +86,7 @@ export default function ({
   }, [id])
 
   const handleOnClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (onClick !== undefined) {
+    if (onClick !== undefined && !disabled) {
       e.preventDefault()
       onClick(e)
       handleStatusUpdate({ id, ownId, children })
@@ -93,7 +95,7 @@ export default function ({
 
   const handleOnContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
-    if (settings.allowRightClick && onContextMenu) {
+    if (settings.allowRightClick && onContextMenu !== undefined && !disabled) {
       onContextMenu(e)
     }
   }
@@ -157,6 +159,7 @@ export default function ({
           id,
           highlight,
           hasClick: !!onClick,
+          isDisabled: disabled,
           key: `mui-status-${id}`,
           onClick: handleOnClick,
           onContextMenu: handleOnContextMenu,
