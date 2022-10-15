@@ -24,7 +24,7 @@ const StyledContainer = styled('div')(({ theme }) => ({
   backdropFilter: 'blur(8px)',
   borderRadius: '4px',
   margin: '8px',
-  border: `1px solid ${theme.palette.primary.main}`,
+  border: `2px solid ${theme.palette.primary.main}`,
   boxShadow: theme.shadows[4]
 }))
 
