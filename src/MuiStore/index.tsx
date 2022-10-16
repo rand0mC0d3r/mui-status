@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { createContext, useEffect, useState } from 'react'
-import { PlacementPosition, SettingsObject, StatusObject, StatusTypes } from '../index.types'
+import { PlacementPosition, SettingsObject, StatusObject } from '../index.types'
 import MuiWrapper from '../MuiWrapper'
 
 const settingsStorageKey = 'mui-status.settings'

@@ -1,23 +1,24 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { styled } from '@mui/material/styles'
+// import { styled } from '@mui/material/styles'
 import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { SettingsObject, StatusObject } from '../index.types'
 import MupStatus from '../MuiStatus'
 import DataProvider from '../MuiStore'
 
-const StyledContainer = styled('div')(({ theme }) => ({
-  display: 'flex',
-  order: -1,
-  alignItems: 'stretch',
-  flexDirection: 'column',
-  backgroundColor: 'rgba(255,255,255,0.9)',
-  backdropFilter: 'blur(8px)',
-  minHeight: '350px',
-  border: `1px solid ${theme.palette.primary.main}`,
-}))
+// const StyledContainer = styled('div')(({ theme }) => ({
+//   display: 'flex',
+//   order: -1,
+//   alignItems: 'stretch',
+//   flexDirection: 'column',
+//   backgroundColor: 'rgba(255,255,255,0.9)',
+//   backdropFilter: 'blur(8px)',
+//   minHeight: '350px',
+//   border: `1px solid ${theme.palette.primary.dark}`,
+//   borderStyle: 'solid none',
+// }))
 
 export default function ({
   id,
@@ -25,7 +26,7 @@ export default function ({
   style,
   onClick,
   // onClose,
-  highlight,
+  // highlight,
   tooltip = '',
   children,
   console,
@@ -36,7 +37,7 @@ export default function ({
   style?: CSSProperties,
   onClick?: any,
   // onClose?: any,
-  highlight?: 'default' | 'primary' | 'secondary',
+  // highlight?: 'default' | 'primary' | 'secondary',
   tooltip?: ReactNode | string,
   children?: ReactNode,
   popoverStyle?: any,
@@ -55,7 +56,7 @@ export default function ({
   } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
 
-  const [keepOpen, setKeepOpen] = useState(false)
+  // const [keepOpen, setKeepOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const [elementFound, setElementFound] = useState<HTMLElement | null>(null)
   const open = Boolean(anchorEl)
@@ -89,7 +90,7 @@ export default function ({
     <MupStatus {...{
       id,
       tooltip,
-      highlight: (keepOpen || open) ? 'primary' : highlight,
+      // highlight: (keepOpen || open) ? 'primary' : highlight,
       secondary,
       onClick: handleOnClick,
       style: { ...style, cursor: 'context-menu', minWidth: '24px' }
@@ -97,8 +98,8 @@ export default function ({
     >
       {children}
     </MupStatus>
-    {open && elementFound && createPortal(<StyledContainer>
+    {open && elementFound && createPortal(<>
       {console}
-    </StyledContainer>, elementFound)}
+    </>, elementFound)}
   </>
 }

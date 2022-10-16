@@ -13,6 +13,7 @@ import { PlacementPosition, StatusObject } from '../index.types'
 const StyledBox = styled('div')<{ column?: string }>(({ column }) => ({
   height: '100%',
   width: '100%',
+  gap: '0px',
   position: 'absolute',
   display: 'flex',
   top: '0px',
@@ -71,6 +72,15 @@ const StyledStatusBarWrapper = styled('div')(() => ({
   flexDirection: 'column',
 }))
 
+const StyledStatusConsole = styled('div')(() => ({
+  position: 'absolute',
+  bottom: '0px',
+  left: '0px',
+  overflow: 'hidden',
+  right: '0px',
+  height: '350px',
+}))
+
 export default function ({
   children
 } : {
@@ -98,8 +108,11 @@ export default function ({
 
   return <>
     <StyledBox id="mui-status-wrapper" {...{ column: settings.position }}>
-      <StyledChildren id="mui-status-children">{children}</StyledChildren>
-      {status.some(sItem => sItem.type === 'console') && <div id="mui-status-console" />}
+      <StyledChildren id="mui-status-children">
+        {children}
+        {status.some(sItem => sItem.type === 'console') && <StyledStatusConsole id="mui-status-console" />}
+      </StyledChildren>
+      {/* // reduce wrapper */}
       <StyledStatusBarWrapper id="mui-status-statusBar" {...{ onContextMenu }}>
         {status.some(sItem => sItem.visible) && <StyledStatusBar position={settings.position}>
           {!settings.statusBarAnnounced && <InternalStatus />}

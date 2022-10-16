@@ -1,11 +1,10 @@
 import { CSSProperties, ReactNode } from 'react';
-export default function ({ id, secondary, style, onClick, highlight, tooltip, children, console, }: {
+export default function ({ id, secondary, style, onClick, tooltip, children, console, }: {
     id: string;
     secondary?: boolean;
     elevation?: number;
     style?: CSSProperties;
     onClick?: any;
-    highlight?: 'default' | 'primary' | 'secondary';
     tooltip?: ReactNode | string;
     children?: ReactNode;
     popoverStyle?: any;

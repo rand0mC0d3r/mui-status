@@ -2,7 +2,7 @@ import { SvgIcon, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, HTMLAttributes, ReactNode } from 'react'
 
-const StyledBox = styled('div')<{ reverse?: boolean }>(({ theme, reverse }) => ({
+const StyledBox = styled('div')<{ reverse?: boolean | undefined }>(({ theme, reverse }) => ({
   gap: `${theme.shape.borderRadius}px`,
   color: theme.palette.action.active,
   display: 'flex',
@@ -11,13 +11,13 @@ const StyledBox = styled('div')<{ reverse?: boolean }>(({ theme, reverse }) => (
   flexWrap: 'nowrap',
   userSelect: 'none',
   flexDirection: reverse ? 'row-reverse' : 'row',
-  '-webkit-font-smoothing': 'antialiased',
-  'shape-rendering': 'geometricprecision',
+  WebkitFontSmoothing: 'antialiased',
+  shapeRendering: 'geometricPrecision',
 }))
 
-const StyledSvgIcon = styled(SvgIcon)<{ reverseIcon?: boolean }>(({ theme, reverseIcon }) => ({
+const StyledSvgIcon = styled(SvgIcon)<{ reversed?: boolean | undefined }>(({ theme, reversed }) => ({
   fontSize: theme.typography.h6.fontSize,
-  transform: reverseIcon ? 'scaleX(-1)' : 'scaleX(1)',
+  transform: reversed ? 'scaleX(-1)' : 'scaleX(1)',
 }))
 
 const StyledTypography = styled(Typography)(() => ({
@@ -86,7 +86,7 @@ export default function ({
   style?: CSSProperties,
 }) {
   return <StyledBox {...{ style, className, reverse }}>
-    {icon && <StyledSvgIcon {...{ color: 'action', reverseIcon }}>{icon}</StyledSvgIcon>}
+    {icon && <StyledSvgIcon {...{ color: 'action' }} reversed={reverseIcon}>{icon}</StyledSvgIcon>}
     {image && <StyledImg {...{ alt: '', style: { borderRadius: mask ? '50%' : '0px' }, src: image }} />}
     {notifications && <StyledNotificationsTypography {...{ variant: 'subtitle2', color: 'textPrimary' }}>{notifications}</StyledNotificationsTypography>}
     {boldText && <StyledBoldTypography {...{ variant: 'caption', color: 'textPrimary' }}>{boldText}</StyledBoldTypography>}
