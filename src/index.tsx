@@ -4,5 +4,8 @@ import MuiStatusPanel from './MuiStatusPanel'
 import { MuiStatusProvider } from './MuiStore'
 
 export {
-  MuiStatusChild, MuiStatus, MuiStatusPanel, MuiStatusProvider
+  MuiStatusChild as StatusHelper,
+  MuiStatus as Status,
+  MuiStatusPanel as StatusPanel,
+  MuiStatusProvider as StatusProvider,
 }

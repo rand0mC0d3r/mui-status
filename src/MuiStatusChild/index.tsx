@@ -3,36 +3,42 @@ import { styled } from '@mui/material/styles'
 import { CSSProperties, HTMLAttributes, ReactNode } from 'react'
 
 const StyledBox = styled('div')<{ reverse?: boolean }>(({ theme, reverse }) => ({
-  gap: '4px',
+  gap: `${theme.shape.borderRadius}px`,
   color: theme.palette.action.active,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
   flexWrap: 'nowrap',
   flexDirection: reverse ? 'row-reverse' : 'row',
+  '-webkit-font-smoothing': 'antialiased',
+  'shape-rendering': 'geometricprecision',
 }))
 
-const StyledSvgIcon = styled(SvgIcon)<{ reverseIcon?: boolean }>(({ reverseIcon }) => ({
-  fontSize: 20,
-  'shape-rendering': 'geometricprecision',
+const StyledSvgIcon = styled(SvgIcon)<{ reverseIcon?: boolean }>(({ theme, reverseIcon }) => ({
+  fontSize: theme.typography.h6.fontSize,
   transform: reverseIcon ? 'scaleX(-1)' : 'scaleX(1)',
 }))
 
 const StyledTypography = styled(Typography)(() => ({
   whiteSpace: 'nowrap',
   userSelect: 'none',
-  lineHeight: '1',
-  fontSize: '12px',
-  '-webkit-font-smoothing': 'antialiased',
+  lineHeight: 'inherit',
 }))
 
 const StyledBoldTypography = styled(Typography)(() => ({
   whiteSpace: 'nowrap',
   userSelect: 'none',
-  lineHeight: '1',
-  fontSize: '14px',
+  lineHeight: 'inherit',
   fontWeight: 'bold',
-  '-webkit-font-smoothing': 'antialiased',
+}))
+
+const StyledNotificationsTypography = styled(Typography)(({ theme }) => ({
+  borderRadius: '8px',
+  padding: '0px 6px',
+  fontSize: '10px',
+  backgroundColor: theme.palette.divider,
+  boxShadow: `0px 0px 1px 1px ${theme.palette.background.default}6`,
+  color: theme.palette.text.primary,
 }))
 
 const StyledImg = styled('img')(() => ({
@@ -43,12 +49,13 @@ const StyledImg = styled('img')(() => ({
 /**
  *
  * @param icon - (ReactNode) Icon to display for status element. Expects a Material UI SvgIcon component.
- * @param boldText - (string) Text to display in a heavier way.
- * @param text - (string) Text to display for status element.
+ * @param text - (string | number) Text to display for status element.
+ * @param notifications - (number) Badge to display relevant notifications.
+ * @param boldText - (string | number) Text to display in a heavier way.
  * @param image - (string) Image to display for status element. Expects a valid image path.
  * @param mask - (boolean) If needs to be applied a circular mask to the image.
- * @param reverse - (boolean) If needs to be applied a reverse of the default order of the elements
- * @param reverseIcon - (boolean) If needs to be applied a reverse of the given icon
+ * @param reverse - (boolean) If needs to be applied a reverse of the default order of the elements.
+ * @param reverseIcon - (boolean) If needs to be applied a reverse of the given icon.
  * @param className - (HTMLAttribute) Class name to be applied to the root element.
  * @param style - (CSSProperties) Style to be applied to the root element.
  *
@@ -57,6 +64,7 @@ const StyledImg = styled('img')(() => ({
 export default function ({
   icon,
   text,
+  notifications,
   boldText,
   image,
   mask = false,
@@ -67,6 +75,7 @@ export default function ({
 } : {
   icon?: ReactNode,
   text?: string,
+  notifications?: number,
   boldText?: string | number,
   image?: string,
   mask?: boolean,
@@ -77,8 +86,9 @@ export default function ({
 }) {
   return <StyledBox {...{ style, className, reverse }}>
     {icon && <StyledSvgIcon {...{ color: 'action', reverseIcon }}>{icon}</StyledSvgIcon>}
-    {boldText && <StyledBoldTypography {...{ variant: 'subtitle2', color: 'textPrimary' }}>{boldText}</StyledBoldTypography>}
-    {text && <StyledTypography {...{ variant: 'caption', color: 'textPrimary' }}>{text}</StyledTypography>}
     {image && <StyledImg {...{ alt: '', style: { borderRadius: mask ? '50%' : '0px' }, src: image }} />}
+    {notifications && <StyledNotificationsTypography {...{ variant: 'subtitle2', color: 'textPrimary' }}>{notifications}</StyledNotificationsTypography>}
+    {boldText && <StyledBoldTypography {...{ variant: 'caption', color: 'textPrimary' }}>{boldText}</StyledBoldTypography>}
+    {text && <StyledTypography {...{ variant: 'caption', color: 'textPrimary' }}>{text}</StyledTypography>}
   </StyledBox>
 }
