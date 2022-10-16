@@ -5,6 +5,7 @@ interface DataContextInterface {
     status: StatusObject[];
     popoverComponent: any;
     tooltipComponent: any;
+    updateConsoleActiveId: any;
     handleStatusUpdate: any;
     handleStatusAnnouncement: any;
     handleStatusDestroy: any;

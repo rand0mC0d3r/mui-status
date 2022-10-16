@@ -31,6 +31,7 @@ interface DataContextInterface {
   status: StatusObject[];
   popoverComponent: any;
   tooltipComponent: any;
+  updateConsoleActiveId: any;
   handleStatusUpdate: any;
   handleStatusAnnouncement: any;
   handleStatusDestroy: any;
@@ -63,8 +64,8 @@ function MuiStatusProvider({
   const [status, setStatus] = useState<StatusObject[]>([])
   const [settings, setSettings] = useState<SettingsObject>(initialSettings)
 
-  const [storedStatus, setStoredStatus] = useState<StatusObject[]>([])
-  const [storedSettings, setStoredSettings] = useState<SettingsObject>()
+  // const [storedStatus, setStoredStatus] = useState<StatusObject[]>([])
+  // const [storedSettings, setStoredSettings] = useState<SettingsObject>()
 
   const handleStatusAnnouncement = ({ id, ownId, secondary, children } : { id: string, ownId: string, secondary: boolean, children: any }) => {
     setStatus((status: StatusObject[]) => {
@@ -106,6 +107,7 @@ function MuiStatusProvider({
   }
 
   const handleStatusTypeUpdate = ({ id, type }: { id: string, type: any }) => {
+    console.info(`mui-status: 🆗 Updated type for id: [${id}] to: [${type}]`)
     setStatus((status: StatusObject[]) => status.map((lo: StatusObject) => (lo.uniqueId === id
       ? { ...lo, type } as StatusObject
       : lo)))
@@ -120,32 +122,34 @@ function MuiStatusProvider({
       setSettings((settings: SettingsObject) => ({ ...settings, statusBarAnnounced: true }))
     }
   }
+  const updateConsoleActiveId = ({ id } : { id?: string }) => {
+    setSettings((settings: SettingsObject) => ({ ...settings, consoleActiveId: id || undefined }))
+  }
 
   useEffect(() => {
-    const storedSettingsLocal = localStorage.getItem(settingsStorageKey)
-    const storedStatusLocal = localStorage.getItem(statusStorageKey)
+    // const storedSettingsLocal = localStorage.getItem(settingsStorageKey)
+    // const storedStatusLocal = localStorage.getItem(statusStorageKey)
 
-    if (storedSettingsLocal) setStoredSettings(JSON.parse(storedSettingsLocal))
-    if (storedStatusLocal) setStoredStatus(JSON.parse(storedStatusLocal))
+    // if (storedSettingsLocal) setStoredSettings(JSON.parse(storedSettingsLocal))
+    // if (storedStatusLocal) setStoredStatus(JSON.parse(storedStatusLocal))
   }, [])
 
-  useEffect(() => {
-    if (storedStatus.length > 0) {
-      setStatus((status: StatusObject[]) => status.map(statusItem => {
-        const found = storedStatus.find(ss => ss.uniqueId === statusItem.uniqueId)
-        return found ? { ...statusItem, found } : statusItem
-      }))
-    }
-    if (storedSettings) {
-      setSettings((settings: SettingsObject) => ({ ...settings, ...storedSettings }))
-    }
-  }, [storedStatus, storedSettings])
+  // useEffect(() => {
+  //   if (storedStatus.length > 0) {
+  //     setStatus((status: StatusObject[]) => status.map(statusItem => {
+  //       const found = storedStatus.find(ss => ss.uniqueId === statusItem.uniqueId)
+  //       return found ? { ...statusItem, found } : statusItem
+  //     }))
+  //   }
+  //   if (storedSettings) {
+  //     setSettings((settings: SettingsObject) => ({ ...settings, ...storedSettings }))
+  //   }
+  // }, [storedStatus, storedSettings])
 
   useEffect(() => localStorage.setItem(settingsStorageKey, JSON.stringify(settings)), [settings])
   useEffect(() => localStorage.setItem(statusStorageKey, JSON.stringify(status.map(s => ({ ...s, children: undefined })))), [status])
 
   useEffect(() => {
-    console.log('haslock', valOrDefault(hasLock, initialSettings.hasLock))
     setSettings((settings: SettingsObject) => ({
       ...settings,
       expand: expand || initialSettings.expand,
@@ -158,7 +162,7 @@ function MuiStatusProvider({
 
   useEffect(() => {
     if (settings.debug) {
-      console.log('mui-status-store:', { ...settings, ...status })
+      console.log('mui-status-store:', { ...settings, status })
     }
   }, [settings, status])
 
@@ -170,6 +174,7 @@ function MuiStatusProvider({
 
       // settings state + crud
       settings,
+      updateConsoleActiveId,
 
       // status - wrapper
       triggerStatusBarAnnounced,

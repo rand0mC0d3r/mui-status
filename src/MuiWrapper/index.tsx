@@ -9,6 +9,7 @@ import DataProvider from '../MuiStore'
 import Tooltip from '../utils/Tooltip'
 
 import { PlacementPosition, StatusObject } from '../index.types'
+import InternalConsole from '../MuiStatusBar/InternalConsole'
 
 const StyledBox = styled('div')<{ column?: string }>(({ column }) => ({
   height: '100%',
@@ -72,15 +73,6 @@ const StyledStatusBarWrapper = styled('div')(() => ({
   flexDirection: 'column',
 }))
 
-const StyledStatusConsole = styled('div')(() => ({
-  position: 'absolute',
-  bottom: '0px',
-  left: '0px',
-  overflow: 'hidden',
-  right: '0px',
-  height: '350px',
-}))
-
 export default function ({
   children
 } : {
@@ -110,7 +102,7 @@ export default function ({
     <StyledBox id="mui-status-wrapper" {...{ column: settings.position }}>
       <StyledChildren id="mui-status-children">
         {children}
-        {status.some(sItem => sItem.type === 'console') && <StyledStatusConsole id="mui-status-console" />}
+        {status.some(sItem => sItem.type === 'console') && <InternalConsole />}
       </StyledChildren>
       {/* // reduce wrapper */}
       <StyledStatusBarWrapper id="mui-status-statusBar" {...{ onContextMenu }}>

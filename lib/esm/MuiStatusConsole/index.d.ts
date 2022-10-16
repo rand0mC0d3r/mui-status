@@ -10,6 +10,4 @@ export default function ({ id, secondary, style, onClick, tooltip, children, con
     popoverStyle?: any;
     popoverClassName?: any;
     console?: any;
-    popoverTitle?: string;
-    popoverActions?: any;
 }): JSX.Element;

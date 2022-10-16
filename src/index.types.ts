@@ -22,6 +22,7 @@ export interface SettingsObject {
   expand: any;
   debug: boolean;
   hasLock: boolean;
+  consoleActiveId?: string;
 }
 
 export enum PlacementPosition {
