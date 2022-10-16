@@ -49,6 +49,18 @@ const StyledEntryElementItem = styled('div')(({ theme }) => ({
   },
 }))
 
+const StyledStatusBar = styled('div')<{ position?: string }>(({ theme, position }: any) => ({
+  gap: '4px',
+  display: 'flex',
+  minHeight: '28px',
+  justifyContent: 'space-between',
+  backgroundColor: theme.palette.mode === 'light'
+    ? theme.palette.background.default
+    : theme.palette.background.paper,
+  color: `${theme.palette.background.default} !important`,
+  boxShadow: `inset 0px ${position === 'top' ? -3 : 3}px 0px -2px ${theme.palette.divider}`,
+}))
+
 export default function ({ children } : { children: ReactNode }) {
   const { status, settings, handleStatusVisibilityToggle } = useContext(DataProvider)
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null)
@@ -73,7 +85,11 @@ export default function ({ children } : { children: ReactNode }) {
   return <>
     <StyledBox id="mui-status-wrapper" {...{ column: settings.position }}>
       <StyledChildren id="mui-status-children">{children}</StyledChildren>
-      <div id="mui-status-statusBar" {...{ onContextMenu }}>{!settings.statusBarAnnounced && <InternalStatus />}</div>
+      <div id="mui-status-statusBar" {...{ onContextMenu }}>
+        {status.some(sItem => sItem.visible) && <StyledStatusBar position={settings.position}>
+          {!settings.statusBarAnnounced && <InternalStatus />}
+        </StyledStatusBar>}
+      </div>
     </StyledBox>
     <Popover
       id="toggle-status-popover"

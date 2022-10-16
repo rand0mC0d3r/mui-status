@@ -10,6 +10,22 @@ import MuiWrapper from '../MuiWrapper'
 const settingsStorageKey = 'mui-status.settings'
 const statusStorageKey = 'mui-status.status'
 
+const initialSettings = {
+  position: PlacementPosition.Top,
+  expand: true,
+  statusBarAnnounced: false,
+  allowRightClick: true,
+  debug: false,
+  hasLock: true,
+} as SettingsObject
+
+const valOrDefault = (val: any, def: any) => {
+  if (val === undefined) {
+    return def
+  }
+  return val
+}
+
 interface DataContextInterface {
   settings: any;
   status: StatusObject[];
@@ -25,15 +41,17 @@ interface DataContextInterface {
 const DataContext = createContext({} as DataContextInterface)
 
 function MuiStatusProvider({
-  expand = true,
+  expand,
+  hasLock,
   position = PlacementPosition.Top,
-  allowRightClick = true,
-  debug = false,
+  allowRightClick,
+  debug,
   tooltipComponent,
   popoverComponent,
   children,
 } : {
   expand?: boolean,
+  hasLock?: boolean,
   position?: 'top' | 'bottom',
   allowRightClick?: boolean,
   debug?: boolean,
@@ -42,13 +60,7 @@ function MuiStatusProvider({
   children?: React.ReactNode,
   }) {
   const [status, setStatus] = useState<StatusObject[]>([])
-
-  const [settings, setSettings] = useState({
-    expand: true,
-    statusBarAnnounced: false,
-    allowRightClick: false,
-    debug: false,
-  })
+  const [settings, setSettings] = useState<SettingsObject>(initialSettings)
 
   const [storedStatus, setStoredStatus] = useState<StatusObject[]>([])
   const [storedSettings, setStoredSettings] = useState<SettingsObject>()
@@ -125,12 +137,17 @@ function MuiStatusProvider({
   useEffect(() => localStorage.setItem(settingsStorageKey, JSON.stringify(settings)), [settings])
   useEffect(() => localStorage.setItem(statusStorageKey, JSON.stringify(status.map(s => ({ ...s, children: undefined })))), [status])
 
-  useEffect(
-    () => setSettings((settings: SettingsObject) => ({
-      ...settings, expand, position, allowRightClick, debug
-    })),
-    [allowRightClick, expand, position, debug]
-  )
+  useEffect(() => {
+    console.log('haslock', valOrDefault(hasLock, initialSettings.hasLock))
+    setSettings((settings: SettingsObject) => ({
+      ...settings,
+      expand: expand || initialSettings.expand,
+      position,
+      allowRightClick: allowRightClick || initialSettings.allowRightClick,
+      debug: debug || initialSettings.debug,
+      hasLock: valOrDefault(hasLock, initialSettings.hasLock),
+    }))
+  }, [allowRightClick, expand, position, debug, hasLock])
 
   useEffect(() => {
     if (settings.debug) {

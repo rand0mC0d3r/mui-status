@@ -2,18 +2,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import { ClickAwayListener, Popper } from '@mui/material'
+import { ClickAwayListener, Popper, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import React, { useContext, useEffect, useState } from 'react'
-import { StatusObject } from '../index.types'
+import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react'
+import { SettingsObject, StatusObject } from '../index.types'
 import MupStatus from '../MuiStatus'
 import DataProvider from '../MuiStore'
+import Tooltip from '../utils/Tooltip'
 
-const StyledLock = styled('div')(() => ({
+const StyledActionsWrapper = styled('div')(() => ({
   padding: '8px',
   display: 'flex',
-  justifyContent: 'center',
+  justifyContent: 'space-between',
   borderTop: '1px dotted #000000',
+  userSelect: 'none',
+  alignItems: 'center'
+}))
+
+const StyledActions = styled('div')(({ theme }) => ({
+  display: 'flex',
+  gap: `${theme.shape.borderRadius}px`,
+  justifyContent: 'flex-end',
+  alignItems: 'center'
 }))
 
 const StyledContainer = styled('div')(({ theme }) => ({
@@ -28,6 +38,10 @@ const StyledContainer = styled('div')(({ theme }) => ({
   boxShadow: theme.shadows[4]
 }))
 
+const StyledTypography = styled(Typography)(() => ({
+  lineHeight: 1
+}))
+
 export default function ({
   id,
   secondary = false,
@@ -40,22 +54,34 @@ export default function ({
   children,
   popoverStyle,
   popoverClassName,
-  popover
+  popover,
+  popoverTitle,
+  popoverActions,
 } : {
   id: string,
   secondary?: boolean,
   elevation?: number,
-  style?: React.CSSProperties,
+  style?: CSSProperties,
   onClick?: any,
   onClose?: any,
   highlight?: 'default' | 'primary' | 'secondary',
-  tooltip?: any,
-  children?: any,
+  tooltip?: ReactNode | string,
+  children?: ReactNode,
   popoverStyle?: any,
   popoverClassName?: any,
   popover?: any,
+  popoverTitle?: string,
+  popoverActions?: any
 }) {
-  const { status, popoverComponent } = useContext(DataProvider)
+  const {
+    status,
+    settings,
+    popoverComponent
+  } : {
+    status: StatusObject[],
+    settings: SettingsObject,
+    popoverComponent: any
+  } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
 
   const [keepOpen, setKeepOpen] = useState(false)
@@ -85,6 +111,9 @@ export default function ({
       onClose()
     }
     if (!keepOpen) {
+      setAnchorEl(null)
+    }
+    if (!settings.hasLock) {
       setAnchorEl(null)
     }
   }
@@ -144,11 +173,17 @@ export default function ({
         <ClickAwayListener onClickAway={() => handleOnClose()}>
           <StyledContainer>
             {popover}
-            <StyledLock onClick={() => setKeepOpen(!keepOpen)}>
-              {keepOpen
-                ? <LockOutlinedIcon color="primary" style={{ fontSize: 14 }} />
-                : <LockOpenOutlinedIcon style={{ fontSize: 14 }} />}
-            </StyledLock>
+            <StyledActionsWrapper>
+              <StyledTypography variant="caption" color="textPrimary">{popoverTitle}</StyledTypography>
+              <StyledActions>
+                {popoverActions}
+                {settings.hasLock && <Tooltip tooltip="Toggle keep-open">
+                  {keepOpen
+                    ? <LockOutlinedIcon onClick={() => setKeepOpen(!keepOpen)} color="primary" style={{ fontSize: 14 }} />
+                    : <LockOpenOutlinedIcon onClick={() => setKeepOpen(!keepOpen)} style={{ fontSize: 14 }} />}
+                </Tooltip>}
+              </StyledActions>
+            </StyledActionsWrapper>
           </StyledContainer>
         </ClickAwayListener>
       </Popper>}

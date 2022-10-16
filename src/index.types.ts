@@ -18,6 +18,7 @@ export interface SettingsObject {
   position: any;
   expand: any;
   debug: boolean;
+  hasLock: boolean;
 }
 
 export enum PlacementPosition {

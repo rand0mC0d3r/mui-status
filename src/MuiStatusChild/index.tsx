@@ -9,6 +9,7 @@ const StyledBox = styled('div')<{ reverse?: boolean }>(({ theme, reverse }) => (
   alignItems: 'center',
   justifyContent: 'space-between',
   flexWrap: 'nowrap',
+  userSelect: 'none',
   flexDirection: reverse ? 'row-reverse' : 'row',
   '-webkit-font-smoothing': 'antialiased',
   'shape-rendering': 'geometricprecision',

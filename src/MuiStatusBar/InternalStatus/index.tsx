@@ -1,19 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { styled } from '@mui/material/styles'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import DataProvider from '../../MuiStore'
-
-const StyledStatusBar = styled('div')<{ position?: string }>(({ theme, position }: any) => ({
-  gap: '4px',
-  display: 'flex',
-  minHeight: '28px',
-  justifyContent: 'space-between',
-  backgroundColor: theme.palette.mode === 'light'
-    ? theme.palette.background.default
-    : theme.palette.background.paper,
-  color: `${theme.palette.background.default} !important`,
-  boxShadow: `inset 0px ${position === 'top' ? -3 : 3}px 0px -2px ${theme.palette.divider}`,
-}))
 
 const StyledPrimaryElem = styled('div')(() => ({
   display: 'flex',
@@ -36,8 +23,7 @@ const StyledSecondaryElem = styled('div')(() => ({
   alignItems: 'center',
   scrollSnapType: 'both mandatory',
   gap: '4px',
-  flex: '1 1 auto',
-  width: '0px',
+  flex: '0 1 auto',
   minWidth: '18px',
 
   '&::-webkit-scrollbar': {
@@ -47,19 +33,11 @@ const StyledSecondaryElem = styled('div')(() => ({
 
 const domId = 'mui-status-statusBar'
 
-export default function ({
-  style,
-  className
-} : {
-  style?: React.CSSProperties,
-  className?: React.HTMLAttributes<HTMLDivElement>['className'],
-}) {
-  const { status, settings } = useContext(DataProvider)
+export default function () {
+  const { status } = useContext(DataProvider)
 
   return <>
-    {status.some(sItem => sItem.visible) && <StyledStatusBar position={settings.position} {...{ id: `${domId}-wrapper`, style, className }}>
-      {status.some(sItem => !sItem.secondary) && <StyledPrimaryElem {...{ id: `${domId}-primary` }} />}
-      {status.some(sItem => sItem.secondary) && <StyledSecondaryElem {...{ id: `${domId}-secondary` }} />}
-    </StyledStatusBar>}
+    {status.some(sItem => !sItem.secondary) && <StyledPrimaryElem {...{ id: `${domId}-primary` }} />}
+    {status.some(sItem => sItem.secondary) && <StyledSecondaryElem {...{ id: `${domId}-secondary` }} />}
   </>
 }

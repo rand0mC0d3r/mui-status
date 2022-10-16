@@ -12,8 +12,9 @@ interface DataContextInterface {
     triggerStatusBarAnnounced: any;
 }
 declare const DataContext: React.Context<DataContextInterface>;
-declare function MuiStatusProvider({ expand, position, allowRightClick, debug, tooltipComponent, popoverComponent, children, }: {
+declare function MuiStatusProvider({ expand, hasLock, position, allowRightClick, debug, tooltipComponent, popoverComponent, children, }: {
     expand?: boolean;
+    hasLock?: boolean;
     position?: 'top' | 'bottom';
     allowRightClick?: boolean;
     debug?: boolean;
