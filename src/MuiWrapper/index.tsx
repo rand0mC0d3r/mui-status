@@ -99,6 +99,7 @@ export default function ({
   return <>
     <StyledBox id="mui-status-wrapper" {...{ column: settings.position }}>
       <StyledChildren id="mui-status-children">{children}</StyledChildren>
+      {status.some(sItem => sItem.type === 'console') && <div id="mui-status-console" />}
       <StyledStatusBarWrapper id="mui-status-statusBar" {...{ onContextMenu }}>
         {status.some(sItem => sItem.visible) && <StyledStatusBar position={settings.position}>
           {!settings.statusBarAnnounced && <InternalStatus />}

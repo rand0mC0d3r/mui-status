@@ -1,32 +1,12 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import { Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { SettingsObject, StatusObject } from '../index.types'
 import MupStatus from '../MuiStatus'
 import DataProvider from '../MuiStore'
-import Tooltip from '../utils/Tooltip'
-
-const StyledActionsWrapper = styled('div')(() => ({
-  padding: '8px',
-  display: 'flex',
-  justifyContent: 'space-between',
-  borderTop: '1px dotted #000000',
-  userSelect: 'none',
-  alignItems: 'center'
-}))
-
-const StyledActions = styled('div')(({ theme }) => ({
-  display: 'flex',
-  gap: `${theme.shape.borderRadius}px`,
-  justifyContent: 'flex-end',
-  alignItems: 'center'
-}))
 
 const StyledContainer = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -35,11 +15,8 @@ const StyledContainer = styled('div')(({ theme }) => ({
   flexDirection: 'column',
   backgroundColor: 'rgba(255,255,255,0.9)',
   backdropFilter: 'blur(8px)',
+  minHeight: '350px',
   border: `1px solid ${theme.palette.primary.main}`,
-}))
-
-const StyledTypography = styled(Typography)(() => ({
-  lineHeight: 1
 }))
 
 export default function ({
@@ -52,8 +29,6 @@ export default function ({
   tooltip = '',
   children,
   console,
-  popoverTitle,
-  popoverActions,
 } : {
   id: string,
   secondary?: boolean,
@@ -72,11 +47,11 @@ export default function ({
 }) {
   const {
     status,
-    settings
+    handleStatusTypeUpdate
   } : {
     status: StatusObject[],
     settings: SettingsObject,
-    popoverComponent: any
+    handleStatusTypeUpdate: any,
   } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
 
@@ -98,7 +73,7 @@ export default function ({
 
   useEffect(() => {
     if (statusObject !== null) {
-      setElementFound(document.getElementById('mui-status-statusBar') || null)
+      setElementFound(document.getElementById('mui-status-console') || null)
     }
   }, [statusObject])
 
@@ -106,6 +81,7 @@ export default function ({
     const foundObject = status.find(item => item.uniqueId === id)
     if (statusObject === null && foundObject) {
       setStatusObject(foundObject)
+      handleStatusTypeUpdate({ id, type: 'console' })
     }
   }, [status, id, statusObject])
 
@@ -123,17 +99,6 @@ export default function ({
     </MupStatus>
     {open && elementFound && createPortal(<StyledContainer>
       {console}
-      <StyledActionsWrapper>
-        <StyledTypography variant="caption" color="textPrimary">{popoverTitle}</StyledTypography>
-        <StyledActions>
-          {popoverActions}
-          {settings.hasLock && <Tooltip tooltip="Toggle keep-open">
-              {keepOpen
-                ? <LockOutlinedIcon onClick={() => setKeepOpen(!keepOpen)} color="primary" style={{ fontSize: 14 }} />
-                : <LockOpenOutlinedIcon onClick={() => setKeepOpen(!keepOpen)} style={{ fontSize: 14 }} />}
-            </Tooltip>}
-        </StyledActions>
-      </StyledActionsWrapper>
     </StyledContainer>, elementFound)}
   </>
 }

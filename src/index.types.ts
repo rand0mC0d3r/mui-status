@@ -3,9 +3,11 @@ import React from 'react'
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+export type StatusTypes = 'simple' | 'panel' | 'console'
+
 export interface StatusObject {
   visible: boolean;
-  type: 'simple' | 'panel' | 'console',
+  type: StatusTypes,
   secondary: boolean;
   index: number;
   uniqueId: string;

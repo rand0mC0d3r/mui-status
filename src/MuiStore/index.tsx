@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { createContext, useEffect, useState } from 'react'
-import { PlacementPosition, SettingsObject, StatusObject } from '../index.types'
+import { PlacementPosition, SettingsObject, StatusObject, StatusTypes } from '../index.types'
 import MuiWrapper from '../MuiWrapper'
 
 const settingsStorageKey = 'mui-status.settings'
@@ -34,6 +34,7 @@ interface DataContextInterface {
   handleStatusUpdate: any;
   handleStatusAnnouncement: any;
   handleStatusDestroy: any;
+  handleStatusTypeUpdate: any;
   handleStatusVisibilityToggle: any;
   triggerStatusBarAnnounced: any;
 }
@@ -104,6 +105,12 @@ function MuiStatusProvider({
     setStatus((status: StatusObject[]) => status.map(lo => (lo.uniqueId === id ? { ...lo, visible: !lo.visible } : lo)))
   }
 
+  const handleStatusTypeUpdate = ({ id, type }: { id: string, type: any }) => {
+    setStatus((status: StatusObject[]) => status.map((lo: StatusObject) => (lo.uniqueId === id
+      ? { ...lo, type } as StatusObject
+      : lo)))
+  }
+
   const handleStatusDestroy = ({ id }: { id: string }) => {
     setStatus((status: StatusObject[]) => [...status.filter(lo => lo.uniqueId !== id)])
   }
@@ -170,6 +177,7 @@ function MuiStatusProvider({
       // status state + crud
       status,
       handleStatusVisibilityToggle,
+      handleStatusTypeUpdate,
       handleStatusUpdate,
       handleStatusAnnouncement,
       handleStatusDestroy,

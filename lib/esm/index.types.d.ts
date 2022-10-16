@@ -1,7 +1,8 @@
 import React from 'react';
+export declare type StatusTypes = 'simple' | 'panel' | 'console';
 export interface StatusObject {
     visible: boolean;
-    type: 'simple' | 'panel' | 'console';
+    type: StatusTypes;
     secondary: boolean;
     index: number;
     uniqueId: string;
