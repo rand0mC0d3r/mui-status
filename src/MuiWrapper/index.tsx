@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined'
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined'
 import { Popover, Typography } from '@mui/material'
@@ -65,6 +66,11 @@ const StyledStatusBar = styled('div')<{ position?: string }>(({ theme, position 
   boxShadow: `inset 0px ${position === 'top' ? -3 : 3}px 0px -2px ${theme.palette.divider}`,
 }))
 
+const StyledStatusBarWrapper = styled('div')(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+}))
+
 export default function ({
   children
 } : {
@@ -93,11 +99,11 @@ export default function ({
   return <>
     <StyledBox id="mui-status-wrapper" {...{ column: settings.position }}>
       <StyledChildren id="mui-status-children">{children}</StyledChildren>
-      <div id="mui-status-statusBar" {...{ onContextMenu }}>
+      <StyledStatusBarWrapper id="mui-status-statusBar" {...{ onContextMenu }}>
         {status.some(sItem => sItem.visible) && <StyledStatusBar position={settings.position}>
           {!settings.statusBarAnnounced && <InternalStatus />}
         </StyledStatusBar>}
-      </div>
+      </StyledStatusBarWrapper>
     </StyledBox>
     <Popover
       id="toggle-status-popover"

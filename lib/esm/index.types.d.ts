@@ -1,6 +1,7 @@
 import React from 'react';
 export interface StatusObject {
     visible: boolean;
+    type: 'simple' | 'panel' | 'console';
     secondary: boolean;
     index: number;
     uniqueId: string;

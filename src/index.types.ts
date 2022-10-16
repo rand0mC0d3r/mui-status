@@ -5,6 +5,7 @@ import React from 'react'
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface StatusObject {
   visible: boolean;
+  type: 'simple' | 'panel' | 'console',
   secondary: boolean;
   index: number;
   uniqueId: string;
