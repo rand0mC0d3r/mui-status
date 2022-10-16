@@ -29,8 +29,7 @@ const StyledActionsWrapper = styled('div')(({ theme }) => ({
   justifyContent: 'space-between',
   backgroundColor: theme.palette.background.paper,
   padding: '0px',
-  border: `1px solid ${theme.palette.divider}`,
-  borderStyle: 'solid none',
+  boxShadow: `inset 0px 1px 0px 0px ${theme.palette.divider}`,
   alignItems: 'center',
 }))
 
@@ -45,10 +44,15 @@ const StyledCloseIcon = styled(CloseIcon)(() => ({
 }))
 
 const StyledTab = styled(Typography)<{ activated?: string }>(({ theme, activated }) => ({
-  padding: '4px 8px',
+  padding: '4px 12px',
   cursor: 'pointer',
-  backgroundColor: activated ? theme.palette.primary.main : theme.palette.background.default,
+  backgroundColor: activated ? theme.palette.primary.main : 'transparent',
   color: activated ? theme.palette.background.default : theme.palette.text.secondary,
+
+  '&:hover': {
+    backgroundColor: activated ? theme.palette.primary.dark : theme.palette.divider,
+    color: activated ? theme.palette.background.default : theme.palette.text.primary,
+  }
 }))
 
 const domId = 'mui-status-console'
