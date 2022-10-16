@@ -1,5 +1,5 @@
 import { CSSProperties, ReactNode } from 'react';
-export default function ({ id, secondary, style, onClick, tooltip, children, console, }: {
+export default function ({ id, secondary, style, onClick, tooltip, children, console, consoleTitle, }: {
     id: string;
     secondary?: boolean;
     elevation?: number;
@@ -10,4 +10,5 @@ export default function ({ id, secondary, style, onClick, tooltip, children, con
     popoverStyle?: any;
     popoverClassName?: any;
     console?: any;
+    consoleTitle?: string;
 }): JSX.Element;

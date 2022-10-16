@@ -15,6 +15,7 @@ export default function ({
   tooltip = '',
   children,
   console,
+  consoleTitle,
 } : {
   id: string,
   secondary?: boolean,
@@ -26,16 +27,19 @@ export default function ({
   popoverStyle?: any,
   popoverClassName?: any,
   console?: any,
+  consoleTitle?: string,
 }) {
   const {
     status,
     settings,
     handleStatusTypeUpdate,
+    handleStatusConsoleTypeUpdate,
     updateConsoleActiveId
   } : {
     status: StatusObject[],
     settings: SettingsObject,
     handleStatusTypeUpdate: any,
+    handleStatusConsoleTypeUpdate: any,
     updateConsoleActiveId: any,
   } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
@@ -45,7 +49,7 @@ export default function ({
     if (onClick) {
       onClick()
     }
-    updateConsoleActiveId({ id: statusObject?.uniqueId })
+    updateConsoleActiveId(settings.consoleActiveId === id ? { } : { id: statusObject?.uniqueId })
   }
 
   useEffect(() => {
@@ -61,6 +65,12 @@ export default function ({
       handleStatusTypeUpdate({ id, type: 'console' })
     }
   }, [status, id, statusObject])
+
+  useEffect(() => {
+    if (statusObject) {
+      handleStatusConsoleTypeUpdate({ id, title: consoleTitle })
+    }
+  }, [statusObject, id, consoleTitle])
 
   return <>
     <MupStatus {...{

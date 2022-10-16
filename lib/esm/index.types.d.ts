@@ -7,6 +7,7 @@ export interface StatusObject {
     index: number;
     uniqueId: string;
     ownId: string;
+    title?: string;
     children: React.ReactNode;
 }
 export interface SettingsObject {

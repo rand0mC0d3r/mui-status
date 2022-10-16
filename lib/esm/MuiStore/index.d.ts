@@ -10,6 +10,7 @@ interface DataContextInterface {
     handleStatusAnnouncement: any;
     handleStatusDestroy: any;
     handleStatusTypeUpdate: any;
+    handleStatusConsoleTypeUpdate: any;
     handleStatusVisibilityToggle: any;
     triggerStatusBarAnnounced: any;
 }

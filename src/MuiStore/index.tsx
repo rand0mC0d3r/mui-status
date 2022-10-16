@@ -36,6 +36,7 @@ interface DataContextInterface {
   handleStatusAnnouncement: any;
   handleStatusDestroy: any;
   handleStatusTypeUpdate: any;
+  handleStatusConsoleTypeUpdate: any;
   handleStatusVisibilityToggle: any;
   triggerStatusBarAnnounced: any;
 }
@@ -113,6 +114,13 @@ function MuiStatusProvider({
       : lo)))
   }
 
+  const handleStatusConsoleTypeUpdate = ({ id, title }: { id: string, title: string }) => {
+    console.info(`mui-status: 🆗 Updated console title for id: [${id}] to: [${title}]`)
+    setStatus((status: StatusObject[]) => status.map((lo: StatusObject) => (lo.uniqueId === id
+      ? { ...lo, title } as StatusObject
+      : lo)))
+  }
+
   const handleStatusDestroy = ({ id }: { id: string }) => {
     setStatus((status: StatusObject[]) => [...status.filter(lo => lo.uniqueId !== id)])
   }
@@ -183,6 +191,7 @@ function MuiStatusProvider({
       status,
       handleStatusVisibilityToggle,
       handleStatusTypeUpdate,
+      handleStatusConsoleTypeUpdate,
       handleStatusUpdate,
       handleStatusAnnouncement,
       handleStatusDestroy,

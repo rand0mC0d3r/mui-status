@@ -40,41 +40,49 @@ const StyledTabs = styled('div')(() => ({
   gap: '0px',
 }))
 
-const StyledTab = styled(Typography)<{ active?: boolean }>(({ theme, active }) => ({
+const StyledCloseIcon = styled(CloseIcon)(() => ({
+  fontSize: '20px'
+}))
+
+const StyledTab = styled(Typography)<{ activated?: string }>(({ theme, activated }) => ({
   padding: '4px 8px',
   cursor: 'pointer',
-  backgroundColor: active ? theme.palette.primary.light : theme.palette.background.default,
-  color: active ? theme.palette.background.default : theme.palette.text.secondary,
-  fontWeight: active ? 'bold' : 'normal',
+  backgroundColor: activated ? theme.palette.primary.main : theme.palette.background.default,
+  color: activated ? theme.palette.background.default : theme.palette.text.secondary,
 }))
 
 const domId = 'mui-status-console'
 const domIdWrapper = 'mui-status-console-wrapper'
+const relevantType = 'console'
 
 export default function () {
   const { status, settings, updateConsoleActiveId } = useContext(DataProvider)
   const { consoleActiveId } = settings as SettingsObject
 
+  const isActivated = (uniqueId: string) => uniqueId === consoleActiveId ? consoleActiveId : undefined
+
   return <>
     {consoleActiveId && <>
-      {status.some(sItem => sItem.type === 'console') && <StyledWrapper id={domIdWrapper}>
+      {status.some(({ type }) => type === relevantType) && <StyledWrapper {...{ id: domIdWrapper }}>
         <StyledActionsWrapper>
           <StyledTabs>
-            {status.filter(sItem => sItem.type === 'console').map(s => <StyledTab
-              key={s.uniqueId}
-              onClick={() => updateConsoleActiveId({ id: s.uniqueId })}
-              active={s.uniqueId === consoleActiveId}
-              variant="caption"
-            >
-              {s.uniqueId}
-            </StyledTab>)}
-
+            {status
+              .filter(({ type }) => type === relevantType)
+              .map(({ uniqueId, title }) => <StyledTab {...{
+                key: uniqueId,
+                variant: 'caption',
+                onClick: () => updateConsoleActiveId({ id: uniqueId }),
+                activated: isActivated(uniqueId)
+              }}
+              >
+                {title || uniqueId}
+              </StyledTab>)}
           </StyledTabs>
-          <Tooltip tooltip="Close console section">
-            <CloseIcon onClick={() => updateConsoleActiveId({})} />
+          <Tooltip {...{ tooltip: 'Close console section' }}>
+            <StyledCloseIcon {...{ onClick: () => updateConsoleActiveId({}) }} />
           </Tooltip>
         </StyledActionsWrapper>
-        <StyledStatusConsole id={domId} />
+        <StyledStatusConsole {...{ id: domId }} />
       </StyledWrapper>}
     </>}
   </>
