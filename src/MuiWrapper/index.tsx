@@ -1,10 +1,8 @@
-import { MouseEvent, ReactNode, useContext, useState } from 'react'
-
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined'
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined'
-import { Popover } from '@mui/material'
+import { Popover, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
-
+import { MouseEvent, ReactNode, useContext, useState } from 'react'
 import InternalStatus from '../MuiStatusBar/InternalStatus'
 import DataProvider from '../MuiStore'
 import Tooltip from '../utils/Tooltip'
@@ -29,6 +27,10 @@ const StyledChildren = styled('div')(() => ({
   position: 'relative',
 }))
 
+const StyledTypographyNoChildren = styled(Typography)(() => ({
+  userSelect: 'none'
+}))
+
 const StyledEntryElement = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'row',
@@ -39,7 +41,9 @@ const StyledEntryElement = styled('div')(() => ({
 const StyledEntryElementItem = styled('div')(({ theme }) => ({
   display: 'flex',
   minWidth: '165px',
+  cursor: 'pointer',
   flexDirection: 'row',
+  alignItems: 'center',
   gap: '4px',
   padding: '4px 8px',
 
@@ -61,7 +65,11 @@ const StyledStatusBar = styled('div')<{ position?: string }>(({ theme, position 
   boxShadow: `inset 0px ${position === 'top' ? -3 : 3}px 0px -2px ${theme.palette.divider}`,
 }))
 
-export default function ({ children } : { children: ReactNode }) {
+export default function ({
+  children
+} : {
+  children: ReactNode
+}) {
   const { status, settings, handleStatusVisibilityToggle } = useContext(DataProvider)
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null)
   const open = Boolean(anchorEl)
@@ -75,7 +83,7 @@ export default function ({ children } : { children: ReactNode }) {
 
   const statusEntry = (statusItem: StatusObject) => <StyledEntryElementItem onClick={() => handleStatusVisibilityToggle({ id: statusItem.uniqueId })}>
     {statusItem.visible ? <CheckBoxOutlinedIcon /> : <CheckBoxOutlineBlankOutlinedIcon />}
-    {statusItem.children}
+    {statusItem.children || <StyledTypographyNoChildren variant="caption" color="textSecondary">No content for child</StyledTypographyNoChildren>}
   </StyledEntryElementItem>
 
   const entryWrapper = (statusItem: StatusObject) => <Tooltip

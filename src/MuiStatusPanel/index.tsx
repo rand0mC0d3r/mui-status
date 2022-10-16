@@ -32,7 +32,7 @@ const StyledContainer = styled('div')(({ theme }) => ({
   flexDirection: 'column',
   backgroundColor: 'rgba(255,255,255,0.9)',
   backdropFilter: 'blur(8px)',
-  borderRadius: '4px',
+  borderRadius: `${theme.shape.borderRadius}px`,
   margin: '8px',
   border: `2px solid ${theme.palette.primary.main}`,
   boxShadow: theme.shadows[4]
@@ -178,10 +178,10 @@ export default function ({
               <StyledActions>
                 {popoverActions}
                 {settings.hasLock && <Tooltip tooltip="Toggle keep-open">
-                  {keepOpen
-                    ? <LockOutlinedIcon onClick={() => setKeepOpen(!keepOpen)} color="primary" style={{ fontSize: 14 }} />
-                    : <LockOpenOutlinedIcon onClick={() => setKeepOpen(!keepOpen)} style={{ fontSize: 14 }} />}
-                </Tooltip>}
+                    {keepOpen
+                      ? <LockOutlinedIcon onClick={() => setKeepOpen(!keepOpen)} color="primary" style={{ fontSize: 14 }} />
+                      : <LockOpenOutlinedIcon onClick={() => setKeepOpen(!keepOpen)} style={{ fontSize: 14 }} />}
+                  </Tooltip>}
               </StyledActions>
             </StyledActionsWrapper>
           </StyledContainer>
