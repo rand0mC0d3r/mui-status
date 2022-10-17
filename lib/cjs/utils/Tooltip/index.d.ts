@@ -1,5 +1,5 @@
-import React from 'react';
+import { ReactNode } from 'react';
 export default function ({ tooltip, children, }: {
-    tooltip?: React.ReactNode | string;
-    children?: React.ReactNode;
+    tooltip?: ReactNode | string;
+    children?: ReactNode;
 }): JSX.Element;
