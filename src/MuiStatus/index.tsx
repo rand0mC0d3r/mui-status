@@ -24,13 +24,13 @@ const backgroundColor = (highlight: string, theme: any) => {
 const StyledContainer = styled('div')<{ hasClick?: boolean, highlight?: string, isDisabled?: boolean }>(({ theme, hasClick, highlight, isDisabled }: any) => ({
   WebkitFontSmoothing: 'auto',
   height: '100%',
-  padding: '0px 8px',
+  padding: '4px 8px',
   display: 'flex',
   flex: '0 0 auto',
   alignItems: 'center',
   gap: '16px',
   justifyContent: 'center',
-  alignSelf: 'stretch',
+  alignSelf: 'center',
   position: 'relative',
 
   cursor: (hasClick && !isDisabled) ? 'pointer' : '',

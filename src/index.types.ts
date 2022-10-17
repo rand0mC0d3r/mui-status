@@ -23,6 +23,7 @@ export interface SettingsObject {
   expand: any;
   debug: boolean;
   hasLock: boolean;
+  isConsoleOpen?: boolean;
   consoleActiveId?: string;
 }
 

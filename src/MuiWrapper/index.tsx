@@ -59,18 +59,12 @@ const StyledEntryElementItem = styled('div')(({ theme }) => ({
 const StyledStatusBar = styled('div')<{ position?: string }>(({ theme, position }: any) => ({
   gap: '4px',
   display: 'flex',
-  minHeight: '28px',
+  alignItems: 'center',
   justifyContent: 'space-between',
   backgroundColor: theme.palette.mode === 'light'
     ? theme.palette.background.default
     : theme.palette.background.paper,
-  color: `${theme.palette.background.default} !important`,
   boxShadow: `inset 0px ${position === 'top' ? -3 : 3}px 0px -2px ${theme.palette.divider}`,
-}))
-
-const StyledStatusBarWrapper = styled('div')(() => ({
-  display: 'flex',
-  flexDirection: 'column',
 }))
 
 export default function ({
@@ -104,12 +98,9 @@ export default function ({
         {children}
         {status.some(sItem => sItem.type === 'console') && <InternalConsole />}
       </StyledChildren>
-      {/* // reduce wrapper */}
-      <StyledStatusBarWrapper id="mui-status-statusBar" {...{ onContextMenu }}>
-        {status.some(sItem => sItem.visible) && <StyledStatusBar position={settings.position}>
+      {status.some(sItem => sItem.visible) && <StyledStatusBar position={settings.position} {...{ onContextMenu }}>
           {!settings.statusBarAnnounced && <InternalStatus />}
         </StyledStatusBar>}
-      </StyledStatusBarWrapper>
     </StyledBox>
     <Popover
       id="toggle-status-popover"

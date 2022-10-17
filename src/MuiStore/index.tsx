@@ -17,6 +17,7 @@ const initialSettings = {
   allowRightClick: true,
   debug: false,
   hasLock: true,
+  isConsoleOpen: false,
 } as SettingsObject
 
 const valOrDefault = (val: any, def: any) => {
@@ -32,6 +33,7 @@ interface DataContextInterface {
   popoverComponent: any;
   tooltipComponent: any;
   updateConsoleActiveId: any;
+  updateIsConsoleOpen: any;
   handleStatusUpdate: any;
   handleStatusAnnouncement: any;
   handleStatusDestroy: any;
@@ -130,8 +132,21 @@ function MuiStatusProvider({
       setSettings((settings: SettingsObject) => ({ ...settings, statusBarAnnounced: true }))
     }
   }
+
   const updateConsoleActiveId = ({ id } : { id?: string }) => {
-    setSettings((settings: SettingsObject) => ({ ...settings, consoleActiveId: id || undefined }))
+    setSettings((settings: SettingsObject) => ({
+      ...settings,
+      consoleActiveId: id || undefined,
+      isConsoleOpen: !!id
+    }))
+  }
+
+  const updateIsConsoleOpen = () => {
+    setSettings((settings: SettingsObject) => ({
+      ...settings,
+      isConsoleOpen: !settings.isConsoleOpen,
+      // consoleActiveId: settings.isConsoleOpen ? undefined : settings.consoleActiveId
+    }))
   }
 
   useEffect(() => {
@@ -183,6 +198,7 @@ function MuiStatusProvider({
       // settings state + crud
       settings,
       updateConsoleActiveId,
+      updateIsConsoleOpen,
 
       // status - wrapper
       triggerStatusBarAnnounced,
