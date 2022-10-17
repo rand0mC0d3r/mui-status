@@ -23,12 +23,14 @@ const StyledSvgIcon = styled(SvgIcon)<{ reversed?: boolean | undefined }>(({ the
 const StyledTypography = styled(Typography)(() => ({
   whiteSpace: 'nowrap',
   userSelect: 'none',
+  fontSize: '12px',
   lineHeight: 'inherit',
 }))
 
 const StyledBoldTypography = styled(Typography)(() => ({
   whiteSpace: 'nowrap',
   userSelect: 'none',
+  fontSize: '12px',
   lineHeight: 'inherit',
   fontWeight: 'bold',
 }))
@@ -43,8 +45,8 @@ const StyledNotificationsTypography = styled(Typography)(({ theme }) => ({
 }))
 
 const StyledImg = styled('img')(() => ({
-  width: '20px',
-  height: '20px',
+  width: '18px',
+  height: '18px',
 }))
 
 /**

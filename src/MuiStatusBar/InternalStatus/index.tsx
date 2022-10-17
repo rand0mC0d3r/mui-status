@@ -43,10 +43,10 @@ export default function () {
   const { status, updateIsConsoleOpen } = useContext(DataProvider)
 
   return <>
-    {status.some(sItem => !sItem.secondary) && <StyledPrimaryElem {...{ id: `${domId}-primary` }} />}
-    <Tooltip {...{ tooltip: 'Toggle console view' }}>
+    {status.some(({ secondary }) => !secondary) && <StyledPrimaryElem {...{ id: `${domId}-primary` }} />}
+    {status.some(({ type }) => type === 'console') && <Tooltip {...{ tooltip: 'Toggle console view' }}>
       <StyledKeyboardDoubleArrowUpIcon {...{ onDoubleClick: () => updateIsConsoleOpen() }} />
-    </Tooltip>
-    {status.some(sItem => sItem.secondary) && <StyledSecondaryElem {...{ id: `${domId}-secondary` }} />}
+    </Tooltip>}
+    {status.some(({ secondary }) => secondary) && <StyledSecondaryElem {...{ id: `${domId}-secondary` }} />}
   </>
 }
