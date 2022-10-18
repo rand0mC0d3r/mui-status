@@ -1,6 +1,5 @@
 import { CSSProperties, HTMLAttributes, ReactNode } from 'react';
 /**
- *
  * @param icon - (ReactNode) Icon to display for status element. Expects a Material UI SvgIcon component.
  * @param text - (string | number) Text to display for status element.
  * @param notifications - (number) Badge to display relevant notifications.

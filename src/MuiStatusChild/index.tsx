@@ -2,7 +2,7 @@ import { SvgIcon, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, HTMLAttributes, ReactNode } from 'react'
 
-const StyledBox = styled('div')<{ reverse?: boolean | undefined }>(({ theme, reverse }) => ({
+const StyledBox = styled('div')<{ reverse?: boolean }>(({ theme, reverse }) => ({
   gap: `${theme.shape.borderRadius}px`,
   color: theme.palette.action.active,
   display: 'flex',
@@ -15,7 +15,7 @@ const StyledBox = styled('div')<{ reverse?: boolean | undefined }>(({ theme, rev
   shapeRendering: 'geometricPrecision',
 }))
 
-const StyledSvgIcon = styled(SvgIcon)<{ reversed?: boolean | undefined }>(({ theme, reversed }) => ({
+const StyledSvgIcon = styled(SvgIcon)<{ reversed?: boolean }>(({ theme, reversed }) => ({
   fontSize: theme.typography.h6.fontSize,
   transform: reversed ? 'scaleX(-1)' : 'scaleX(1)',
 }))
@@ -36,7 +36,7 @@ const StyledBoldTypography = styled(Typography)(() => ({
 }))
 
 const StyledNotificationsTypography = styled(Typography)(({ theme }) => ({
-  borderRadius: '8px',
+  borderRadius: `${theme.shape.borderRadius * 2}px`,
   padding: '0px 6px',
   fontSize: '10px',
   backgroundColor: theme.palette.divider,
@@ -50,7 +50,6 @@ const StyledImg = styled('img')(() => ({
 }))
 
 /**
- *
  * @param icon - (ReactNode) Icon to display for status element. Expects a Material UI SvgIcon component.
  * @param text - (string | number) Text to display for status element.
  * @param notifications - (number) Badge to display relevant notifications.
@@ -88,7 +87,7 @@ export default function ({
   style?: CSSProperties,
 }) {
   return <StyledBox {...{ style, className, reverse }}>
-    {icon && <StyledSvgIcon {...{ color: 'action' }} reversed={reverseIcon}>{icon}</StyledSvgIcon>}
+    {icon && <StyledSvgIcon {...{ color: 'action', reversed: reverseIcon }}>{icon}</StyledSvgIcon>}
     {image && <StyledImg {...{ alt: '', style: { borderRadius: mask ? '50%' : '0px' }, src: image }} />}
     {notifications && <StyledNotificationsTypography {...{ variant: 'subtitle2', color: 'textPrimary' }}>{notifications}</StyledNotificationsTypography>}
     {boldText && <StyledBoldTypography {...{ variant: 'caption', color: 'textPrimary' }}>{boldText}</StyledBoldTypography>}

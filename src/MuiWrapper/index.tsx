@@ -8,7 +8,7 @@ import InternalStatus from '../MuiStatusBar/InternalStatus'
 import DataProvider from '../MuiStore'
 import Tooltip from '../utils/Tooltip'
 
-import { PlacementPosition, StatusObject } from '../index.types'
+import { PlacementPosition, SettingsObject, StatusObject } from '../index.types'
 import InternalConsole from '../MuiStatusBar/InternalConsole'
 
 const StyledBox = styled('div')<{ column?: string }>(({ column }) => ({
@@ -72,7 +72,8 @@ export default function ({
 } : {
   children: ReactNode
 }) {
-  const { status, settings, handleStatusVisibilityToggle } = useContext(DataProvider)
+  const { status, handleStatusVisibilityToggle } = useContext(DataProvider)
+  const { position, statusBarAnnounced, upperBar } = useContext(DataProvider).settings as SettingsObject
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null)
   const open = Boolean(anchorEl)
 
@@ -93,25 +94,25 @@ export default function ({
   />
 
   return <>
-    <StyledBox id="mui-status-wrapper" {...{ column: settings.position }}>
+    <StyledBox id="mui-status-wrapper" {...{ column: position }}>
       <StyledChildren id="mui-status-children">
         {children}
-        {status.some(sItem => sItem.type === 'console') && <InternalConsole />}
+        {status.some(({ type }) => type === 'console') && <InternalConsole />}
       </StyledChildren>
-      {status.some(sItem => sItem.visible) && <StyledStatusBar position={settings.position} {...{ onContextMenu }}>
-          {!settings.statusBarAnnounced && <InternalStatus />}
+      {status.some(({ visible }) => visible) && <StyledStatusBar position={position} {...{ onContextMenu }}>
+          {!statusBarAnnounced && <InternalStatus />}
         </StyledStatusBar>}
     </StyledBox>
     <Popover
       id="toggle-status-popover"
       {...{ open, anchorEl, onClose, elevation: 1 }}
-      anchorOrigin={{ vertical: settings.upperBar ? 'top' : 'bottom', horizontal: 'center' }}
-      transformOrigin={{ vertical: !settings.upperBar ? 'bottom' : 'top', horizontal: 'center' }}
-      style={{ marginTop: `${(settings.upperBar ? 1 : -1) * 12}px` }}
+      anchorOrigin={{ vertical: upperBar ? 'top' : 'bottom', horizontal: 'center' }}
+      transformOrigin={{ vertical: !upperBar ? 'bottom' : 'top', horizontal: 'center' }}
+      style={{ marginTop: `${(upperBar ? 1 : -1) * 12}px` }}
     >
       <StyledEntryElement {...{ onContextMenu: e => { e.preventDefault() } }}>
         {[false, true].map((state: boolean) => <div key={state.toString()}>
-          {status.filter(statusItem => statusItem.secondary === state).map(statusItem => entryWrapper(statusItem))}
+          {status.filter(({ secondary }) => secondary === state).map(statusItem => entryWrapper(statusItem))}
         </div>)}
       </StyledEntryElement>
     </Popover>

@@ -21,6 +21,7 @@ export interface SettingsObject {
   allowRightClick: boolean;
   position: any;
   expand: any;
+  upperBar: boolean;
   debug: boolean;
   hasLock: boolean;
   isConsoleOpen?: boolean;

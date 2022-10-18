@@ -4,7 +4,7 @@
 import { styled } from '@mui/material/styles'
 import React, { useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { StatusObject } from '../index.types'
+import { SettingsObject, StatusObject } from '../index.types'
 import DataProvider from '../MuiStore'
 import Tooltip from '../utils/Tooltip'
 
@@ -70,7 +70,8 @@ export default function ({
   tooltip?: React.ReactNode | string,
   children?: React.ReactNode,
 }) {
-  const { status, settings, handleStatusUpdate, handleStatusAnnouncement, handleStatusDestroy } = useContext(DataProvider)
+  const { status, handleStatusUpdate, handleStatusAnnouncement, handleStatusDestroy } = useContext(DataProvider)
+  const { allowRightClick } = useContext(DataProvider).settings as SettingsObject
   const [ownId, setOwnId] = useState<string | null>()
   const [isAnnounced, setIsAnnounced] = useState<boolean>(false)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
@@ -95,7 +96,7 @@ export default function ({
 
   const handleOnContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
-    if (settings.allowRightClick && onContextMenu !== undefined && !disabled) {
+    if (allowRightClick && onContextMenu !== undefined && !disabled) {
       onContextMenu(e)
     }
   }
@@ -118,7 +119,7 @@ export default function ({
    * */
   useEffect(() => {
     if (id && ownId && statusObject === null && !isAnnounced) {
-      if (!status.some(item => item.uniqueId === id)) {
+      if (!status.some(({ uniqueId }) => uniqueId === id)) {
         if (callbackHandleStatusAnnouncement(id)) {
           setIsAnnounced(true)
         }
@@ -130,7 +131,7 @@ export default function ({
    * Find newly published status element in the store
    * */
   useEffect(() => {
-    const foundObject = status.find(item => item.uniqueId === id)
+    const foundObject = status.find(({ uniqueId }) => uniqueId === id)
     if ((statusObject === null || statusObject?.visible !== foundObject?.visible) && foundObject) {
       setStatusObject(foundObject)
     }

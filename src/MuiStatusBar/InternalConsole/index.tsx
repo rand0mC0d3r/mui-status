@@ -2,7 +2,7 @@ import AppsOutageIcon from '@mui/icons-material/AppsOutage'
 import CloseIcon from '@mui/icons-material/Close'
 import { Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { useContext } from 'react'
+import { useCallback, useContext, useEffect } from 'react'
 import { SettingsObject } from '../../index.types'
 import DataProvider from '../../MuiStore'
 import Tooltip from '../../utils/Tooltip'
@@ -22,6 +22,15 @@ const StyledWrapper = styled('div')(() => ({
   overflow: 'hidden',
   right: '0px',
   height: '350px',
+}))
+
+const StyledEmptyWrapper = styled('div')(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  flex: '1 1 auto',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '8px',
 }))
 
 const StyledActionsWrapper = styled('div')(({ theme }) => ({
@@ -61,11 +70,25 @@ const domIdWrapper = 'mui-status-console-wrapper'
 const relevantType = 'console'
 
 export default function () {
-  const { status, settings, updateConsoleActiveId } = useContext(DataProvider)
-  const { consoleActiveId, isConsoleOpen } = settings as SettingsObject
+  const { status, updateConsoleActiveId, updateIsConsoleOpen } = useContext(DataProvider)
+  const { consoleActiveId, isConsoleOpen } = useContext(DataProvider).settings as SettingsObject
 
   const isActivated = (uniqueId: string) => uniqueId === consoleActiveId ? consoleActiveId : undefined
   const relevantConsoles = status.filter(({ type }) => type === relevantType)
+
+  const handleUserKeyPress = useCallback(event => {
+    const { key, keyCode, ctrlKey } = event
+    if ((key === 'Escape' || keyCode === 27) && ctrlKey) {
+      updateIsConsoleOpen()
+    }
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleUserKeyPress)
+    return () => {
+      window.removeEventListener('keydown', handleUserKeyPress)
+    }
+  }, [handleUserKeyPress])
 
   return <>
     {(consoleActiveId || isConsoleOpen) && <>
@@ -88,10 +111,10 @@ export default function () {
         </StyledActionsWrapper>
         {relevantConsoles.some(({ uniqueId }) => uniqueId === consoleActiveId)
           ? <StyledStatusConsole {...{ id: domId }} />
-          : <div>
+          : <StyledEmptyWrapper>
             <AppsOutageIcon />
-            <Typography variant="caption">Seems no consoles available. Select one from above</Typography>
-          </div>}
+            <Typography {...{ variant: 'caption', color: 'textSecondary' }}>Seems no consoles available. Select one from above</Typography>
+          </StyledEmptyWrapper>}
       </StyledWrapper>}
     </>}
   </>

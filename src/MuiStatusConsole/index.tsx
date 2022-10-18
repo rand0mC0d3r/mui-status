@@ -31,17 +31,16 @@ export default function ({
 }) {
   const {
     status,
-    settings,
     handleStatusTypeUpdate,
     handleStatusConsoleTypeUpdate,
     updateConsoleActiveId
   } : {
     status: StatusObject[],
-    settings: SettingsObject,
     handleStatusTypeUpdate: any,
     handleStatusConsoleTypeUpdate: any,
     updateConsoleActiveId: any,
   } = useContext(DataProvider)
+  const { consoleActiveId } = useContext(DataProvider).settings as SettingsObject
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
   const [elementFound, setElementFound] = useState<HTMLElement | null>(null)
 
@@ -49,17 +48,17 @@ export default function ({
     if (onClick) {
       onClick()
     }
-    updateConsoleActiveId(settings.consoleActiveId === id ? { } : { id: statusObject?.uniqueId })
+    updateConsoleActiveId(consoleActiveId === id ? { } : { id: statusObject?.uniqueId })
   }
 
   useEffect(() => {
-    if (statusObject !== null && settings.consoleActiveId) {
+    if (statusObject !== null && consoleActiveId) {
       setElementFound(document.getElementById('mui-status-console') || null)
     }
-  }, [statusObject, settings.consoleActiveId])
+  }, [statusObject, consoleActiveId])
 
   useEffect(() => {
-    const foundObject = status.find(item => item.uniqueId === id)
+    const foundObject = status.find(({ uniqueId }) => uniqueId === id)
     if (statusObject === null && foundObject) {
       setStatusObject(foundObject)
       handleStatusTypeUpdate({ id, type: 'console' })
@@ -77,13 +76,13 @@ export default function ({
       id,
       tooltip,
       secondary,
-      highlight: (statusObject && statusObject?.uniqueId === settings.consoleActiveId) ? 'primary' : 'default',
+      highlight: (statusObject && statusObject?.uniqueId === consoleActiveId) ? 'primary' : 'default',
       onClick: () => handleOnClick(),
       style: { ...style, cursor: 'context-menu', minWidth: '24px' }
     }}
     >
       {children}
     </MupStatus>
-    {elementFound && statusObject && statusObject.uniqueId === settings.consoleActiveId && createPortal(console, elementFound)}
+    {elementFound && statusObject && statusObject.uniqueId === consoleActiveId && createPortal(console, elementFound)}
   </>
 }
