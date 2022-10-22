@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import AppsOutageIcon from '@mui/icons-material/AppsOutage'
 import CloseIcon from '@mui/icons-material/Close'
 import { Typography } from '@mui/material'
@@ -16,20 +17,29 @@ const StyledStatusConsole = styled('div')(() => ({
 const StyledResizable = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'column',
-  flex: '1 1 auto'
+  flex: '1 1 auto',
+  // zIndex: '10000 !important',
 }))
 
 const StyledWrapper = styled('div')(({ theme }: {theme: any}) => ({
   display: 'flex',
   flexDirection: 'column',
   position: 'absolute',
-  border: `1px solid ${theme.palette.divider}`,
+  borderTop: `1px solid ${theme.palette.divider}`,
   backgroundColor: theme.palette.background.default,
   bottom: '0px',
   left: '0px',
   alignItems: 'center',
-  // overflow: 'hidden',
   right: '0px',
+
+  // '& > div:nth-child(1) > div:nth-child(1)': {
+  //   zIndex: '0 !important',
+  //   backgroundColor: 'transparent !important',
+  // },
+
+  // '& > div:nth-child(1) > div:nth-child(1)': {
+  //   backgroundColor: 'blue !important',
+  // },
 
   '& > div > div:nth-child(2) > div:not(:first-child)': {
     display: 'none',
@@ -43,9 +53,6 @@ const StyledEmptyWrapper = styled('div')(() => ({
   justifyContent: 'center',
   alignItems: 'center',
   gap: '8px',
-}))
-
-const StyledResizable = styled(Resizable)(() => ({
 }))
 
 const StyledActionsWrapper = styled('div')(({ theme }: {theme: any}) => ({
@@ -68,7 +75,7 @@ const StyledCloseIcon = styled(CloseIcon)(() => ({
   fontSize: '20px'
 }))
 
-const StyledTab = styled(Typography)<{ activated?: string }>(({ theme, activated } : {theme: any, activated: boolean}) => ({
+const StyledTab = styled(Typography)<{ activated?: string }>(({ theme, activated } : { theme: any, activated: boolean }) => ({
   padding: '4px 12px',
   cursor: 'pointer',
   backgroundColor: activated ? theme.palette.primary.main : 'transparent',
@@ -92,8 +99,8 @@ export default function () {
   const relevantConsoles = status.filter(({ type }) => type === relevantType)
 
   const handleUserKeyPress = useCallback(event => {
-    const { key, keyCode, ctrlKey } = event
-    if ((key === 'Escape' || keyCode === 27) && ctrlKey) {
+    const { keyCode } = event
+    if ((keyCode === 27 || keyCode === 192)) {
       updateIsConsoleOpen()
     }
   }, [])
@@ -110,13 +117,15 @@ export default function () {
       {status.some(({ type }) => type === relevantType) && <StyledWrapper {...{ id: domIdWrapper }}>
         <Resizable
           style={{ display: 'flex', flexDirection: 'column' }}
+          minHeight="300px"
+          maxHeight="800px"
           defaultSize={{
             width: '100%',
             height: 350
           }}
         >
           <StyledResizable>
-            <StyledActionsWrapper>
+            {/* <StyledActionsWrapper>
               <StyledTabs>
                 {relevantConsoles.map(({ uniqueId, title }) => <StyledTab {...{
                   key: uniqueId,
@@ -131,9 +140,27 @@ export default function () {
               <Tooltip {...{ tooltip: 'Close console section' }}>
                 <StyledCloseIcon {...{ onClick: () => updateConsoleActiveId({}) }} />
               </Tooltip>
-            </StyledActionsWrapper>
+            </StyledActionsWrapper> */}
             {relevantConsoles.some(({ uniqueId }) => uniqueId === consoleActiveId)
-              ? <StyledStatusConsole {...{ id: domId }} />
+              ? <div style={{ flex: '1 1 auto', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <StyledTabs>
+                    {relevantConsoles.map(({ uniqueId, title }) => <StyledTab {...{
+                      key: uniqueId,
+                      variant: 'caption',
+                      onClick: () => updateConsoleActiveId({ id: uniqueId }),
+                      activated: isActivated(uniqueId)
+                    }}
+                    >
+                      {title || uniqueId}
+                    </StyledTab>)}
+                  </StyledTabs>
+                  <Tooltip {...{ tooltip: 'Close console section' }}>
+                    <StyledCloseIcon {...{ onClick: () => updateConsoleActiveId({}) }} />
+                  </Tooltip>
+                </div>
+                <StyledStatusConsole {...{ id: domId }} />
+              </div>
               : <StyledEmptyWrapper>
                 <AppsOutageIcon />
                 <Typography {...{ variant: 'caption', color: 'textSecondary' }}>Seems no consoles available. Select one from above</Typography>
