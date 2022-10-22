@@ -132,15 +132,12 @@ export default function () {
                 <StyledCloseIcon {...{ onClick: () => updateConsoleActiveId({}) }} />
               </Tooltip>
             </StyledActionsWrapper>
-            {/* <div style={{ flex: '1 1 auto' }}> */}
-            {/* {relevantConsoles.filter(({ uniqueId }) => uniqueId === consoleActiveId).map(({ uniqueId }) => <>{uniqueId}</>)} */}
             {relevantConsoles.some(({ uniqueId }) => uniqueId === consoleActiveId)
               ? <StyledStatusConsole {...{ id: domId }} />
               : <StyledEmptyWrapper>
                 <AppsOutageIcon />
                 <Typography {...{ variant: 'caption', color: 'textSecondary' }}>Seems no consoles available. Select one from above</Typography>
               </StyledEmptyWrapper>}
-            {/* </div> */}
           </StyledResizable>
         </Resizable>
       </StyledWrapper>}

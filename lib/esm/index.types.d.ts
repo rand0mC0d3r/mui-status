@@ -25,3 +25,13 @@ export declare enum PlacementPosition {
     Top = "top",
     Bottom = "bottom"
 }
+export declare const Direction: {
+    Top: string;
+    TopLeft: string;
+    TopRight: string;
+    Right: string;
+    Bottom: string;
+    BottomLeft: string;
+    BottomRight: string;
+    Left: string;
+};
