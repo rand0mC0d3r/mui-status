@@ -6,7 +6,7 @@ import { ClickAwayListener, Popper, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react'
 import { SettingsObject, StatusObject } from '../index.types'
-import MupStatus from '../MuiStatus'
+import MuiStatus from '../MuiStatus'
 import DataProvider from '../MuiStore'
 import Tooltip from '../utils/Tooltip'
 
@@ -156,7 +156,7 @@ export default function ({
   }, [status, id, statusObject])
 
   return <>
-    <MupStatus {...{
+    <MuiStatus {...{
       id,
       tooltip,
       highlight: (keepOpen || open) ? 'primary' : highlight,
@@ -166,7 +166,7 @@ export default function ({
     }}
     >
       {children}
-    </MupStatus>
+    </MuiStatus>
     {popoverComponent !== undefined
       ? popoverComponent(ComponentPopoverProps)
       : <Popper {...{ keepMounted: keepOpen, ...FallbackPopoverProps }}>

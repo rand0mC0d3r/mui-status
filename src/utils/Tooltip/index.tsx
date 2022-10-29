@@ -13,6 +13,6 @@ export default function ({
   return <>
     {(tooltipComponent !== undefined && tooltip)
       ? tooltipComponent(tooltip, <span>{children}</span>)
-      : <Tooltip arrow title={tooltip}><span>{children}</span></Tooltip>}
+      : <Tooltip arrow title={<span style={{ userSelect: 'none' }}>{tooltip}</span>}><span>{children}</span></Tooltip>}
   </>
 }
