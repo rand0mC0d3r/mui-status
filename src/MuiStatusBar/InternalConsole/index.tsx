@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import AppsOutageIcon from '@mui/icons-material/AppsOutage'
 import CloseIcon from '@mui/icons-material/Close'
 import { Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { Resizable } from 're-resizable'
-import { useCallback, useContext, useEffect } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { SettingsObject } from '../../index.types'
 import DataProvider from '../../MuiStore'
 import Tooltip from '../../utils/Tooltip'
@@ -55,15 +56,15 @@ const StyledEmptyWrapper = styled('div')(() => ({
   gap: '8px',
 }))
 
-const StyledActionsWrapper = styled('div')(({ theme }: {theme: any}) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  backgroundColor: theme.palette.background.paper,
-  padding: '0px',
-  boxShadow: `inset 0px 1px 0px 0px ${theme.palette.divider}, inset 0px -1px 0px 0px ${theme.palette.divider}`,
-  alignItems: 'center',
-}))
+// const StyledActionsWrapper = styled('div')(({ theme }: {theme: any}) => ({
+//   display: 'flex',
+//   flexDirection: 'row',
+//   justifyContent: 'space-between',
+//   backgroundColor: theme.palette.background.paper,
+//   padding: '0px',
+//   boxShadow: `inset 0px 1px 0px 0px ${theme.palette.divider}, inset 0px -1px 0px 0px ${theme.palette.divider}`,
+//   alignItems: 'center',
+// }))
 
 const StyledTabs = styled('div')(() => ({
   display: 'flex',
@@ -76,15 +77,15 @@ const StyledCloseIcon = styled(CloseIcon)(() => ({
 }))
 
 const StyledTab = styled(Typography)<{ activated?: string }>(({ theme, activated } : { theme: any, activated: boolean }) => ({
-  padding: '4px 12px',
-  cursor: 'pointer',
-  backgroundColor: activated ? theme.palette.primary.main : 'transparent',
-  color: activated ? theme.palette.background.default : theme.palette.text.secondary,
+  // padding: '4px 12px',
+  // cursor: 'pointer',
+  // backgroundColor: activated ? theme.palette.primary.main : 'transparent',
+  // color: activated ? theme.palette.background.default : theme.palette.text.secondary,
 
-  '&:hover': {
-    backgroundColor: activated ? theme.palette.primary.dark : theme.palette.divider,
-    color: activated ? theme.palette.background.default : theme.palette.text.primary,
-  }
+  // '&:hover': {
+  //   backgroundColor: activated ? theme.palette.primary.dark : theme.palette.divider,
+  //   color: activated ? theme.palette.background.default : theme.palette.text.primary,
+  // }
 }))
 
 const domId = 'mui-status-console'
@@ -97,6 +98,9 @@ export default function () {
 
   const isActivated = (uniqueId: string) => uniqueId === consoleActiveId ? consoleActiveId : undefined
   const relevantConsoles = status.filter(({ type }) => type === relevantType)
+
+  const [height, setHeight] = useState('300px')
+  const [width, setWidth] = useState('100%')
 
   const handleUserKeyPress = useCallback(event => {
     const { keyCode } = event
@@ -116,31 +120,22 @@ export default function () {
     {(consoleActiveId || isConsoleOpen) && <>
       {status.some(({ type }) => type === relevantType) && <StyledWrapper {...{ id: domIdWrapper }}>
         <Resizable
-          style={{ display: 'flex', flexDirection: 'column' }}
-          minHeight="300px"
-          maxHeight="800px"
-          defaultSize={{
-            width: '100%',
-            height: 350
+          onResizeStop={(_e, _direction, _ref, d) => {
+            const computedHeight = Number(height.replace('px', '')) + d.height
+            const computedWidth = Number(width.replace('px', '')) + d.width
+            if (computedHeight < 125) {
+              updateConsoleActiveId({})
+            } else {
+              setHeight(`${computedHeight}px`)
+              setWidth(`${computedWidth}px`)
+            }
           }}
+          style={{ display: 'flex', flexDirection: 'column' }}
+          minHeight="75px"
+          maxHeight="950px"
+          defaultSize={{ width, height }}
         >
           <StyledResizable>
-            {/* <StyledActionsWrapper>
-              <StyledTabs>
-                {relevantConsoles.map(({ uniqueId, title }) => <StyledTab {...{
-                  key: uniqueId,
-                  variant: 'caption',
-                  onClick: () => updateConsoleActiveId({ id: uniqueId }),
-                  activated: isActivated(uniqueId)
-                }}
-                >
-                  {title || uniqueId}
-                </StyledTab>)}
-              </StyledTabs>
-              <Tooltip {...{ tooltip: 'Close console section' }}>
-                <StyledCloseIcon {...{ onClick: () => updateConsoleActiveId({}) }} />
-              </Tooltip>
-            </StyledActionsWrapper> */}
             {relevantConsoles.some(({ uniqueId }) => uniqueId === consoleActiveId)
               ? <div style={{ flex: '1 1 auto', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
