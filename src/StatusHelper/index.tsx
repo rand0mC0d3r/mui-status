@@ -3,7 +3,7 @@ import { Stack, SvgIcon, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, HTMLAttributes, ReactNode } from 'react'
 
-const StyledBox = styled(Stack)<{ reverse?: boolean }>(({ theme, reverse }: { theme: any, reverse: boolean}) => ({
+const StyledBox = styled(Stack)<{ reverse: boolean }>(({ theme, reverse }: { theme: any, reverse: boolean}) => ({
   gap: `${theme.spacing(0.65)}`,
   color: theme.palette.action.active,
   flexDirection: reverse ? 'row-reverse' : 'row',
@@ -21,10 +21,10 @@ const StyledBox = styled(Stack)<{ reverse?: boolean }>(({ theme, reverse }: { th
   }
 }))
 
-const StyledSvgIcon = styled(SvgIcon)<{ reverseIcon: boolean }>(({ theme, reverseIcon } : { theme: any, reverseIcon: boolean}) => ({
+const StyledSvgIcon = styled(SvgIcon)<{ reversed: boolean }>(({ theme, reversed } : { theme: any, reversed: boolean}) => ({
   fontSize: theme.typography.h6.fontSize,
   color: theme.palette.action.active,
-  transform: reverseIcon ? 'scaleX(-1)' : 'scaleX(1)',
+  transform: reversed ? 'scaleX(-1)' : 'scaleX(1)',
 }))
 
 const StyledTypography = styled(Typography)(({ theme } : { theme: any }) => ({
@@ -95,7 +95,7 @@ export default function ({
   style?: CSSProperties,
 }) {
   return <StyledBox {...{ style, className, reverse }}>
-    {icon && <StyledSvgIcon {...{ reverseIcon }}>{icon}</StyledSvgIcon>}
+    {icon && <StyledSvgIcon {...{ reversed: reverseIcon }}>{icon}</StyledSvgIcon>}
     {image && <StyledImg {...{ alt: '', mask, src: image }} />}
     {notifications && <StyledNotificationsTypography {...{ variant: 'subtitle2', color: 'textPrimary' }}>{notifications}</StyledNotificationsTypography>}
     {boldText && <StyledBoldTypography {...{ variant: 'caption', color: 'textPrimary' }}>{boldText}</StyledBoldTypography>}

@@ -26,16 +26,16 @@ const StyledActions = styled('div')(({ theme }) => ({
   alignItems: 'center'
 }))
 
-const StyledContainer = styled('div')(({ theme }) => ({
+const StyledContainer = styled('div')<{elevation: number}>(({ theme, elevation } : {theme: any, elevation: number}) => ({
   display: 'flex',
   alignItems: 'stretch',
   flexDirection: 'column',
-  backgroundColor: 'rgba(255,255,255,0.9)',
+  backgroundColor: `${theme.palette.background.default}BB`,
   backdropFilter: 'blur(8px)',
   borderRadius: `${theme.shape.borderRadius}px`,
   margin: '8px',
-  border: `2px solid ${theme.palette.primary.main}`,
-  boxShadow: theme.shadows[4]
+  border: `1px solid ${theme.palette.divider}`,
+  boxShadow: theme.shadows[elevation]
 }))
 
 const StyledTypography = styled(Typography)(() => ({
@@ -171,10 +171,10 @@ export default function ({
       ? popoverComponent(ComponentPopoverProps)
       : <Popper {...{ keepMounted: keepOpen, ...FallbackPopoverProps }}>
         <ClickAwayListener onClickAway={() => handleOnClose()}>
-          <StyledContainer>
+          <StyledContainer {...{ elevation }}>
             {popover}
             <StyledActionsWrapper>
-              <StyledTypography variant="caption" color="textPrimary">{popoverTitle}</StyledTypography>
+              <StyledTypography variant="caption" color="textSecondary">{popoverTitle}</StyledTypography>
               <StyledActions>
                 {popoverActions}
                 {settings.hasLock && <Tooltip tooltip="Toggle keep-open">
