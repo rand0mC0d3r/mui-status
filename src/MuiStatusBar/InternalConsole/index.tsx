@@ -76,16 +76,16 @@ const StyledCloseIcon = styled(CloseIcon)(() => ({
   fontSize: '20px'
 }))
 
-const StyledTab = styled(Typography)<{ activated?: string }>(({ theme, activated } : { theme: any, activated: boolean }) => ({
-  // padding: '4px 12px',
-  // cursor: 'pointer',
-  // backgroundColor: activated ? theme.palette.primary.main : 'transparent',
-  // color: activated ? theme.palette.background.default : theme.palette.text.secondary,
+const StyledTab = styled(Typography)<{ activated?: boolean }>(({ theme, activated } : { theme: any, activated: boolean }) => ({
+  padding: '4px 12px',
+  cursor: 'pointer',
+  backgroundColor: activated ? theme.palette.primary.main : 'transparent',
+  color: activated ? theme.palette.background.default : theme.palette.text.secondary,
 
-  // '&:hover': {
-  //   backgroundColor: activated ? theme.palette.primary.dark : theme.palette.divider,
-  //   color: activated ? theme.palette.background.default : theme.palette.text.primary,
-  // }
+  '&:hover': {
+    backgroundColor: activated ? theme.palette.primary.dark : theme.palette.divider,
+    color: activated ? theme.palette.background.default : theme.palette.text.primary,
+  }
 }))
 
 const domId = 'mui-status-console'
@@ -96,7 +96,7 @@ export default function () {
   const { status, updateConsoleActiveId, updateIsConsoleOpen } = useContext(DataProvider)
   const { consoleActiveId, isConsoleOpen } = useContext(DataProvider).settings as SettingsObject
 
-  const isActivated = (uniqueId: string) => uniqueId === consoleActiveId ? consoleActiveId : undefined
+  const isActivated = (uniqueId: string): boolean => uniqueId === consoleActiveId
   const relevantConsoles = status.filter(({ type }) => type === relevantType)
 
   const [height, setHeight] = useState('300px')
