@@ -1,29 +1,36 @@
-import { SvgIcon, Typography } from '@mui/material'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Stack, SvgIcon, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, HTMLAttributes, ReactNode } from 'react'
 
-const StyledBox = styled('div')<{ reverse?: boolean }>(({ theme, reverse }) => ({
-  gap: `${theme.shape.borderRadius}px`,
+const StyledBox = styled(Stack)<{ reverse?: boolean }>(({ theme, reverse }: { theme: any, reverse: boolean}) => ({
+  gap: `${theme.spacing(0.65)}`,
   color: theme.palette.action.active,
+  flexDirection: reverse ? 'row-reverse' : 'row',
+
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
   flexWrap: 'nowrap',
   userSelect: 'none',
-  flexDirection: reverse ? 'row-reverse' : 'row',
   WebkitFontSmoothing: 'antialiased',
   shapeRendering: 'geometricPrecision',
+
+  '&:hover': {
+    color: theme.palette.action.hover,
+  }
 }))
 
-const StyledSvgIcon = styled(SvgIcon)<{ reversed?: boolean }>(({ theme, reversed }) => ({
+const StyledSvgIcon = styled(SvgIcon)<{ reverseIcon: boolean }>(({ theme, reverseIcon } : { theme: any, reverseIcon: boolean}) => ({
   fontSize: theme.typography.h6.fontSize,
-  transform: reversed ? 'scaleX(-1)' : 'scaleX(1)',
+  color: theme.palette.action.active,
+  transform: reverseIcon ? 'scaleX(-1)' : 'scaleX(1)',
 }))
 
-const StyledTypography = styled(Typography)(() => ({
+const StyledTypography = styled(Typography)(({ theme } : { theme: any }) => ({
   whiteSpace: 'nowrap',
   userSelect: 'none',
-  fontSize: '12px',
+  fontSize: theme.typography.subtitle2.fontSize,
   lineHeight: 'inherit',
 }))
 
@@ -35,7 +42,7 @@ const StyledBoldTypography = styled(Typography)(() => ({
   fontWeight: 'bold',
 }))
 
-const StyledNotificationsTypography = styled(Typography)(({ theme }) => ({
+const StyledNotificationsTypography = styled(Typography)(({ theme } : { theme: any }) => ({
   borderRadius: `${theme.shape.borderRadius * 2}px`,
   padding: '0px 6px',
   fontSize: '10px',
@@ -44,9 +51,10 @@ const StyledNotificationsTypography = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.primary,
 }))
 
-const StyledImg = styled('img')(() => ({
+const StyledImg = styled('img')<{ mask: boolean }>(({ mask } : { mask: boolean }) => ({
   width: '18px',
   height: '18px',
+  borderRadius: mask ? '50%' : '0px',
 }))
 
 /**
@@ -87,8 +95,8 @@ export default function ({
   style?: CSSProperties,
 }) {
   return <StyledBox {...{ style, className, reverse }}>
-    {icon && <StyledSvgIcon {...{ color: 'action', reversed: reverseIcon }}>{icon}</StyledSvgIcon>}
-    {image && <StyledImg {...{ alt: '', style: { borderRadius: mask ? '50%' : '0px' }, src: image }} />}
+    {icon && <StyledSvgIcon {...{ reverseIcon }}>{icon}</StyledSvgIcon>}
+    {image && <StyledImg {...{ alt: '', mask, src: image }} />}
     {notifications && <StyledNotificationsTypography {...{ variant: 'subtitle2', color: 'textPrimary' }}>{notifications}</StyledNotificationsTypography>}
     {boldText && <StyledBoldTypography {...{ variant: 'caption', color: 'textPrimary' }}>{boldText}</StyledBoldTypography>}
     {text && <StyledTypography {...{ variant: 'caption', color: 'textPrimary' }}>{text}</StyledTypography>}

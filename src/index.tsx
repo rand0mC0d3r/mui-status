@@ -1,11 +1,11 @@
 import MuiStatus from './MuiStatus'
-import MuiStatusChild from './MuiStatusChild'
 import MuiStatusConsole from './MuiStatusConsole'
 import MuiStatusPanel from './MuiStatusPanel'
 import { MuiStatusProvider } from './MuiStore'
+import StatusHelper from './StatusHelper'
 
 export {
-  MuiStatusChild as StatusHelper,
+  StatusHelper,
   MuiStatus as Status,
   MuiStatusPanel as StatusPanel,
   MuiStatusConsole as StatusConsole,

@@ -79,7 +79,7 @@
     "test": "react-scripts test",
     "*LINKING*": "--------------------------------------------------------------",
     "#prelink": "npm run list",
-    "link": "npm link @mui/material @mui/icons-material react react-dom @types/react",
+    "link": "npm link @mui/material @mui/icons-material @mui/system react react-dom @types/react",
     "postlink": "npm run list",
     "*RELEASE*": "--------------------------------------------------------------",
     "tag": "rm -rf lib/* && npm run build.lib && git commit -am 'built next version' && npm version patch && git push && git push --tags && npm publish"
