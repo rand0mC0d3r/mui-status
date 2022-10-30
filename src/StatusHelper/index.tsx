@@ -3,10 +3,10 @@ import { Stack, SvgIcon, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, HTMLAttributes, ReactNode } from 'react'
 
-const StyledBox = styled(Stack)<{ reverse: boolean }>(({ theme, reverse }: { theme: any, reverse: boolean}) => ({
-  gap: `${theme.spacing(0.65)}`,
+const StyledBox = styled(Stack)<{ reverse: string }>(({ theme, reverse }: { theme: any, reverse: string }) => ({
+  gap: `${theme.spacing(0.5)}`,
   color: theme.palette.action.active,
-  flexDirection: reverse ? 'row-reverse' : 'row',
+  flexDirection: reverse === 'true' ? 'row-reverse' : 'row',
 
   display: 'flex',
   alignItems: 'center',
@@ -16,38 +16,29 @@ const StyledBox = styled(Stack)<{ reverse: boolean }>(({ theme, reverse }: { the
   WebkitFontSmoothing: 'antialiased',
   shapeRendering: 'geometricPrecision',
 
-  '&:hover': {
-    color: theme.palette.action.hover,
-  }
 }))
 
-const StyledSvgIcon = styled(SvgIcon)<{ reversed: boolean }>(({ theme, reversed } : { theme: any, reversed: boolean}) => ({
-  fontSize: theme.typography.h6.fontSize,
+const StyledSvgIcon = styled(SvgIcon)<{ reverseicon: string }>(({ theme, reverseicon } : { theme: any, reverseicon: string }) => ({
+  fontSize: '14px',
+  flex: '0 1 100%',
   color: theme.palette.action.active,
-  transform: reversed ? 'scaleX(-1)' : 'scaleX(1)',
+  transform: reverseicon === 'true' ? 'scaleX(-1)' : 'scaleX(1)',
 }))
 
 const StyledTypography = styled(Typography)(({ theme } : { theme: any }) => ({
   whiteSpace: 'nowrap',
   userSelect: 'none',
-  fontSize: theme.typography.subtitle2.fontSize,
+  fontSize: theme.typography.caption.fontSize,
   lineHeight: 'inherit',
-}))
-
-const StyledBoldTypography = styled(Typography)(() => ({
-  whiteSpace: 'nowrap',
-  userSelect: 'none',
-  fontSize: '12px',
-  lineHeight: 'inherit',
-  fontWeight: 'bold',
 }))
 
 const StyledNotificationsTypography = styled(Typography)(({ theme } : { theme: any }) => ({
   borderRadius: `${theme.shape.borderRadius * 2}px`,
   padding: '0px 6px',
+  lineHeight: '1.3',
   fontSize: '10px',
   backgroundColor: theme.palette.divider,
-  boxShadow: `0px 0px 1px 1px ${theme.palette.background.default}6`,
+  border: `0.5px solid ${theme.palette.divider}`,
   color: theme.palette.text.primary,
 }))
 
@@ -60,8 +51,7 @@ const StyledImg = styled('img')<{ mask: boolean }>(({ mask } : { mask: boolean }
 /**
  * @param icon - (ReactNode) Icon to display for status element. Expects a Material UI SvgIcon component.
  * @param text - (string | number) Text to display for status element.
- * @param notifications - (number) Badge to display relevant notifications.
- * @param boldText - (string | number) Text to display in a heavier way.
+ * @param notifications - (string | number) Badge to display relevant notifications.
  * @param image - (string) Image to display for status element. Expects a valid image path.
  * @param mask - (boolean) If needs to be applied a circular mask to the image.
  * @param reverse - (boolean) If needs to be applied a reverse of the default order of the elements.
@@ -75,7 +65,6 @@ export default function ({
   icon,
   text,
   notifications,
-  boldText,
   image,
   mask = false,
   reverse = false,
@@ -85,8 +74,7 @@ export default function ({
 } : {
   icon?: ReactNode,
   text?: string,
-  notifications?: number,
-  boldText?: string | number,
+  notifications?: string | number,
   image?: string,
   mask?: boolean,
   reverse?: boolean,
@@ -94,11 +82,12 @@ export default function ({
   className?: HTMLAttributes<HTMLDivElement>['className'],
   style?: CSSProperties,
 }) {
-  return <StyledBox {...{ style, className, reverse }}>
-    {icon && <StyledSvgIcon {...{ reversed: reverseIcon }}>{icon}</StyledSvgIcon>}
+  return <StyledBox id="statusHelper" {...{ style, className, reverse: reverse.toString() }}>
+    {icon && <StyledSvgIcon {...{ reverseicon: reverseIcon.toString() }}>{icon}</StyledSvgIcon>}
     {image && <StyledImg {...{ alt: '', mask, src: image }} />}
-    {notifications && <StyledNotificationsTypography {...{ variant: 'subtitle2', color: 'textPrimary' }}>{notifications}</StyledNotificationsTypography>}
-    {boldText && <StyledBoldTypography {...{ variant: 'caption', color: 'textPrimary' }}>{boldText}</StyledBoldTypography>}
-    {text && <StyledTypography {...{ variant: 'caption', color: 'textPrimary' }}>{text}</StyledTypography>}
+    {notifications && <StyledNotificationsTypography {...{ variant: 'subtitle2', color: 'textPrimary' }}>
+      {notifications}
+    </StyledNotificationsTypography>}
+    {text && <StyledTypography {...{ variant: 'caption', color: 'textSecondary' }}>{text}</StyledTypography>}
   </StyledBox>
 }

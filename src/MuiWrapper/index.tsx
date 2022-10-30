@@ -48,7 +48,7 @@ const StyledEntryElementItem = styled('div')(({ theme }) => ({
   flexDirection: 'row',
   alignItems: 'center',
   gap: '4px',
-  padding: '4px 8px',
+  padding: '4px 6px',
 
   '&:hover': {
     backgroundColor: theme.palette.primary.light,
