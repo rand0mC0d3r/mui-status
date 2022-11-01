@@ -35,17 +35,28 @@ const StyledContainer = styled('div')<{ hasClick?: boolean, highlight?: string, 
 
   cursor: (hasClick && !isDisabled) ? 'pointer' : '',
   backgroundColor: backgroundColor(highlight, theme),
+  color: theme.palette.text.secondary,
 
   '& > div > *': {
-    color: highlight !== 'default' ? `${theme.palette.background.default} !important` : '',
+    color: highlight !== 'default'
+      ? `${theme.palette.background.default} !important`
+      : '',
   },
   '& > span > div > *': {
-    color: highlight !== 'default' ? `${theme.palette.background.default} !important` : '',
+    color: highlight !== 'default'
+      ? `${theme.palette.background.default} !important`
+      : '',
   },
 
   '&:hover': {
-    backgroundColor: (hasClick && !isDisabled) ? `${highlight === 'default' ? theme.palette.divider : onHoverBg(highlight, theme)} !important` : '',
-    color: (hasClick && !isDisabled) ? `${theme.palette.background.default} !important` : '',
+    backgroundColor: (hasClick && !isDisabled)
+      ? `${highlight === 'default'
+        ? theme.palette.divider
+        : onHoverBg(highlight, theme)} !important`
+      : backgroundColor(highlight, theme),
+    color: (hasClick && !isDisabled)
+      ? `${theme.palette.text.primary}`
+      : `${theme.palette.text.primary}`,
   },
 }))
 

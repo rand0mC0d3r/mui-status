@@ -5,7 +5,6 @@ import { CSSProperties, HTMLAttributes, ReactNode } from 'react'
 
 const StyledBox = styled(Stack)<{ reverse: string }>(({ theme, reverse }: { theme: any, reverse: string }) => ({
   gap: `${theme.spacing(0.5)}`,
-  color: theme.palette.action.active,
   flexDirection: reverse === 'true' ? 'row-reverse' : 'row',
 
   display: 'flex',
@@ -21,7 +20,6 @@ const StyledBox = styled(Stack)<{ reverse: string }>(({ theme, reverse }: { them
 const StyledSvgIcon = styled(SvgIcon)<{ reverseicon: string }>(({ theme, reverseicon } : { theme: any, reverseicon: string }) => ({
   fontSize: '14px',
   flex: '0 1 100%',
-  color: theme.palette.action.active,
   transform: reverseicon === 'true' ? 'scaleX(-1)' : 'scaleX(1)',
 }))
 
@@ -39,7 +37,6 @@ const StyledNotificationsTypography = styled(Typography)(({ theme } : { theme: a
   fontSize: '10px',
   backgroundColor: theme.palette.divider,
   border: `0.5px solid ${theme.palette.divider}`,
-  color: theme.palette.text.primary,
 }))
 
 const StyledImg = styled('img')<{ mask: boolean }>(({ mask } : { mask: boolean }) => ({
@@ -88,6 +85,6 @@ export default function ({
     {notifications && <StyledNotificationsTypography {...{ variant: 'subtitle2', color: 'textPrimary' }}>
       {notifications}
     </StyledNotificationsTypography>}
-    {text && <StyledTypography {...{ variant: 'caption', color: 'textSecondary' }}>{text}</StyledTypography>}
+    {text && <StyledTypography {...{ variant: 'caption' }}>{text}</StyledTypography>}
   </StyledBox>
 }

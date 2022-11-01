@@ -10,11 +10,11 @@ import MuiStatus from '../MuiStatus'
 import DataProvider from '../MuiStore'
 import Tooltip from '../utils/Tooltip'
 
-const StyledActionsWrapper = styled('div')(() => ({
+const StyledActionsWrapper = styled('div')(({ theme } : {theme: any}) => ({
   padding: '8px',
   display: 'flex',
   justifyContent: 'space-between',
-  borderTop: '1px dotted #000000',
+  borderTop: `1px solid ${theme.palette.divider}`,
   userSelect: 'none',
   alignItems: 'center'
 }))
@@ -33,7 +33,8 @@ const StyledContainer = styled('div')<{elevation: number}>(({ theme, elevation }
   backgroundColor: `${theme.palette.background.default}BB`,
   backdropFilter: 'blur(8px)',
   borderRadius: `${theme.shape.borderRadius}px`,
-  margin: '8px',
+  margin: `${theme.spacing(0.5)} 0px`,
+  padding: theme.spacing(0.5),
   border: `1px solid ${theme.palette.divider}`,
   boxShadow: theme.shadows[elevation]
 }))
@@ -45,7 +46,7 @@ const StyledTypography = styled(Typography)(() => ({
 export default function ({
   id,
   secondary = false,
-  elevation = 4,
+  elevation = 2,
   style,
   onClick,
   onClose,
@@ -94,10 +95,10 @@ export default function ({
   const horizontal = statusObject?.secondary ? 'right' : 'left'
 
   const handleOnClick = (e: any) => {
-    if (onClick) {
+    if (onClick && !keepOpen) {
       onClick()
     }
-    if (anchorEl) {
+    if (anchorEl && !keepOpen) {
       setAnchorEl(null)
     } else {
       setAnchorEl(e.currentTarget)
