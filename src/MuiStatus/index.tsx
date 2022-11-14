@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Tooltip } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import React, { useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
+import React, { CSSProperties, ReactNode, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { SettingsObject, StatusObject } from '../index.types'
 import DataProvider from '../MuiStore'
@@ -36,7 +36,6 @@ const StyledTooltip = styled(Tooltip)(() => ({
 const StyledContainer = styled('div')<{ hasClick?: boolean, highlight?: string, isDisabled?: boolean }>(({ theme, hasClick, highlight, isDisabled }: any) => ({
   WebkitFontSmoothing: 'auto',
   height: '100%',
-  // padding: '4px 8px',
   display: 'flex',
   flex: '0 0 auto',
   alignItems: 'center',
@@ -79,13 +78,13 @@ export default function ({
 } : {
   id: string,
   secondary?: boolean,
-  style?: React.CSSProperties,
+  style?: CSSProperties,
   onClick?: any,
   onContextMenu?: any,
   disabled?: boolean,
   highlight?: 'default' | 'primary' | 'secondary',
-  tooltip?: React.ReactNode | string,
-  children?: React.ReactNode,
+  tooltip?: ReactNode | string,
+  children?: ReactNode,
 }) {
   const { status, handleStatusUpdate, handleStatusAnnouncement, handleStatusDestroy } = useContext(DataProvider)
   const { allowRightClick } = useContext(DataProvider).settings as SettingsObject
