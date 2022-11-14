@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import { ClickAwayListener, Popper, Typography } from '@mui/material'
+import { alpha, ClickAwayListener, Popper, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react'
 import { SettingsObject, StatusObject } from '../index.types'
@@ -30,7 +30,7 @@ const StyledContainer = styled('div')<{elevation: number}>(({ theme, elevation }
   display: 'flex',
   alignItems: 'stretch',
   flexDirection: 'column',
-  backgroundColor: `${theme.palette.background.default}BB`,
+  backgroundColor: `${alpha(theme.palette.background.default, 0.75)}`,
   backdropFilter: 'blur(8px)',
   borderRadius: `${theme.shape.borderRadius}px`,
   margin: `${theme.spacing(0.5)} 0px`,
@@ -141,7 +141,6 @@ export default function ({
     elevation,
     id: `mui-status-panel-popover-${id}`,
     className: popoverClassName,
-    marginThreshold: 36,
     style: {
       marginTop: `${(isToggled ? 1 : -1) * 12}px`,
       ...popoverStyle,
