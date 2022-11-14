@@ -139,7 +139,6 @@ export default function ({
     anchorEl,
     onClose,
     elevation,
-    disableEnforceFocus: true,
     id: `mui-status-panel-popover-${id}`,
     className: popoverClassName,
     marginThreshold: 36,

@@ -19,7 +19,6 @@ const StyledResizable = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'column',
   flex: '1 1 auto',
-  // zIndex: '10000 !important',
 }))
 
 const StyledWrapper = styled('div')(({ theme }: {theme: any}) => ({
@@ -32,15 +31,6 @@ const StyledWrapper = styled('div')(({ theme }: {theme: any}) => ({
   left: '0px',
   alignItems: 'center',
   right: '0px',
-
-  // '& > div:nth-child(1) > div:nth-child(1)': {
-  //   zIndex: '0 !important',
-  //   backgroundColor: 'transparent !important',
-  // },
-
-  // '& > div:nth-child(1) > div:nth-child(1)': {
-  //   backgroundColor: 'blue !important',
-  // },
 
   '& > div > div:nth-child(2) > div:not(:first-child)': {
     display: 'none',
@@ -56,16 +46,6 @@ const StyledEmptyWrapper = styled('div')(() => ({
   gap: '8px',
 }))
 
-// const StyledActionsWrapper = styled('div')(({ theme }: {theme: any}) => ({
-//   display: 'flex',
-//   flexDirection: 'row',
-//   justifyContent: 'space-between',
-//   backgroundColor: theme.palette.background.paper,
-//   padding: '0px',
-//   boxShadow: `inset 0px 1px 0px 0px ${theme.palette.divider}, inset 0px -1px 0px 0px ${theme.palette.divider}`,
-//   alignItems: 'center',
-// }))
-
 const StyledTabs = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'row',
@@ -76,15 +56,15 @@ const StyledCloseIcon = styled(CloseIcon)(() => ({
   fontSize: '20px'
 }))
 
-const StyledTab = styled(Typography)<{ activated?: boolean }>(({ theme, activated } : { theme: any, activated: boolean }) => ({
+const StyledTab = styled(Typography)<{ activated?: string }>(({ theme, activated } : { theme: any, activated: string }) => ({
   padding: '4px 12px',
   cursor: 'pointer',
-  backgroundColor: activated ? theme.palette.primary.main : 'transparent',
-  color: activated ? theme.palette.background.default : theme.palette.text.secondary,
+  backgroundColor: activated === 'true' ? theme.palette.primary.main : 'transparent',
+  color: activated === 'true' ? theme.palette.background.default : theme.palette.text.secondary,
 
   '&:hover': {
-    backgroundColor: activated ? theme.palette.primary.dark : theme.palette.divider,
-    color: activated ? theme.palette.background.default : theme.palette.text.primary,
+    backgroundColor: activated === 'true' ? theme.palette.primary.dark : theme.palette.divider,
+    color: activated === 'true' ? theme.palette.background.default : theme.palette.text.primary,
   }
 }))
 
@@ -104,7 +84,7 @@ export default function () {
 
   const handleUserKeyPress = useCallback(event => {
     const { keyCode } = event
-    if ((keyCode === 27 || keyCode === 192)) {
+    if ((keyCode === 27)) {
       updateIsConsoleOpen()
     }
   }, [])
@@ -117,17 +97,16 @@ export default function () {
   }, [handleUserKeyPress])
 
   return <>
-    {(consoleActiveId || isConsoleOpen) && <>
+    {(isConsoleOpen) && <>
       {status.some(({ type }) => type === relevantType) && <StyledWrapper {...{ id: domIdWrapper }}>
         <Resizable
           onResizeStop={(_e, _direction, _ref, d) => {
             const computedHeight = Number(height.replace('px', '')) + d.height
-            const computedWidth = Number(width.replace('px', '')) + d.width
             if (computedHeight < 125) {
               updateConsoleActiveId({})
             } else {
               setHeight(`${computedHeight}px`)
-              setWidth(`${computedWidth}px`)
+              setWidth('100%')
             }
           }}
           style={{ display: 'flex', flexDirection: 'column' }}
@@ -144,7 +123,7 @@ export default function () {
                       key: uniqueId,
                       variant: 'caption',
                       onClick: () => updateConsoleActiveId({ id: uniqueId }),
-                      activated: isActivated(uniqueId)
+                      activated: isActivated(uniqueId).toString()
                     }}
                     >
                       {title || uniqueId}

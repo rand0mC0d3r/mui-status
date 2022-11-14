@@ -1,14 +1,12 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Tooltip } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import React, { useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { SettingsObject, StatusObject } from '../index.types'
 import DataProvider from '../MuiStore'
-import Tooltip from '../utils/Tooltip'
-
-const onHoverBg = (highlight: string, theme: any) => highlight === 'primary' ? theme.palette.primary.dark : theme.palette.secondary.dark
 
 const backgroundColor = (highlight: string, theme: any) => {
   switch (highlight) {
@@ -20,11 +18,25 @@ const backgroundColor = (highlight: string, theme: any) => {
       return ''
   }
 }
+const backgroundColorHover = (highlight: string, theme: any) => {
+  switch (highlight) {
+    case 'primary':
+      return theme.palette.primary.dark
+    case 'secondary':
+      return theme.palette.secondary.dark
+    default:
+      return theme.palette.divider
+  }
+}
+
+const StyledTooltip = styled(Tooltip)(() => ({
+  padding: '4px 8px',
+}))
 
 const StyledContainer = styled('div')<{ hasClick?: boolean, highlight?: string, isDisabled?: boolean }>(({ theme, hasClick, highlight, isDisabled }: any) => ({
   WebkitFontSmoothing: 'auto',
   height: '100%',
-  padding: '4px 8px',
+  // padding: '4px 8px',
   display: 'flex',
   flex: '0 0 auto',
   alignItems: 'center',
@@ -35,7 +47,7 @@ const StyledContainer = styled('div')<{ hasClick?: boolean, highlight?: string, 
 
   cursor: (hasClick && !isDisabled) ? 'pointer' : '',
   backgroundColor: backgroundColor(highlight, theme),
-  color: theme.palette.text.secondary,
+  color: theme.palette.text.primary,
 
   '& > div > *': {
     color: highlight !== 'default'
@@ -48,16 +60,10 @@ const StyledContainer = styled('div')<{ hasClick?: boolean, highlight?: string, 
       : '',
   },
 
-  '&:hover': {
-    backgroundColor: (hasClick && !isDisabled)
-      ? `${highlight === 'default'
-        ? theme.palette.divider
-        : onHoverBg(highlight, theme)} !important`
-      : backgroundColor(highlight, theme),
-    color: (hasClick && !isDisabled)
-      ? `${theme.palette.text.primary}`
-      : `${theme.palette.text.primary}`,
-  },
+  '&:hover': (hasClick && !isDisabled) ? {
+    backgroundColor: backgroundColorHover(highlight, theme),
+    color: `${theme.palette.text.primary}`,
+  } : {}
 }))
 
 export default function ({
@@ -178,7 +184,9 @@ export default function ({
           style: { ...style, order: statusObject.index }
         }}
         >
-          <Tooltip {...{ tooltip, children }} />
+          <StyledTooltip title={tooltip} arrow>
+            <span>{children}</span>
+          </StyledTooltip>
         </StyledContainer>
         : <></>,
       elementFound

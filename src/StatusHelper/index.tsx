@@ -17,16 +17,16 @@ const StyledBox = styled(Stack)<{ reverse: string }>(({ theme, reverse }: { them
 
 }))
 
-const StyledSvgIcon = styled(SvgIcon)<{ reverseicon: string }>(({ theme, reverseicon } : { theme: any, reverseicon: string }) => ({
+const StyledSvgIcon = styled(SvgIcon)<{ reverseicon: string }>(({ reverseicon } : { reverseicon: string }) => ({
   fontSize: '14px',
   flex: '0 1 100%',
   transform: reverseicon === 'true' ? 'scaleX(-1)' : 'scaleX(1)',
 }))
 
-const StyledTypography = styled(Typography)(({ theme } : { theme: any }) => ({
+const StyledTypography = styled(Typography)(() => ({
   whiteSpace: 'nowrap',
   userSelect: 'none',
-  fontSize: theme.typography.caption.fontSize,
+  fontSize: '12px',
   lineHeight: 'inherit',
 }))
 
@@ -79,12 +79,17 @@ export default function ({
   className?: HTMLAttributes<HTMLDivElement>['className'],
   style?: CSSProperties,
 }) {
-  return <StyledBox id="statusHelper" {...{ style, className, reverse: reverse.toString() }}>
-    {icon && <StyledSvgIcon {...{ reverseicon: reverseIcon.toString() }}>{icon}</StyledSvgIcon>}
-    {image && <StyledImg {...{ alt: '', mask, src: image }} />}
-    {notifications && <StyledNotificationsTypography {...{ variant: 'subtitle2', color: 'textPrimary' }}>
+  return <StyledBox {...{ id: 'statusHelper', style, className, reverse: reverse.toString() }}>
+    {icon && <StyledSvgIcon {...{ id: 'sh.icon', reverseicon: reverseIcon.toString() }}>{icon}</StyledSvgIcon>}
+    {image && <StyledImg {...{ id: 'sh.image', alt: 'Status entry', mask, src: image }} />}
+    {notifications && <StyledNotificationsTypography {...{
+      id: 'sh.notifications',
+      variant: 'subtitle2',
+      color: 'textPrimary'
+    }}
+    >
       {notifications}
     </StyledNotificationsTypography>}
-    {text && <StyledTypography {...{ variant: 'caption' }}>{text}</StyledTypography>}
+    {text && <StyledTypography {...{ id: 'sh.text', variant: 'caption' }}>{text}</StyledTypography>}
   </StyledBox>
 }

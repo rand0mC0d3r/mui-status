@@ -7,7 +7,6 @@ const StyledPrimaryElem = styled('div')(() => ({
   flexWrap: 'nowrap',
   overflow: 'scroll',
   justifyContent: 'flex-start',
-  gap: '4px',
 
   '&::-webkit-scrollbar': {
     display: 'none'
@@ -20,7 +19,6 @@ const StyledSecondaryElem = styled('div')(() => ({
   overflow: 'hidden',
   justifyContent: 'flex-end',
   alignItems: 'center',
-  gap: '4px',
   flex: '0 1 auto',
   minWidth: '18px',
 

@@ -34,6 +34,7 @@ interface DataContextInterface {
   tooltipComponent: any;
   updateConsoleActiveId: any;
   updateIsConsoleOpen: any;
+  updateIsConsoleClosed: any;
   handleStatusUpdate: any;
   handleStatusAnnouncement: any;
   handleStatusDestroy: any;
@@ -148,6 +149,12 @@ function MuiStatusProvider({
       // consoleActiveId: settings.isConsoleOpen ? undefined : settings.consoleActiveId
     }))
   }
+  const updateIsConsoleClosed = () => {
+    setSettings((settings: SettingsObject) => ({
+      ...settings,
+      isConsoleOpen: false,
+    }))
+  }
 
   useEffect(() => {
     // const storedSettingsLocal = localStorage.getItem(settingsStorageKey)
@@ -199,6 +206,7 @@ function MuiStatusProvider({
       settings,
       updateConsoleActiveId,
       updateIsConsoleOpen,
+      updateIsConsoleClosed,
 
       // status - wrapper
       triggerStatusBarAnnounced,

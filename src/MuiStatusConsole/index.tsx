@@ -40,7 +40,7 @@ export default function ({
     handleStatusConsoleTypeUpdate: any,
     updateConsoleActiveId: any,
   } = useContext(DataProvider)
-  const { consoleActiveId } = useContext(DataProvider).settings as SettingsObject
+  const { consoleActiveId, isConsoleOpen } = useContext(DataProvider).settings as SettingsObject
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
   const [elementFound, setElementFound] = useState<HTMLElement | null>(null)
 
@@ -48,14 +48,16 @@ export default function ({
     if (onClick) {
       onClick()
     }
-    updateConsoleActiveId(consoleActiveId === id ? { } : { id: statusObject?.uniqueId })
+    if (!isConsoleOpen) {
+      updateConsoleActiveId({ id: statusObject?.uniqueId })
+    } else {
+      updateConsoleActiveId(consoleActiveId === id ? { } : { id: statusObject?.uniqueId })
+    }
   }
 
   useEffect(() => {
-    if (statusObject !== null && consoleActiveId) {
-      setElementFound(document.getElementById('mui-status-console') || null)
-    }
-  }, [statusObject, consoleActiveId])
+    setElementFound(document.getElementById('mui-status-console') || null)
+  }, [statusObject, consoleActiveId, isConsoleOpen])
 
   useEffect(() => {
     const foundObject = status.find(({ uniqueId }) => uniqueId === id)
@@ -76,7 +78,7 @@ export default function ({
       id,
       tooltip,
       secondary,
-      highlight: (statusObject && statusObject?.uniqueId === consoleActiveId) ? 'primary' : 'default',
+      highlight: (statusObject && isConsoleOpen && statusObject?.uniqueId === consoleActiveId) ? 'primary' : 'default',
       onClick: () => handleOnClick(),
       style: { ...style, cursor: 'context-menu', minWidth: '24px' }
     }}
