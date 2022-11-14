@@ -7,6 +7,7 @@ interface DataContextInterface {
     tooltipComponent: any;
     updateConsoleActiveId: any;
     updateIsConsoleOpen: any;
+    updateIsConsoleClosed: any;
     handleStatusUpdate: any;
     handleStatusAnnouncement: any;
     handleStatusDestroy: any;

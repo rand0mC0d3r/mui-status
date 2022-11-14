@@ -15,6 +15,7 @@ export interface SettingsObject {
     allowRightClick: boolean;
     position: any;
     expand: any;
+    upperBar: boolean;
     debug: boolean;
     hasLock: boolean;
     isConsoleOpen?: boolean;
@@ -24,3 +25,13 @@ export declare enum PlacementPosition {
     Top = "top",
     Bottom = "bottom"
 }
+export declare const Direction: {
+    Top: string;
+    TopLeft: string;
+    TopRight: string;
+    Right: string;
+    Bottom: string;
+    BottomLeft: string;
+    BottomRight: string;
+    Left: string;
+};

@@ -1,12 +1,12 @@
-import React from 'react';
+import { CSSProperties, ReactNode } from 'react';
 export default function ({ id, secondary, style, onClick, onContextMenu, disabled, highlight, tooltip, children, }: {
     id: string;
     secondary?: boolean;
-    style?: React.CSSProperties;
+    style?: CSSProperties;
     onClick?: any;
     onContextMenu?: any;
     disabled?: boolean;
     highlight?: 'default' | 'primary' | 'secondary';
-    tooltip?: React.ReactNode | string;
-    children?: React.ReactNode;
+    tooltip?: ReactNode | string;
+    children?: ReactNode;
 }): JSX.Element;
