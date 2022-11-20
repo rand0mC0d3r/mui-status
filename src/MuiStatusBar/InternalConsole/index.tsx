@@ -2,13 +2,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import AppsOutageIcon from '@mui/icons-material/AppsOutage'
 import CloseIcon from '@mui/icons-material/Close'
-import { Typography } from '@mui/material'
+import { Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { Resizable } from 're-resizable'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { SettingsObject } from '../../index.types'
 import DataProvider from '../../MuiStore'
-import Tooltip from '../../utils/Tooltip'
 
 const StyledStatusConsole = styled('div')(() => ({
   flex: '1 0 auto',
@@ -129,7 +128,7 @@ export default function () {
                       {title || uniqueId}
                     </StyledTab>)}
                   </StyledTabs>
-                  <Tooltip {...{ tooltip: 'Close console section' }}>
+                  <Tooltip {...{ title: 'Close console section' }}>
                     <StyledCloseIcon {...{ onClick: () => updateConsoleActiveId({}) }} />
                   </Tooltip>
                 </div>

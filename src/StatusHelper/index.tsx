@@ -6,7 +6,6 @@ import { CSSProperties, HTMLAttributes, ReactNode } from 'react'
 const StyledBox = styled(Stack)<{ reverse: string }>(({ theme, reverse }: { theme: any, reverse: string }) => ({
   gap: `${theme.spacing(0.5)}`,
   flexDirection: reverse === 'true' ? 'row-reverse' : 'row',
-
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
@@ -14,7 +13,6 @@ const StyledBox = styled(Stack)<{ reverse: string }>(({ theme, reverse }: { them
   userSelect: 'none',
   WebkitFontSmoothing: 'antialiased',
   shapeRendering: 'geometricPrecision',
-
 }))
 
 const StyledSvgIcon = styled(SvgIcon)<{ reverseicon: string }>(({ reverseicon } : { reverseicon: string }) => ({

@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined'
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined'
-import { Popover, Typography } from '@mui/material'
+import { Popover, Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { MouseEvent, ReactNode, useContext, useState } from 'react'
 import InternalStatus from '../MuiStatusBar/InternalStatus'
 import DataProvider from '../MuiStore'
-import Tooltip from '../utils/Tooltip'
 
 import { PlacementPosition, SettingsObject, StatusObject } from '../index.types'
 import InternalConsole from '../MuiStatusBar/InternalConsole'
@@ -90,8 +89,10 @@ export default function ({
   </StyledEntryElementItem>
 
   const entryWrapper = (statusItem: StatusObject) => <Tooltip
-    {...{ key: statusItem.uniqueId, tooltip: 'Toggle visibility of tile', children: statusEntry(statusItem) }}
-  />
+    {...{ key: statusItem.uniqueId, title: 'Toggle visibility of tile' }}
+  >
+    {statusEntry(statusItem)}
+  </Tooltip>
 
   return <>
     <StyledBox id="mui-status-wrapper" {...{ column: position }}>

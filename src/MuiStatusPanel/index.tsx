@@ -2,13 +2,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import { alpha, ClickAwayListener, Popper, Typography } from '@mui/material'
+import { alpha, ClickAwayListener, Popper, Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react'
 import { SettingsObject, StatusObject } from '../index.types'
 import MuiStatus from '../MuiStatus'
 import DataProvider from '../MuiStore'
-import Tooltip from '../utils/Tooltip'
 
 const StyledActionsWrapper = styled('div')(({ theme } : {theme: any}) => ({
   padding: '8px',
@@ -77,11 +76,9 @@ export default function ({
   const {
     status,
     settings,
-    popoverComponent
   } : {
     status: StatusObject[],
     settings: SettingsObject,
-    popoverComponent: any
   } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
 
@@ -89,10 +86,6 @@ export default function ({
   const [anchorEl, setAnchorEl] = useState(null)
   const [isToggled, setIsToggled] = useState(false)
   const open = Boolean(anchorEl)
-
-  const anchorVertical = isToggled ? 'top' : 'bottom'
-  const transformVertical = !isToggled ? 'bottom' : 'top'
-  const horizontal = statusObject?.secondary ? 'right' : 'left'
 
   const handleOnClick = (e: any) => {
     if (onClick && !keepOpen) {
@@ -116,21 +109,6 @@ export default function ({
     }
     if (!settings.hasLock) {
       setAnchorEl(null)
-    }
-  }
-
-  const ComponentPopoverProps = {
-    id: `mui-status-panel-given-popover-${id}`,
-    position: isToggled ? 'top' : 'bottom',
-    isSecondary: statusObject?.secondary,
-    popover,
-    popoverProps: {
-      anchorEl,
-      onClose,
-      open,
-      style: { marginTop: `${(isToggled ? 1 : -1) * 12}px` },
-      anchorOrigin: { vertical: anchorVertical, horizontal },
-      transformOrigin: { vertical: transformVertical, horizontal },
     }
   }
 
@@ -166,25 +144,23 @@ export default function ({
     >
       {children}
     </MuiStatus>
-    {popoverComponent !== undefined
-      ? popoverComponent(ComponentPopoverProps)
-      : <Popper {...{ keepMounted: keepOpen, ...FallbackPopoverProps }}>
-        <ClickAwayListener onClickAway={() => handleOnClose()}>
-          <StyledContainer {...{ elevation }}>
-            {popover}
-            <StyledActionsWrapper>
-              <StyledTypography variant="caption" color="textSecondary">{popoverTitle}</StyledTypography>
-              <StyledActions>
-                {popoverActions}
-                {settings.hasLock && <Tooltip tooltip="Toggle keep-open">
-                    {keepOpen
-                      ? <LockOutlinedIcon onClick={() => setKeepOpen(!keepOpen)} color="primary" style={{ fontSize: 14 }} />
-                      : <LockOpenOutlinedIcon onClick={() => setKeepOpen(!keepOpen)} style={{ fontSize: 14 }} />}
-                  </Tooltip>}
-              </StyledActions>
-            </StyledActionsWrapper>
-          </StyledContainer>
-        </ClickAwayListener>
-      </Popper>}
+    <Popper {...{ keepMounted: keepOpen, ...FallbackPopoverProps }}>
+      <ClickAwayListener onClickAway={() => handleOnClose()}>
+        <StyledContainer {...{ elevation }}>
+          {popover}
+          <StyledActionsWrapper>
+            <StyledTypography variant="caption" color="textSecondary">{popoverTitle}</StyledTypography>
+            <StyledActions>
+              {popoverActions}
+              {settings.hasLock && <Tooltip title="Toggle keep-open">
+                {keepOpen
+                  ? <LockOutlinedIcon onClick={() => setKeepOpen(!keepOpen)} color="primary" style={{ fontSize: 14 }} />
+                  : <LockOpenOutlinedIcon onClick={() => setKeepOpen(!keepOpen)} style={{ fontSize: 14 }} />}
+              </Tooltip>}
+            </StyledActions>
+          </StyledActionsWrapper>
+        </StyledContainer>
+      </ClickAwayListener>
+    </Popper>
   </>
 }

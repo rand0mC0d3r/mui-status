@@ -30,8 +30,6 @@ const valOrDefault = (val: any, def: any) => {
 interface DataContextInterface {
   settings: any;
   status: StatusObject[];
-  popoverComponent: any;
-  tooltipComponent: any;
   updateConsoleActiveId: any;
   updateIsConsoleOpen: any;
   updateIsConsoleClosed: any;
@@ -52,8 +50,6 @@ function MuiStatusProvider({
   position = PlacementPosition.Top,
   allowRightClick,
   debug,
-  tooltipComponent,
-  popoverComponent,
   children,
 } : {
   expand?: boolean,
@@ -61,8 +57,6 @@ function MuiStatusProvider({
   position?: 'top' | 'bottom',
   allowRightClick?: boolean,
   debug?: boolean,
-  tooltipComponent?: any,
-  popoverComponent?: any,
   children?: React.ReactNode,
   }) {
   const [status, setStatus] = useState<StatusObject[]>([])
@@ -198,10 +192,6 @@ function MuiStatusProvider({
 
   return <DataContext.Provider
     value={{
-      // passthru props
-      tooltipComponent,
-      popoverComponent,
-
       // settings state + crud
       settings,
       updateConsoleActiveId,
