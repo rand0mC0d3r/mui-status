@@ -5,6 +5,16 @@ import React from 'react'
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type StatusTypes = 'simple' | 'panel' | 'console'
 
+export interface ThemeShape {
+  spacing(spacing: number): void,
+  shape: { borderRadius: number},
+  palette: {
+    divider: string,
+    primary: { main: string, dark: string },
+    secondary: { main: string, dark: string }
+  }
+}
+
 export interface StatusObject {
   visible: boolean;
   type: StatusTypes,

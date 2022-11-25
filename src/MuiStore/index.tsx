@@ -69,7 +69,9 @@ function MuiStatusProvider({
     setStatus((status: StatusObject[]) => {
       const findError = status.find(sItem => sItem.uniqueId === id && sItem.ownId !== ownId)
       if (findError) {
-        console.error(`mui-status: ❌ Status entry already registered with id: [${id}] & ownId: [${ownId}], but expected ownId [${findError.ownId}]`)
+        if (settings.debug) {
+          console.error(`mui-status: ❌ Status entry already registered with id: [${id}] & ownId: [${ownId}], but expected ownId [${findError.ownId}]`)
+        }
         return status
       }
       if (settings.debug) {
@@ -93,7 +95,9 @@ function MuiStatusProvider({
     setStatus((status: StatusObject[]) => {
       const findError = status.find(sItem => sItem.uniqueId === id)
       if (findError?.ownId !== ownId) {
-        console.error(`mui-status: ❌ Faulty status update captured for: [${id}] & ownId: [${ownId}], but expected ownId: [${findError?.ownId}]`)
+        if (settings.debug) {
+          console.error(`mui-status: ❌ Faulty status update captured for: [${id}] & ownId: [${ownId}], but expected ownId: [${findError?.ownId}]`)
+        }
         return status
       }
       return status.map(sItem => (sItem.uniqueId === id && sItem.ownId === ownId) ? { ...sItem, children } : sItem)
@@ -105,14 +109,18 @@ function MuiStatusProvider({
   }
 
   const handleStatusTypeUpdate = ({ id, type }: { id: string, type: any }) => {
-    console.info(`mui-status: 🆗 Updated type for id: [${id}] to: [${type}]`)
+    if (settings.debug) {
+      console.info(`mui-status: 🆗 Updated type for id: [${id}] to: [${type}]`)
+    }
     setStatus((status: StatusObject[]) => status.map((lo: StatusObject) => (lo.uniqueId === id
       ? { ...lo, type } as StatusObject
       : lo)))
   }
 
   const handleStatusConsoleTypeUpdate = ({ id, title }: { id: string, title: string }) => {
-    console.info(`mui-status: 🆗 Updated console title for id: [${id}] to: [${title}]`)
+    if (settings.debug) {
+      console.info(`mui-status: 🆗 Updated console title for id: [${id}] to: [${title}]`)
+    }
     setStatus((status: StatusObject[]) => status.map((lo: StatusObject) => (lo.uniqueId === id
       ? { ...lo, title } as StatusObject
       : lo)))

@@ -63,7 +63,7 @@
     "*TOOLS*": "--------------------------------------------------------------",
     "list": "npm list | grep '\\.\\/\\.\\.'",
     "*COMPONENT*": "------------------------------------------------------------",
-    "copy.component": "concurrently \"npx eslint 'src/**'\" \"npm run rollup && du -sh ./lib/esm\"",
+    "copy.component": "concurrently \"npx eslint 'src/**'\" \"npm run build.lib.esm && du -sh ./lib/esm\"",
     "copy.component.dirty": "npm run build.lib.esm && du -sh ./lib/esm",
     "watch.component": "nodemon -e tsx,ts --watch ./src --exec \"npm run copy.component\"",
     "watch.component.dirty": "nodemon -e tsx,ts --watch ./src --exec \"npm run copy.component.dirty\"",

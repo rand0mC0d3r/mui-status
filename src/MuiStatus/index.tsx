@@ -1,14 +1,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Tooltip } from '@mui/material'
+import { Stack, Tooltip } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import React, { CSSProperties, ReactNode, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { SettingsObject, StatusObject } from '../index.types'
+import { SettingsObject, StatusObject, ThemeShape } from '../index.types'
 import DataProvider from '../MuiStore'
 
-const backgroundColor = (highlight: string, theme: any) => {
+const backgroundColor = (highlight: string, theme: ThemeShape) => {
   switch (highlight) {
     case 'primary':
       return theme.palette.primary.main
@@ -18,7 +18,8 @@ const backgroundColor = (highlight: string, theme: any) => {
       return ''
   }
 }
-const backgroundColorHover = (highlight: string, theme: any) => {
+
+const backgroundColorHover = (highlight: string, theme: ThemeShape) => {
   switch (highlight) {
     case 'primary':
       return theme.palette.primary.dark
@@ -29,11 +30,20 @@ const backgroundColorHover = (highlight: string, theme: any) => {
   }
 }
 
-const StyledTooltip = styled(Tooltip)(() => ({
+const StyledTooltip = styled(Tooltip)(({ theme }) => ({
   padding: '4px 8px',
+  display: 'flex',
+  flexWrap: 'nowrap',
+  alignItems: 'center',
+  fontSize: '14px',
+  gap: `${theme.spacing(0.5)}`,
+
+  '& > *': {
+    fontSize: '14px !important',
+  },
 }))
 
-const StyledContainer = styled('div')<{ hasClick?: boolean, highlight?: string, isDisabled?: boolean }>(({ theme, hasClick, highlight, isDisabled }: any) => ({
+const StyledStack = styled(Stack)<{ hasclick?: boolean, highlight?: string, isdisabled?: boolean }>(({ theme, hasclick, highlight, isdisabled }: any) => ({
   WebkitFontSmoothing: 'auto',
   height: '100%',
   display: 'flex',
@@ -44,7 +54,7 @@ const StyledContainer = styled('div')<{ hasClick?: boolean, highlight?: string, 
   alignSelf: 'center',
   position: 'relative',
 
-  cursor: (hasClick && !isDisabled) ? 'pointer' : '',
+  cursor: (hasclick && !isdisabled) ? 'pointer' : '',
   backgroundColor: backgroundColor(highlight, theme),
   color: theme.palette.text.primary,
 
@@ -59,12 +69,25 @@ const StyledContainer = styled('div')<{ hasClick?: boolean, highlight?: string, 
       : '',
   },
 
-  '&:hover': (hasClick && !isDisabled) ? {
+  '&:hover': (hasclick && !isdisabled) ? {
     backgroundColor: backgroundColorHover(highlight, theme),
     color: `${theme.palette.text.primary}`,
   } : {}
 }))
 
+/**
+ * @param id - (string) Unique identifier for the status element.
+ * @param secondary - (boolean) If needs to be applied a secondary style to the status element.
+ * @param style - (CSSProperties) Style to be applied to the root element.
+ * @param onClick - (function) Function to be executed on click event.
+ * @param onContextMenu - (function) Function to be executed on context menu event.
+ * @param disabled - (boolean) If needs to be disabled the status element.
+ * @param highlight - (string) If needs to be applied a highlight style to the status element.
+ * @param tooltip - (string) Tooltip to be displayed on hover.
+ * @param children - (JSX.Element) Children to be displayed inside the status element.
+ *
+ * @returns (JSX.Element) Status element
+ */
 export default function ({
   id,
   secondary = false,
@@ -121,18 +144,12 @@ export default function ({
     setOwnId((Math.random() + 1).toString(36).substring(7))
   }, [])
 
-  /**
-   * Update status element with changed children or highlight
-   * */
   useEffect(() => {
     if (ownId && statusObject !== null) {
       handleStatusUpdate({ id, ownId, children })
     }
   }, [id, ownId, statusObject, children])
 
-  /**
-   * Announce status element to the store
-   * */
   useEffect(() => {
     if (id && ownId && statusObject === null && !isAnnounced) {
       if (!status.some(({ uniqueId }) => uniqueId === id)) {
@@ -143,9 +160,6 @@ export default function ({
     }
   }, [id, ownId, statusObject, status, callbackHandleStatusAnnouncement, isAnnounced])
 
-  /**
-   * Find newly published status element in the store
-   * */
   useEffect(() => {
     const foundObject = status.find(({ uniqueId }) => uniqueId === id)
     if ((statusObject === null || statusObject?.visible !== foundObject?.visible) && foundObject) {
@@ -172,21 +186,22 @@ export default function ({
   return <>
     {(statusObject !== null && !!id && elementFound) && createPortal(
       (statusObject.visible && children)
-        ? <StyledContainer {...{
+        ? <StyledStack {...{
           id,
-          highlight,
-          hasClick: !!onClick,
-          isDisabled: disabled,
           key: `mui-status-${id}`,
           onClick: handleOnClick,
           onContextMenu: handleOnContextMenu,
-          style: { ...style, order: statusObject.index }
+          style: { ...style, order: statusObject.index },
+
+          highlight,
+          hasclick: !!onClick,
+          isdisabled: disabled
         }}
         >
           <StyledTooltip title={tooltip} arrow>
             <span>{children}</span>
           </StyledTooltip>
-        </StyledContainer>
+        </StyledStack>
         : <></>,
       elementFound
     )}

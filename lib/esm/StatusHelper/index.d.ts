@@ -1,6 +1,6 @@
-import { CSSProperties, HTMLAttributes, ReactNode } from 'react';
+import { CSSProperties, HTMLAttributes } from 'react';
 /**
- * @param icon - (ReactNode) Icon to display for status element. Expects a Material UI SvgIcon component.
+ * @param icon - (JSX.Element) Icon to display for status element. Expects a Material UI SvgIcon component.
  * @param text - (string | number) Text to display for status element.
  * @param notifications - (string | number) Badge to display relevant notifications.
  * @param image - (string) Image to display for status element. Expects a valid image path.
@@ -10,10 +10,10 @@ import { CSSProperties, HTMLAttributes, ReactNode } from 'react';
  * @param className - (HTMLAttribute) Class name to be applied to the root element.
  * @param style - (CSSProperties) Style to be applied to the root element.
  *
- * @returns (JSX.Element) Status element
+ * @returns (JSX.Element) Status helper element
  */
 export default function ({ icon, text, notifications, image, mask, reverse, reverseIcon, className, style, }: {
-    icon?: ReactNode;
+    icon?: JSX.Element;
     text?: string;
     notifications?: string | number;
     image?: string;
