@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Stack, Tooltip } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import React, { CSSProperties, ReactNode, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
