@@ -20,7 +20,7 @@ const StyledResizable = styled('div')(() => ({
   flex: '1 1 auto',
 }))
 
-const StyledWrapper = styled('div')(({ theme }: {theme: any}) => ({
+const StyledWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   position: 'absolute',
@@ -55,7 +55,7 @@ const StyledCloseIcon = styled(CloseIcon)(() => ({
   fontSize: '20px'
 }))
 
-const StyledTab = styled(Typography)<{ activated?: string }>(({ theme, activated } : { theme: any, activated: string }) => ({
+const StyledTab = styled(Typography)<{ activated?: string }>(({ theme, activated }) => ({
   padding: '4px 12px',
   cursor: 'pointer',
   backgroundColor: activated === 'true' ? theme.palette.primary.main : 'transparent',

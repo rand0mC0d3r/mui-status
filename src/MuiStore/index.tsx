@@ -24,6 +24,7 @@ const initialSettings = {
   allowRightClick: true,
   debug: false,
   hasLock: true,
+  isConsoleFixed: false,
   isConsoleOpen: false,
 } as SettingsObject
 

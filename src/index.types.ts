@@ -35,6 +35,7 @@ export interface SettingsObject {
   debug: boolean;
   hasLock: boolean;
   isConsoleOpen?: boolean;
+  isConsoleFixed?: boolean;
   consoleActiveId?: string;
 }
 

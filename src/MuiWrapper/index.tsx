@@ -10,7 +10,7 @@ import DataProvider from '../MuiStore'
 import { PlacementPosition, SettingsObject, StatusObject } from '../index.types'
 import InternalConsole from '../MuiStatusBar/InternalConsole'
 
-const StyledBox = styled('div')<{ column?: string }>(({ column }) => ({
+const SBox = styled('div')<{ column?: string }>(({ column }) => ({
   height: '100%',
   width: '100%',
   gap: '0px',
@@ -23,10 +23,12 @@ const StyledBox = styled('div')<{ column?: string }>(({ column }) => ({
   flexDirection: column === PlacementPosition.Top ? 'column-reverse' : 'column'
 }))
 
-const StyledChildren = styled('div')(() => ({
+const SChildren = styled('div')(() => ({
   flex: '1 1 auto',
   overflow: 'hidden',
   position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
 }))
 
 const StyledTypographyNoChildren = styled(Typography)(() => ({
@@ -55,7 +57,7 @@ const StyledEntryElementItem = styled('div')(({ theme }) => ({
   },
 }))
 
-const StyledStatusBar = styled('div')<{ position?: string }>(({ theme, position }: any) => ({
+const SStatusWrapper = styled('div')<{ position?: string }>(({ theme, position }: any) => ({
   gap: '4px',
   display: 'flex',
   alignItems: 'center',
@@ -95,15 +97,15 @@ export default function ({
   </Tooltip>
 
   return <>
-    <StyledBox id="mui-status-wrapper" {...{ column: position }}>
-      <StyledChildren id="mui-status-children">
+    <SBox id="mui-status-wrapper" {...{ column: position }}>
+      <SChildren id="mui-status-children">
         {children}
         {status.some(({ type }) => type === 'console') && <InternalConsole />}
-      </StyledChildren>
-      {status.some(({ visible }) => visible) && <StyledStatusBar position={position} {...{ onContextMenu }}>
+      </SChildren>
+      {status.some(({ visible }) => visible) && <SStatusWrapper {...{ position, onContextMenu }}>
           {!statusBarAnnounced && <InternalStatus />}
-        </StyledStatusBar>}
-    </StyledBox>
+        </SStatusWrapper>}
+    </SBox>
     <Popover
       id="toggle-status-popover"
       {...{ open, anchorEl, onClose, elevation: 1 }}
