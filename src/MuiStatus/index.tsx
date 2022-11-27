@@ -1,11 +1,15 @@
-import { Stack, Tooltip } from '@mui/material'
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
+import { Tooltip } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import React, { CSSProperties, ReactNode, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
+import { CSSProperties, MouseEvent, ReactNode, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { SettingsObject, StatusObject, ThemeShape } from '../index.types'
-import DataProvider from '../MuiStore'
+import DataProvider, { composeDomId } from '../MuiStore'
 
-const backgroundColor = (highlight: string, theme: ThemeShape) => {
+const componentId = 'statusBar'
+
+const backgroundColor = (theme: ThemeShape, highlight?: string) => {
   switch (highlight) {
     case 'primary':
       return theme.palette.primary.main
@@ -16,7 +20,7 @@ const backgroundColor = (highlight: string, theme: ThemeShape) => {
   }
 }
 
-const backgroundColorHover = (highlight: string, theme: ThemeShape) => {
+const backgroundColorHover = (theme: ThemeShape, highlight?: string) => {
   switch (highlight) {
     case 'primary':
       return theme.palette.primary.dark
@@ -27,12 +31,13 @@ const backgroundColorHover = (highlight: string, theme: ThemeShape) => {
   }
 }
 
-const StyledTooltip = styled(Tooltip)(({ theme }) => ({
+const SSpan = styled('span')(({ theme }) => ({
   padding: '4px 8px',
   display: 'flex',
   flexWrap: 'nowrap',
   alignItems: 'center',
   fontSize: '14px',
+
   gap: `${theme.spacing(0.5)}`,
 
   '& > *': {
@@ -40,7 +45,7 @@ const StyledTooltip = styled(Tooltip)(({ theme }) => ({
   },
 }))
 
-const StyledStack = styled(Stack)<{ hasclick?: boolean, highlight?: string, isdisabled?: boolean }>(({ theme, hasclick, highlight, isdisabled }: any) => ({
+const SDiv = styled('div')<{ hasclick?: string, highlight?: string, isdisabled?: string }>(({ theme, hasclick, highlight, isdisabled }) => ({
   WebkitFontSmoothing: 'auto',
   height: '100%',
   display: 'flex',
@@ -51,8 +56,8 @@ const StyledStack = styled(Stack)<{ hasclick?: boolean, highlight?: string, isdi
   alignSelf: 'center',
   position: 'relative',
 
-  cursor: (hasclick && !isdisabled) ? 'pointer' : '',
-  backgroundColor: backgroundColor(highlight, theme),
+  cursor: (hasclick === 'true' && isdisabled === 'false') ? 'pointer' : '',
+  backgroundColor: backgroundColor(theme, highlight),
   color: theme.palette.text.primary,
 
   '& > div > *': {
@@ -66,8 +71,8 @@ const StyledStack = styled(Stack)<{ hasclick?: boolean, highlight?: string, isdi
       : '',
   },
 
-  '&:hover': (hasclick && !isdisabled) ? {
-    backgroundColor: backgroundColorHover(highlight, theme),
+  '&:hover': (hasclick === 'true' && isdisabled === 'false') ? {
+    backgroundColor: backgroundColorHover(theme, highlight),
     color: `${theme.palette.text.primary}`,
   } : {}
 }))
@@ -93,14 +98,14 @@ export default function ({
   onContextMenu,
   disabled = false,
   highlight = 'default',
-  tooltip = '',
+  tooltip,
   children,
 } : {
   id: string,
   secondary?: boolean,
   style?: CSSProperties,
-  onClick?: any,
-  onContextMenu?: any,
+  onClick?: (e: MouseEvent<HTMLDivElement>) => void,
+  onContextMenu?: (e: MouseEvent<HTMLDivElement>) => void,
   disabled?: boolean,
   highlight?: 'default' | 'primary' | 'secondary',
   tooltip?: ReactNode | string,
@@ -109,20 +114,20 @@ export default function ({
   const { status, handleStatusUpdate, handleStatusAnnouncement, handleStatusDestroy } = useContext(DataProvider)
   const { allowRightClick } = useContext(DataProvider).settings as SettingsObject
   const [ownId, setOwnId] = useState<string | null>()
-  const [isAnnounced, setIsAnnounced] = useState<boolean>(false)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
   const [elementFound, setElementFound] = useState<HTMLElement | null>(null)
 
   const callbackHandleStatusAnnouncement = useCallback(
-    idIncoming => handleStatusAnnouncement({ id: idIncoming, ownId, secondary, children }),
-    [secondary, ownId, children, handleStatusAnnouncement]
+    () => handleStatusAnnouncement({ id, ownId, secondary, children }),
+    [id, secondary, ownId, children, handleStatusAnnouncement]
   )
 
-  const callbackHandleStatusDestroy = useCallback(() => {
-    handleStatusDestroy({ id })
-  }, [id])
+  const callbackHandleStatusDestroy = useCallback(
+    () => { handleStatusDestroy({ id }) },
+    [id]
+  )
 
-  const handleOnClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleOnClick = (e: MouseEvent<HTMLDivElement>) => {
     if (onClick !== undefined && !disabled) {
       e.preventDefault()
       onClick(e)
@@ -130,7 +135,7 @@ export default function ({
     }
   }
 
-  const handleOnContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleOnContextMenu = (e: MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
     if (allowRightClick && onContextMenu !== undefined && !disabled) {
       onContextMenu(e)
@@ -138,68 +143,57 @@ export default function ({
   }
 
   useEffect(() => {
-    setOwnId((Math.random() + 1).toString(36).substring(7))
-  }, [])
-
-  useEffect(() => {
-    if (ownId && statusObject !== null) {
-      handleStatusUpdate({ id, ownId, children })
-    }
+    if (ownId && statusObject !== null) { handleStatusUpdate({ id, ownId, children }) }
   }, [id, ownId, statusObject, children])
 
   useEffect(() => {
-    if (id && ownId && statusObject === null && !isAnnounced) {
-      if (!status.some(({ uniqueId }) => uniqueId === id)) {
-        if (callbackHandleStatusAnnouncement(id)) {
-          setIsAnnounced(true)
-        }
-      }
+    if (id && ownId && statusObject === null && !status.some(({ uniqueId }) => uniqueId === id)) {
+      callbackHandleStatusAnnouncement()
     }
-  }, [id, ownId, statusObject, status, callbackHandleStatusAnnouncement, isAnnounced])
+  }, [id, ownId, statusObject, status, callbackHandleStatusAnnouncement])
 
   useEffect(() => {
-    const foundObject = status.find(({ uniqueId }) => uniqueId === id)
-    if ((statusObject === null || statusObject?.visible !== foundObject?.visible) && foundObject) {
-      setStatusObject(foundObject)
+    const statusObjectFound = status.find(({ uniqueId }) => uniqueId === id)
+    if ((statusObject === null || statusObject?.visible !== statusObjectFound?.visible) && statusObjectFound) {
+      setStatusObject(statusObjectFound)
     }
   }, [status, id, statusObject])
 
   useLayoutEffect(() => {
     if (statusObject !== null) {
-      setElementFound(document.getElementById(`mui-status-statusBar-${secondary ? 'secondary' : 'primary'}`) || null)
+      setElementFound(document.getElementById(composeDomId(componentId, [secondary ? 'secondary' : 'primary'])) || null)
     }
-  }, [secondary, statusObject, id])
+  }, [secondary, statusObject])
 
-  useEffect(() => () => {
-    callbackHandleStatusDestroy()
-  }, [callbackHandleStatusDestroy])
+  useEffect(() => { setOwnId((Math.random() + 1).toString(36).substring(7)) }, [])
 
-  useEffect(() => {
-    if (!id) {
-      console.error('Please define an id for the status bar item')
-    }
-  }, [id])
+  // validation
+  useEffect(() => { if (!id) { console.error('Please define an id for the status bar item') } }, [id])
+
+  // teardown
+  useEffect(() => () => { callbackHandleStatusDestroy() }, [callbackHandleStatusDestroy])
 
   return <>
-    {(statusObject !== null && !!id && elementFound) && createPortal(
-      (statusObject.visible && children)
-        ? <StyledStack {...{
-          id,
-          key: `mui-status-${id}`,
-          onClick: handleOnClick,
-          onContextMenu: handleOnContextMenu,
-          style: { ...style, order: statusObject.index },
+    {(statusObject !== null && !!id && elementFound)
+    && createPortal(
+      (statusObject.visible && children) && <SDiv {...{
+        id,
+        direction: 'row',
+        key: `mui-status-${id}`,
+        onClick: handleOnClick,
+        onContextMenu: handleOnContextMenu,
 
-          highlight,
-          hasclick: !!onClick,
-          isdisabled: disabled
-        }}
-        >
-          <StyledTooltip title={tooltip} arrow>
-            <span>{children}</span>
-          </StyledTooltip>
-        </StyledStack>
-        : <></>,
+        style: { ...style, order: statusObject.index },
+
+        highlight,
+        hasclick: (!!onClick).toString(),
+        isdisabled: disabled.toString(),
+      }}
+      >
+        {tooltip
+          ? <Tooltip title={tooltip} arrow><SSpan>{children}</SSpan></Tooltip>
+          : <SSpan>{children}</SSpan>}
+      </SDiv>,
       elementFound
     )}
   </>

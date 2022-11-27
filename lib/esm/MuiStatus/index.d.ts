@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode } from 'react';
+import { CSSProperties, MouseEvent, ReactNode } from 'react';
 /**
  * @param id - (string) Unique identifier for the status element.
  * @param secondary - (boolean) If needs to be applied a secondary style to the status element.
@@ -16,8 +16,8 @@ export default function ({ id, secondary, style, onClick, onContextMenu, disable
     id: string;
     secondary?: boolean;
     style?: CSSProperties;
-    onClick?: any;
-    onContextMenu?: any;
+    onClick?: (e: MouseEvent<HTMLDivElement>) => void;
+    onContextMenu?: (e: MouseEvent<HTMLDivElement>) => void;
     disabled?: boolean;
     highlight?: 'default' | 'primary' | 'secondary';
     tooltip?: ReactNode | string;

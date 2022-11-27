@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles'
 import { useContext } from 'react'
 import DataProvider from '../../MuiStore'
 
-const StyledPrimaryElem = styled('div')(() => ({
+const SPrimary = styled('div')(() => ({
   display: 'flex',
   flexWrap: 'nowrap',
   overflow: 'scroll',
@@ -13,7 +13,7 @@ const StyledPrimaryElem = styled('div')(() => ({
   },
 }))
 
-const StyledSecondaryElem = styled('div')(() => ({
+const SSecondary = styled('div')(() => ({
   display: 'flex',
   flexWrap: 'nowrap',
   overflow: 'hidden',
@@ -33,7 +33,7 @@ export default function () {
   const { status } = useContext(DataProvider)
 
   return <>
-    {status.some(({ secondary }) => !secondary) && <StyledPrimaryElem {...{ id: `${domId}-primary` }} />}
-    {status.some(({ secondary }) => secondary) && <StyledSecondaryElem {...{ id: `${domId}-secondary` }} />}
+    {status.some(({ secondary }) => !secondary) && <SPrimary {...{ id: `${domId}-primary` }} />}
+    {status.some(({ secondary }) => secondary) && <SSecondary {...{ id: `${domId}-secondary` }} />}
   </>
 }

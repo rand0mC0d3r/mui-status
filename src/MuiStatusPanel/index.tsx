@@ -9,7 +9,7 @@ import { SettingsObject, StatusObject } from '../index.types'
 import MuiStatus from '../MuiStatus'
 import DataProvider from '../MuiStore'
 
-const StyledActionsWrapper = styled('div')(({ theme } : {theme: any}) => ({
+const StyledActionsWrapper = styled('div')(({ theme }) => ({
   padding: '8px',
   display: 'flex',
   justifyContent: 'space-between',
@@ -104,10 +104,7 @@ export default function ({
     if (onClose && !keepOpen) {
       onClose()
     }
-    if (!keepOpen) {
-      setAnchorEl(null)
-    }
-    if (!settings.hasLock) {
+    if (!keepOpen || !settings.hasLock) {
       setAnchorEl(null)
     }
   }

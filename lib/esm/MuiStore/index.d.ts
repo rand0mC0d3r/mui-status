@@ -1,5 +1,6 @@
 import React from 'react';
 import { StatusObject } from '../index.types';
+export declare const composeDomId: (component: string, detail: string[]) => string;
 interface DataContextInterface {
     settings: any;
     status: StatusObject[];
@@ -13,6 +14,7 @@ interface DataContextInterface {
     handleStatusConsoleTypeUpdate: any;
     handleStatusVisibilityToggle: any;
     triggerStatusBarAnnounced: any;
+    logDebug: any;
 }
 declare const DataContext: React.Context<DataContextInterface>;
 declare function MuiStatusProvider({ expand, hasLock, position, allowRightClick, debug, children, }: {

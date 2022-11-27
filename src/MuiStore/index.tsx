@@ -7,6 +7,13 @@ import React, { createContext, useEffect, useState } from 'react'
 import { PlacementPosition, SettingsObject, StatusObject } from '../index.types'
 import MuiWrapper from '../MuiWrapper'
 
+const domIdBase = 'mui-status'
+
+export const composeDomId = (component: string, detail: string[]) => {
+  const id = detail.join('-')
+  return `${domIdBase}-${component}-${id}`
+}
+
 const settingsStorageKey = 'mui-status.settings'
 const statusStorageKey = 'mui-status.status'
 
@@ -40,6 +47,7 @@ interface DataContextInterface {
   handleStatusConsoleTypeUpdate: any;
   handleStatusVisibilityToggle: any;
   triggerStatusBarAnnounced: any;
+  logDebug: any,
 }
 
 const DataContext = createContext({} as DataContextInterface)
@@ -62,23 +70,23 @@ function MuiStatusProvider({
   const [status, setStatus] = useState<StatusObject[]>([])
   const [settings, setSettings] = useState<SettingsObject>(initialSettings)
 
-  // const [storedStatus, setStoredStatus] = useState<StatusObject[]>([])
-  // const [storedSettings, setStoredSettings] = useState<SettingsObject>()
+  const logDebug = (message: string) => {
+    if (settings.debug) {
+      console.log(message)
+    }
+  }
 
   const handleStatusAnnouncement = ({ id, ownId, secondary, children } : { id: string, ownId: string, secondary: boolean, children: any }) => {
     setStatus((status: StatusObject[]) => {
       const findError = status.find(sItem => sItem.uniqueId === id && sItem.ownId !== ownId)
       if (findError) {
-        if (settings.debug) {
-          console.error(`mui-status: ❌ Status entry already registered with id: [${id}] & ownId: [${ownId}], but expected ownId [${findError.ownId}]`)
-        }
+        logDebug(`mui-status: ❌ Status entry already registered with id: [${id}] & ownId: [${ownId}], but was proposed ownId [${findError.ownId}]`)
         return status
       }
-      if (settings.debug) {
-        console.info(`mui-status: 🆗 Status entry registered with id: [${id}] & ownId: [${ownId}]`)
-      }
+      logDebug(`mui-status: 🆗 Status entry registered with id: [${id}] & ownId: [${ownId}]`)
+
       return [
-        ...status.filter(sItem => sItem.uniqueId !== id),
+        ...status.filter(({ uniqueId }) => uniqueId !== id),
         {
           index: status.length,
           uniqueId: id,
@@ -93,7 +101,7 @@ function MuiStatusProvider({
 
   const handleStatusUpdate = ({ id, ownId, children }: { id: string, ownId: string, children: React.ReactNode }) => {
     setStatus((status: StatusObject[]) => {
-      const findError = status.find(sItem => sItem.uniqueId === id)
+      const findError = status.find(({ uniqueId }) => uniqueId === id)
       if (findError?.ownId !== ownId) {
         if (settings.debug) {
           console.error(`mui-status: ❌ Faulty status update captured for: [${id}] & ownId: [${ownId}], but expected ownId: [${findError?.ownId}]`)
@@ -217,6 +225,8 @@ function MuiStatusProvider({
       handleStatusUpdate,
       handleStatusAnnouncement,
       handleStatusDestroy,
+
+      logDebug,
     }}
   >
     <MuiWrapper {...{ children }} />
