@@ -93,8 +93,8 @@
     "tag": "rm -rf lib/* && npm run build.lib && npm run terser && git commit -am 'built next version' && npm version patch && git push && git push --tags && npm publish"
   },
   "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=7.20.0"
+    "node": ">=14.0.0",
+    "npm": ">=7.10.0"
   },
   "repository": {
     "type": "git",
