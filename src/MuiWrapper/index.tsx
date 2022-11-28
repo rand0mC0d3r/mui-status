@@ -7,7 +7,7 @@ import { MouseEvent, ReactNode, useContext, useState } from 'react'
 import InternalStatus from '../MuiStatusBar/InternalStatus'
 import DataProvider from '../MuiStore'
 
-import { PlacementPosition, SettingsObject, StatusObject } from '../index.types'
+import { PlacementPosition, SettingsObject, StatusObject, StatusType } from '../index.types'
 import InternalConsole from '../MuiStatusBar/InternalConsole'
 
 const SBox = styled('div')<{ column?: string }>(({ column }) => ({
@@ -35,14 +35,14 @@ const StyledTypographyNoChildren = styled(Typography)(() => ({
   userSelect: 'none'
 }))
 
-const StyledEntryElement = styled('div')(() => ({
+const SElement = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'row',
   gap: '16px',
   padding: '8px',
 }))
 
-const StyledEntryElementItem = styled('div')(({ theme }) => ({
+const SElementItem = styled('div')(({ theme }) => ({
   display: 'flex',
   minWidth: '165px',
   cursor: 'pointer',
@@ -74,7 +74,7 @@ export default function ({
   children: ReactNode
 }) {
   const { status, handleStatusVisibilityToggle } = useContext(DataProvider)
-  const { position, statusBarAnnounced, upperBar } = useContext(DataProvider).settings as SettingsObject
+  const { position, upperBar } = useContext(DataProvider).settings as SettingsObject
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null)
   const open = Boolean(anchorEl)
 
@@ -85,10 +85,10 @@ export default function ({
     setAnchorEl(e.currentTarget)
   }
 
-  const statusEntry = (statusItem: StatusObject) => <StyledEntryElementItem onClick={() => handleStatusVisibilityToggle({ id: statusItem.uniqueId })}>
+  const statusEntry = (statusItem: StatusObject) => <SElementItem onClick={() => handleStatusVisibilityToggle({ id: statusItem.uniqueId })}>
     {statusItem.visible ? <CheckBoxOutlinedIcon /> : <CheckBoxOutlineBlankOutlinedIcon />}
     {statusItem.children || <StyledTypographyNoChildren variant="caption" color="textSecondary">No content for child</StyledTypographyNoChildren>}
-  </StyledEntryElementItem>
+  </SElementItem>
 
   const entryWrapper = (statusItem: StatusObject) => <Tooltip
     {...{ key: statusItem.uniqueId, title: 'Toggle visibility of tile' }}
@@ -100,11 +100,9 @@ export default function ({
     <SBox id="mui-status-wrapper" {...{ column: position }}>
       <SChildren id="mui-status-children">
         {children}
-        {status.some(({ type }) => type === 'console') && <InternalConsole />}
+        {status.some(({ type }) => type === StatusType.CONSOLE) && <InternalConsole />}
       </SChildren>
-      {status.some(({ visible }) => visible) && <SStatusWrapper {...{ position, onContextMenu }}>
-          {!statusBarAnnounced && <InternalStatus />}
-        </SStatusWrapper>}
+      {status.some(({ visible }) => visible) && <SStatusWrapper {...{ position, onContextMenu }}><InternalStatus /></SStatusWrapper>}
     </SBox>
     <Popover
       id="toggle-status-popover"
@@ -113,11 +111,11 @@ export default function ({
       transformOrigin={{ vertical: !upperBar ? 'bottom' : 'top', horizontal: 'center' }}
       style={{ marginTop: `${(upperBar ? 1 : -1) * 12}px` }}
     >
-      <StyledEntryElement {...{ onContextMenu: e => { e.preventDefault() } }}>
+      <SElement {...{ onContextMenu: e => { e.preventDefault() } }}>
         {[false, true].map((state: boolean) => <div key={state.toString()}>
           {status.filter(({ secondary }) => secondary === state).map(statusItem => entryWrapper(statusItem))}
         </div>)}
-      </StyledEntryElement>
+      </SElement>
     </Popover>
   </>
 }

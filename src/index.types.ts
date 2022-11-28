@@ -39,6 +39,12 @@ export interface SettingsObject {
   consoleActiveId?: string;
 }
 
+export enum StatusType {
+  SIMPLE = 'simple',
+  PANEL = 'panel',
+  CONSOLE = 'console'
+}
+
 export enum PlacementPosition {
   Top = 'top',
   Bottom = 'bottom',
