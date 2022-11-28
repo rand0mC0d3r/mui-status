@@ -33,6 +33,7 @@
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-visualizer": "^5.8.3",
+    "terser-folder": "^2.0.0",
     "typescript": "^4.8.4"
   },
   "dependencies": {
@@ -83,10 +84,11 @@
     "postlink": "npm run list",
     "visualizer": "rollup -c --visualizer",
     "rollup": "rollup -c rollup.run.config.js",
+    "terser": "terser-folder lib/esm -e -x .js -o lib/esm",
     "postrollup": "cat stats.yml",
     "rollup.mon": "nodemon -e js --watch rollup.run.config.js --exec \"rollup -c rollup.run.config.js && ls -al | grep bundle.js && cat stats.yml\"",
     "*RELEASE*": "--------------------------------------------------------------",
-    "tag": "rm -rf lib/* && npm run build.lib && git commit -am 'built next version' && npm version patch && git push && git push --tags && npm publish"
+    "tag": "rm -rf lib/* && npm run build.lib && npm run terser && git commit -am 'built next version' && npm version patch && git push && git push --tags && npm publish"
   },
   "engines": {
     "node": ">=16.0.0",

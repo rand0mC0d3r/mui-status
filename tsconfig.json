@@ -10,17 +10,20 @@
       "es2017"
     ],
     "jsx": "react-jsx",
+    "alwaysStrict": true,
     "declaration": true,
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "esModuleInterop": true,
     "noImplicitReturns": true,
+    "strict": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "generateCpuProfile": "profile.cpuprofile"
   },
   "include": [
     "src"
