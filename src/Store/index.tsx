@@ -5,7 +5,7 @@
 /* eslint-disable no-console */
 import React, { createContext, useEffect, useState } from 'react'
 import { PlacementPosition, SettingsObject, StatusObject } from '../index.types'
-import MuiWrapper from '../MuiWrapper'
+import Wrapper from '../internal/Wrapper'
 
 const domIdBase = 'mui-status'
 
@@ -53,7 +53,7 @@ interface DataContextInterface {
 
 const DataContext = createContext({} as DataContextInterface)
 
-function MuiStatusProvider({
+function StatusProvider({
   expand,
   hasLock,
   position = PlacementPosition.Top,
@@ -230,9 +230,9 @@ function MuiStatusProvider({
       logDebug,
     }}
   >
-    <MuiWrapper {...{ children }} />
+    <Wrapper {...{ children }} />
   </DataContext.Provider>
 }
 
 export default DataContext
-export { MuiStatusProvider }
+export { StatusProvider }

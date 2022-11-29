@@ -1,13 +1,13 @@
-import MuiStatus from './MuiStatus'
-import MuiStatusConsole from './MuiStatusConsole'
-import MuiStatusPanel from './MuiStatusPanel'
-import { MuiStatusProvider } from './MuiStore'
+import Status from './Status'
+import StatusConsole from './StatusConsole'
 import StatusHelper from './StatusHelper'
+import StatusPanel from './StatusPanel'
+import { StatusProvider } from './Store'
 
 export {
   StatusHelper,
-  MuiStatus as Status,
-  MuiStatusPanel as StatusPanel,
-  MuiStatusConsole as StatusConsole,
-  MuiStatusProvider as StatusProvider,
+  Status,
+  StatusPanel,
+  StatusConsole,
+  StatusProvider,
 }

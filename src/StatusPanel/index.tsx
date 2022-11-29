@@ -6,8 +6,8 @@ import { alpha, ClickAwayListener, Popper, Tooltip, Typography } from '@mui/mate
 import { styled } from '@mui/material/styles'
 import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react'
 import { SettingsObject, StatusObject } from '../index.types'
-import MuiStatus from '../MuiStatus'
-import DataProvider from '../MuiStore'
+import Status from '../Status'
+import DataProvider from '../Store'
 
 const StyledActionsWrapper = styled('div')(({ theme }) => ({
   padding: '8px',
@@ -130,7 +130,7 @@ export default function ({
   }, [status, id, statusObject])
 
   return <>
-    <MuiStatus {...{
+    <Status {...{
       id,
       tooltip,
       highlight: (keepOpen || open) ? 'primary' : highlight,
@@ -140,7 +140,7 @@ export default function ({
     }}
     >
       {children}
-    </MuiStatus>
+    </Status>
     <Popper {...{ keepMounted: keepOpen, ...FallbackPopoverProps }}>
       <ClickAwayListener onClickAway={() => handleOnClose()}>
         <StyledContainer {...{ elevation }}>

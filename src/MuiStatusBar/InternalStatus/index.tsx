@@ -1,6 +1,6 @@
 import { styled } from '@mui/material/styles'
 import { useContext } from 'react'
-import DataProvider from '../../MuiStore'
+import DataProvider from '../../Store'
 
 const SPrimary = styled('div')(() => ({
   display: 'flex',

@@ -7,7 +7,7 @@ import { styled } from '@mui/material/styles'
 import { Resizable } from 're-resizable'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { SettingsObject } from '../../index.types'
-import DataProvider from '../../MuiStore'
+import DataProvider from '../../Store'
 
 const StyledStatusConsole = styled('div')(() => ({
   flex: '1 0 auto',

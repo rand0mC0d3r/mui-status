@@ -4,8 +4,8 @@
 import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { SettingsObject, StatusObject } from '../index.types'
-import MupStatus from '../MuiStatus'
-import DataProvider from '../MuiStore'
+import Status from '../Status'
+import DataProvider from '../Store'
 
 export default function ({
   id,
@@ -74,7 +74,7 @@ export default function ({
   }, [statusObject, id, consoleTitle])
 
   return <>
-    <MupStatus {...{
+    <Status {...{
       id,
       tooltip,
       secondary,
@@ -84,7 +84,7 @@ export default function ({
     }}
     >
       {children}
-    </MupStatus>
+    </Status>
     {elementFound && statusObject && statusObject.uniqueId === consoleActiveId && createPortal(console, elementFound)}
   </>
 }

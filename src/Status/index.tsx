@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles'
 import { CSSProperties, MouseEvent, ReactNode, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { SettingsObject, StatusObject, ThemeShape } from '../index.types'
-import DataProvider, { composeDomId } from '../MuiStore'
+import DataProvider, { composeDomId } from '../Store'
 
 const componentId = 'statusBar'
 
