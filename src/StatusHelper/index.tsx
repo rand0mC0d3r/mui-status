@@ -34,7 +34,7 @@ const SText = styled(Typography)(() => ({
 const SNotifications = styled(Typography)(({ theme }) => ({
   padding: '0px 6px',
   lineHeight: 'inherit',
-  fontSize: '12px',
+  fontSize: '11px',
 
   color: theme.palette.text.primary,
   borderRadius: `${theme.shape.borderRadius * 2}px`,
