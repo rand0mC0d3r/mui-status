@@ -93,7 +93,7 @@ export default function ({
   return <SStack {...{ id: 'statusHelper', style, className, reverse: reverse.toString() }}>
     {icon && <SIcon {...{ id: 'sh.icon', reverse: reverseIcon.toString() }}>{icon}</SIcon>}
     {children && <>{childrenIndex ? <SChildren {...{ index: childrenIndex }}>{children}</SChildren> : children}</>}
-    {image && <SImg {...{ id: 'sh.image', alt: 'Status entry', mask: mask.toString(), src: image }} />}
+    {image && <SImg {...{ id: 'sh.image', alt: '', mask: mask.toString(), src: image }} />}
     {notifications && <SNotifications {...{ id: 'sh.notifications' }}>{notifications}</SNotifications>}
     {text && <SText {...{ id: 'sh.text', variant: 'caption' }}>{text}</SText>}
   </SStack>

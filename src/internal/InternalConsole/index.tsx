@@ -6,7 +6,7 @@ import { Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { Resizable } from 're-resizable'
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { SettingsObject } from '../../index.types'
+import { PlacementPosition, SettingsObject } from '../../index.types'
 import DataProvider from '../../Store'
 
 const StyledStatusConsole = styled('div')(() => ({
@@ -20,13 +20,14 @@ const StyledResizable = styled('div')(() => ({
   flex: '1 1 auto',
 }))
 
-const StyledWrapper = styled('div')(({ theme }) => ({
+const StyledWrapper = styled('div')<{ bottom: string }>(({ theme, bottom }) => ({
   display: 'flex',
   flexDirection: 'column',
   position: 'absolute',
   borderTop: `1px solid ${theme.palette.divider}`,
   backgroundColor: theme.palette.background.default,
-  bottom: '0px',
+  bottom: bottom === 'true' ? '0px' : 'unset',
+  top: bottom !== 'true' ? '0px' : 'unset',
   left: '0px',
   alignItems: 'center',
   right: '0px',
@@ -73,7 +74,7 @@ const relevantType = 'console'
 
 export default function () {
   const { status, updateConsoleActiveId, updateIsConsoleOpen } = useContext(DataProvider)
-  const { consoleActiveId, isConsoleOpen } = useContext(DataProvider).settings as SettingsObject
+  const { consoleActiveId, isConsoleOpen, position } = useContext(DataProvider).settings as SettingsObject
 
   const isActivated = (uniqueId: string): boolean => uniqueId === consoleActiveId
   const relevantConsoles = status.filter(({ type }) => type === relevantType)
@@ -97,7 +98,7 @@ export default function () {
 
   return <>
     {(isConsoleOpen) && <>
-      {status.some(({ type }) => type === relevantType) && <StyledWrapper {...{ id: domIdWrapper }}>
+      {status.some(({ type }) => type === relevantType) && <StyledWrapper {...{ id: domIdWrapper }} bottom={String(position === PlacementPosition.Bottom)}>
         <Resizable
           onResizeStop={(_e, _direction, _ref, d) => {
             const computedHeight = Number(height.replace('px', '')) + d.height

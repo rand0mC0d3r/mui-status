@@ -4,11 +4,11 @@ import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined'
 import { Popover, Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { MouseEvent, ReactNode, useContext, useState } from 'react'
-import InternalStatus from '../../MuiStatusBar/InternalStatus'
+import InternalStatus from '../InternalStatus'
 import DataProvider from '../../Store'
 
 import { PlacementPosition, SettingsObject, StatusObject, StatusType } from '../../index.types'
-import InternalConsole from '../../MuiStatusBar/InternalConsole'
+import InternalConsole from '../InternalConsole'
 
 const SBox = styled('div')<{ column?: string }>(({ column }) => ({
   height: '100%',
