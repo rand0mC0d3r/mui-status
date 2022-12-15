@@ -117,6 +117,7 @@ export default function ({
     id: `mui-status-panel-popover-${id}`,
     className: popoverClassName,
     style: {
+      zIndex: '9999',
       marginTop: `${(isToggled ? 1 : -1) * 12}px`,
       ...popoverStyle,
     },
