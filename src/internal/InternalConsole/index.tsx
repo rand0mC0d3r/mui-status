@@ -12,6 +12,7 @@ import DataProvider from '../../Store'
 const StyledStatusConsole = styled('div')(() => ({
   flex: '1 0 auto',
   overflow: 'hidden',
+  display: 'flex',
 }))
 
 const StyledResizable = styled('div')(() => ({
