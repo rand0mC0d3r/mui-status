@@ -1,91 +1,91 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true
-    },
-    "globals": {
-        "JSX": true
-    },
-    "extends": [
-        "plugin:react/recommended",
-        "airbnb"
-    ],
-    "settings": {
-        "import/resolver": "webpack"
-    },
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 12,
-        "sourceType": "module",
-        "project": "./tsconfig.json"
-    },
-    "plugins": [
-        "react",
-        "@typescript-eslint",
-        "mui-unused-classes"
-    ],
-    "rules": {
-        "@typescript-eslint/no-explicit-any": "warn",
-        "no-restricted-globals": [
-            "error"
-        ],
-        "react/react-in-jsx-scope": "off",
-        "react/jsx-no-useless-fragment": 0,
-        "react/jsx-props-no-spreading": 0,
-        "react/jsx-wrap-multilines": "off",
-        "no-confusing-arrow": "off",
-        "no-use-before-define": 0,
-        "arrow-parens": [
-            "error",
-            "as-needed"
-        ],
-        "jsx-a11y/click-events-have-key-events": "off",
-        "jsx-a11y/no-static-element-interactions": "off",
-        "import/no-unresolved": 0,
-        "react/require-default-props": 0,
-        "react/jsx-filename-extension": 0,
-        "func-names": 0,
-        "import/extensions": 0,
-        "react/jsx-uses-react": 0,
-        "react/jsx-uses-vars": 2,
-        "react/jsx-closing-tag-location": "off",
-        "comma-dangle": [
-            "error",
-            "only-multiline"
-        ],
-        "no-unused-vars": "error",
-        "no-spaced-func": "error",
-        "template-tag-spacing": [
-            "error",
-            "always"
-        ],
-        "object-curly-newline": [
-            "error",
-            {
-                "multiline": true,
-                "consistent": true
-            }
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "max-len": [
-            "error",
-            160
-        ],
-        "mui-unused-classes/unused-classes": 1,
-        "import/no-extraneous-dependencies": 0,
-        "semi": [
-            "error",
-            "never"
-        ]
-    }
+	"env": {
+		"browser": true,
+		"es2021": true
+	},
+	"globals": {
+		"JSX": true
+	},
+	"extends": [
+		"plugin:react/recommended",
+		"airbnb"
+	],
+	"settings": {
+		"import/resolver": "webpack"
+	},
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaFeatures": {
+			"jsx": true
+		},
+		"ecmaVersion": 12,
+		"sourceType": "module",
+		"project": "./tsconfig.json"
+	},
+	"plugins": [
+		"react",
+		"@typescript-eslint",
+		"mui-unused-classes"
+	],
+	"rules": {
+		"@typescript-eslint/no-explicit-any": "warn",
+		"no-restricted-globals": [
+			"error"
+		],
+		"react/react-in-jsx-scope": "off",
+		"react/jsx-no-useless-fragment": 0,
+		"react/jsx-props-no-spreading": 0,
+		"react/jsx-wrap-multilines": "off",
+		"no-confusing-arrow": "off",
+		"no-use-before-define": 0,
+		"arrow-parens": [
+			"error",
+			"as-needed"
+		],
+		"jsx-a11y/click-events-have-key-events": "off",
+		"jsx-a11y/no-static-element-interactions": "off",
+		"import/no-unresolved": 0,
+		"react/require-default-props": 0,
+		"react/jsx-filename-extension": 0,
+		"func-names": 0,
+		"import/extensions": 0,
+		"react/jsx-uses-react": 0,
+		"react/jsx-uses-vars": 2,
+		"react/jsx-closing-tag-location": "off",
+		"comma-dangle": [
+			"error",
+			"only-multiline"
+		],
+		"no-unused-vars": "error",
+		"no-spaced-func": "error",
+		"template-tag-spacing": [
+			"error",
+			"always"
+		],
+		"object-curly-newline": [
+			"error",
+			{
+				"multiline": true,
+				"consistent": true
+			}
+		],
+		"linebreak-style": [
+			"error",
+			"unix"
+		],
+		"quotes": [
+			"error",
+			"single"
+		],
+		"max-len": [
+			"error",
+			160
+		],
+		"mui-unused-classes/unused-classes": 1,
+		"import/no-extraneous-dependencies": 0,
+		"semi": [
+			"error",
+			"never"
+		]
+	}
 }

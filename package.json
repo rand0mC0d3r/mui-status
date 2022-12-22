@@ -10,7 +10,6 @@
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-typescript": "^8.3.0",
-    "@types/react-dom": "^17.0.2",
     "@types/react-resizable": "^3.0.3",
     "@typescript-eslint/eslint-plugin": "^5.47.0",
     "@typescript-eslint/parser": "^5.47.0",
@@ -18,7 +17,6 @@
     "copy-and-watch": "^0.1.6",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-google": "^0.14.0",
     "eslint-import-resolver-webpack": "^0.13.2",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
@@ -33,8 +31,16 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-visualizer": "^5.8.3",
     "terser-folder": "^2.0.0",
-    "typescript": "^4.9.4"
+    "typescript": "^4.8.4"
   },
+	"peerDependencies": {
+		"react": "17.0.2",
+    "react-dom": "17.0.2",
+    "@types/react": "17.0.2",
+    "@types/react-dom": "17.0.2",
+		"@emotion/react": "11.10.5",
+		"typescript": "4.9.4"
+	},
   "dependencies": {
     "re-resizable": "^6.9.9",
     "react-resizable": "^3.0.4",
@@ -76,7 +82,7 @@
     "test": "react-scripts test",
     "*LINKING*": "--------------------------------------------------------------",
     "#prelink": "npm run list",
-    "link": "npm link @mui/material @mui/icons-material @mui/system react react-dom @types/react",
+    "link": "npm link @emotion/react @mui/material @mui/icons-material @mui/system @mui/styles @mui/styled-engine react react-dom @types/react @types/react-dom",
     "postlink": "npm run list",
     "visualizer": "rollup -c --visualizer",
     "rollup": "rollup -c rollup.run.config.js",
