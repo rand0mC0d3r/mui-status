@@ -1,5 +1,5 @@
 import React from 'react';
-export declare type StatusTypes = 'simple' | 'panel' | 'console';
+export type StatusTypes = 'simple' | 'panel' | 'console';
 export interface ThemeShape {
     spacing(spacing: number): void;
     shape: {

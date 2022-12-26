@@ -1,0 +1,14 @@
+{
+    "packages": [
+				"../mui-status-helper/node_modules/react",
+				"../mui-status-helper/node_modules/react-dom",
+				"../mui-status-helper/node_modules/@types/react-dom",
+				"../mui-status-helper/node_modules/@types/react",
+				"../mui-status-helper/node_modules/@mui/material",
+				"../mui-status-helper/node_modules/@mui/styles",
+				"../mui-status-helper/node_modules/@mui/system",
+				"../mui-status-helper/node_modules/@mui/icons-material",
+				"../mui-status-helper/node_modules/@emotion/react",
+				"../mui-status-helper/node_modules/@emotion/styled"
+			]
+}

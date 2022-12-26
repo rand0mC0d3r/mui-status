@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 import { Tooltip } from '@mui/material'
@@ -31,8 +32,8 @@ const backgroundColorHover = (theme: ThemeShape, highlight?: string) => {
   }
 }
 
-const SSpan = styled('span')(({ theme }) => ({
-  padding: '4px 8px',
+const SSpan = styled('span')(({ theme }: { theme: { spacing: any } }) => ({
+  padding: '4px 19px',
   display: 'flex',
   flexWrap: 'nowrap',
   alignItems: 'center',

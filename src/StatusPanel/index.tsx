@@ -109,20 +109,6 @@ export default function ({
     }
   }
 
-  const FallbackPopoverProps = {
-    open,
-    anchorEl,
-    onClose,
-    elevation,
-    id: `mui-status-panel-popover-${id}`,
-    className: popoverClassName,
-    style: {
-      zIndex: '9999',
-      marginTop: `${(isToggled ? 1 : -1) * 12}px`,
-      ...popoverStyle,
-    },
-  }
-
   useEffect(() => {
     const foundObject = status.find(item => item.uniqueId === id)
     if (statusObject === null && foundObject) {
@@ -142,7 +128,22 @@ export default function ({
     >
       {children}
     </Status>
-    <Popper {...{ keepMounted: keepOpen, ...FallbackPopoverProps }}>
+    <Popper {...{
+      keepMounted: keepOpen,
+      open,
+      anchorEl,
+      onClose,
+      elevation,
+      id: `mui-status-panel-popover-${id}`,
+      className: popoverClassName,
+      style: {
+        zIndex: '9999',
+        marginTop: `${(isToggled ? 1 : -1) * 12}px`,
+        ...popoverStyle,
+
+      }
+    }}
+    >
       <ClickAwayListener onClickAway={() => handleOnClose()}>
         <StyledContainer {...{ elevation }}>
           {popover}
