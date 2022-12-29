@@ -25,6 +25,16 @@ export interface StatusObject {
   title?: string;
   children: React.ReactNode;
 }
+export interface SnackbarObject {
+  uniqueId: string;
+  open: boolean;
+	source: string;
+  actions: any;
+  message: string;
+  code: string;
+  autoHideDuration: number;
+  severity: 'success' | 'info' | 'warning' | 'error',
+}
 
 export interface SettingsObject {
   statusBarAnnounced: boolean;

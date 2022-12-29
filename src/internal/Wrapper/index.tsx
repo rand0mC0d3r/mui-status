@@ -4,11 +4,11 @@ import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined'
 import { Popover, Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { MouseEvent, ReactNode, useContext, useState } from 'react'
-import InternalStatus from '../InternalStatus'
-import DataProvider from '../../Store'
-
 import { PlacementPosition, SettingsObject, StatusObject, StatusType } from '../../index.types'
+import DataProvider from '../../Store'
 import InternalConsole from '../InternalConsole'
+import InternalNotifications from '../InternalNotifications'
+import InternalStatus from '../InternalStatus'
 
 const SBox = styled('div')<{ column?: string }>(({ column }) => ({
   height: '100%',
@@ -20,6 +20,15 @@ const SBox = styled('div')<{ column?: string }>(({ column }) => ({
   bottom: '0px',
   left: '0px',
   right: '0px',
+  flexDirection: column === PlacementPosition.Top ? 'column-reverse' : 'column'
+}))
+
+const SNotifications = styled('div')<{ column?: string }>(({ column }) => ({
+  gap: '0px',
+  position: 'absolute',
+  display: 'flex',
+  bottom: '16px',
+  left: '16px',
   flexDirection: column === PlacementPosition.Top ? 'column-reverse' : 'column'
 }))
 
@@ -103,6 +112,9 @@ export default function ({
         {status.some(({ type }) => type === StatusType.CONSOLE) && <InternalConsole />}
       </SChildren>
       {status.some(({ visible }) => visible) && <SStatusWrapper {...{ position, onContextMenu }}><InternalStatus /></SStatusWrapper>}
+      <SNotifications {...{ column: position }}>
+        <InternalNotifications />
+      </SNotifications>
     </SBox>
     <Popover
       id="toggle-status-popover"

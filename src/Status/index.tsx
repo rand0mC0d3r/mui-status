@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
+// import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined'
 import { Tooltip } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, MouseEvent, ReactNode, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
@@ -33,7 +34,7 @@ const backgroundColorHover = (theme: ThemeShape, highlight?: string) => {
 }
 
 const SSpan = styled('span')(({ theme }: { theme: { spacing: any } }) => ({
-  padding: '4px 19px',
+  padding: '4px 8px',
   display: 'flex',
   flexWrap: 'nowrap',
   alignItems: 'center',
@@ -55,7 +56,6 @@ const SDiv = styled('div')<{ hasclick?: string, highlight?: string, isdisabled?:
   gap: '16px',
   justifyContent: 'center',
   alignSelf: 'center',
-  position: 'relative',
 
   cursor: (hasclick === 'true' && isdisabled === 'false') ? 'pointer' : '',
   backgroundColor: backgroundColor(theme, highlight),
@@ -93,6 +93,7 @@ const SDiv = styled('div')<{ hasclick?: string, highlight?: string, isdisabled?:
  */
 export default function ({
   id,
+  // hasArrow = false,
   secondary = false,
   style,
   onClick,
@@ -103,6 +104,7 @@ export default function ({
   children,
 } : {
   id: string,
+  // hasArrow?: boolean,
   secondary?: boolean,
   style?: CSSProperties,
   onClick?: (e: MouseEvent<HTMLDivElement>) => void,
@@ -191,6 +193,7 @@ export default function ({
         isdisabled: disabled.toString(),
       }}
       >
+        {/* {hasArrow && <ArrowDropDownOutlinedIcon style={{ position: 'absolute', bottom: '-14px' }} color="primary" />} */}
         {tooltip
           ? <Tooltip title={tooltip} arrow><SSpan>{children}</SSpan></Tooltip>
           : <SSpan>{children}</SSpan>}

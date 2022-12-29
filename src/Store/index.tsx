@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { createContext, useEffect, useState } from 'react'
-import { PlacementPosition, SettingsObject, StatusObject } from '../index.types'
+import { PlacementPosition, SettingsObject, SnackbarObject, StatusObject } from '../index.types'
 import Wrapper from '../internal/Wrapper'
 
 const domIdBase = 'mui-status'
@@ -38,11 +38,13 @@ const valOrDefault = (val: any, def: any) => {
 interface DataContextInterface {
   settings: any;
   status: StatusObject[];
+  snackbar: SnackbarObject[];
   updateConsoleActiveId: any;
   updateIsConsoleOpen: any;
   updateIsConsoleClosed: any;
   handleStatusUpdate: any;
   handleStatusAnnouncement: any;
+  handleSnackbarAnnouncement: any;
   handleStatusDestroy: any;
   handleStatusTypeUpdate: any;
   handleStatusConsoleTypeUpdate: any;
@@ -69,6 +71,7 @@ function StatusProvider({
   children?: React.ReactNode,
   }) {
   const [status, setStatus] = useState<StatusObject[]>([])
+  const [snackbar, setSnackbar] = useState<SnackbarObject[]>([])
   const [settings, setSettings] = useState<SettingsObject>(initialSettings)
 
   const logDebug = (message: string) => {
@@ -98,6 +101,24 @@ function StatusProvider({
         } as StatusObject
       ]
     })
+  }
+  const handleSnackbarAnnouncement = (
+    { ownId, severity, actions, source, message, code, autoHideDuration } :
+    { ownId: string, actions: any, source: string, severity: string, message: any, code: string, autoHideDuration: number }
+  ) => {
+    setSnackbar((snackbar: SnackbarObject[]) => [
+      ...snackbar.filter(({ uniqueId }) => uniqueId !== ownId),
+        {
+          uniqueId: ownId,
+          open: true,
+          severity,
+          actions,
+          source,
+          message,
+          code,
+          autoHideDuration,
+        } as SnackbarObject
+    ])
   }
 
   const handleStatusUpdate = ({ id, ownId, children }: { id: string, ownId: string, children: React.ReactNode }) => {
@@ -203,7 +224,7 @@ function StatusProvider({
 
   useEffect(() => {
     if (settings.debug) {
-      console.log('mui-status-store:', { ...settings, status })
+      console.log('mui-status-store:', { ...settings, status, snackbar })
     }
   }, [settings, status])
 
@@ -220,11 +241,13 @@ function StatusProvider({
 
       // status state + crud
       status,
+      snackbar,
       handleStatusVisibilityToggle,
       handleStatusTypeUpdate,
       handleStatusConsoleTypeUpdate,
       handleStatusUpdate,
       handleStatusAnnouncement,
+      handleSnackbarAnnouncement,
       handleStatusDestroy,
 
       logDebug,

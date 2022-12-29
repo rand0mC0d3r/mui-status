@@ -1,5 +1,7 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined'
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { alpha, ClickAwayListener, Popper, Tooltip, Typography } from '@mui/material'
@@ -25,16 +27,22 @@ const StyledActions = styled('div')(({ theme }) => ({
   alignItems: 'center'
 }))
 
+const StyledPopper = styled(Popper)<{ toggled: string}>(({ toggled }) => ({
+  zIndex: '99991',
+  marginTop: `${(toggled === 'true' ? 1 : -1) * 4}px !important`,
+}))
+
 const StyledContainer = styled('div')<{elevation: number}>(({ theme, elevation } : {theme: any, elevation: number}) => ({
   display: 'flex',
   alignItems: 'stretch',
+  position: 'relative',
   flexDirection: 'column',
   backgroundColor: `${alpha(theme.palette.background.default, 0.75)}`,
   backdropFilter: 'blur(8px)',
   borderRadius: `${theme.shape.borderRadius}px`,
   margin: `${theme.spacing(0.5)} 0px`,
   padding: theme.spacing(0.5),
-  border: `1px solid ${theme.palette.divider}`,
+  border: `3px solid ${theme.palette.primary.main}`,
   boxShadow: theme.shadows[elevation]
 }))
 
@@ -52,8 +60,6 @@ export default function ({
   highlight,
   tooltip = '',
   children,
-  popoverStyle,
-  popoverClassName,
   popover,
   popoverTitle,
   popoverActions,
@@ -67,8 +73,6 @@ export default function ({
   highlight?: 'default' | 'primary' | 'secondary',
   tooltip?: ReactNode | string,
   children?: ReactNode,
-  popoverStyle?: any,
-  popoverClassName?: any,
   popover?: any,
   popoverTitle?: string,
   popoverActions?: any
@@ -120,6 +124,7 @@ export default function ({
     <Status {...{
       id,
       tooltip,
+      hasArrow: open,
       highlight: (keepOpen || open) ? 'primary' : highlight,
       secondary,
       onClick: handleOnClick,
@@ -128,24 +133,21 @@ export default function ({
     >
       {children}
     </Status>
-    <Popper {...{
+    <StyledPopper {...{
       keepMounted: keepOpen,
       open,
       anchorEl,
       onClose,
       elevation,
       id: `mui-status-panel-popover-${id}`,
-      className: popoverClassName,
-      style: {
-        zIndex: '9999',
-        marginTop: `${(isToggled ? 1 : -1) * 12}px`,
-        ...popoverStyle,
-
-      }
+      toggled: isToggled.toString(),
     }}
     >
       <ClickAwayListener onClickAway={() => handleOnClose()}>
         <StyledContainer {...{ elevation }}>
+          <div style={{ position: 'absolute', top: '-17px', left: '0px', right: '0px', display: 'flex', justifyContent: 'center' }}>
+            <ArrowDropUpOutlinedIcon color="primary" />
+          </div>
           {popover}
           <StyledActionsWrapper>
             <StyledTypography variant="caption" color="textSecondary">{popoverTitle}</StyledTypography>
@@ -160,6 +162,6 @@ export default function ({
           </StyledActionsWrapper>
         </StyledContainer>
       </ClickAwayListener>
-    </Popper>
+    </StyledPopper>
   </>
 }
