@@ -46,6 +46,7 @@ interface DataContextInterface {
   handleStatusAnnouncement: any;
   handleSnackbarAnnouncement: any;
   handleStatusDestroy: any;
+  handleSnackbarDestroy: any;
   handleStatusTypeUpdate: any;
   handleStatusConsoleTypeUpdate: any;
   handleStatusVisibilityToggle: any;
@@ -160,6 +161,10 @@ function StatusProvider({
     setStatus((status: StatusObject[]) => [...status.filter(lo => lo.uniqueId !== id)])
   }
 
+  const handleSnackbarDestroy = ({ uniqueId }: { uniqueId: string }) => {
+    setSnackbar((snackbar: SnackbarObject[]) => [...snackbar.filter(lo => lo.uniqueId !== uniqueId)])
+  }
+
   const triggerStatusBarAnnounced = () => {
     if (!settings.statusBarAnnounced) {
       setSettings((settings: SettingsObject) => ({ ...settings, statusBarAnnounced: true }))
@@ -239,9 +244,12 @@ function StatusProvider({
       // status - wrapper
       triggerStatusBarAnnounced,
 
+      // snackbar + crud,
+      snackbar,
+      handleSnackbarDestroy,
+
       // status state + crud
       status,
-      snackbar,
       handleStatusVisibilityToggle,
       handleStatusTypeUpdate,
       handleStatusConsoleTypeUpdate,

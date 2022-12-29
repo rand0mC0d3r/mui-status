@@ -10,7 +10,7 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import { Alert, AlertTitle, Button, IconButton, Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { cloneElement, useContext, useEffect, useState } from 'react'
-// import DataProvider from '../../Store'
+import DataProvider from '../../Store'
 
 const SHeader = styled('div')<{ expanded: string }>(({ expanded }) => ({
   display: 'flex',
@@ -37,7 +37,9 @@ const SActionButtons = styled('div')(() => ({
 const SActions = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
-  gap: '8px'
+  gap: '8px',
+  flex: '1 1 auto',
+  justifyContent: 'flex-end',
 }))
 
 const STitle = styled(Typography)(() => ({
@@ -78,11 +80,15 @@ export default function ({
   message: string,
   code: string
 }) {
-  // const { snackbar } = useContext(DataProvider)
+  const { handleSnackbarDestroy } = useContext(DataProvider)
   const [isExpanded, setIsExpanded] = useState(false)
 
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded)
+  }
+
+  const closeAlert = () => {
+    handleSnackbarDestroy({ uniqueId })
   }
 
   useEffect(() => {
@@ -126,7 +132,7 @@ export default function ({
           </IconButton>
         </Tooltip>}
         <Tooltip arrow title="Close alert">
-          <IconButton color="inherit" size="small">
+          <IconButton color="inherit" onClick={closeAlert} size="small">
             <CloseIcon fontSize="small" />
           </IconButton>
         </Tooltip>

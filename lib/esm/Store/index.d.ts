@@ -12,6 +12,7 @@ interface DataContextInterface {
     handleStatusAnnouncement: any;
     handleSnackbarAnnouncement: any;
     handleStatusDestroy: any;
+    handleSnackbarDestroy: any;
     handleStatusTypeUpdate: any;
     handleStatusConsoleTypeUpdate: any;
     handleStatusVisibilityToggle: any;
