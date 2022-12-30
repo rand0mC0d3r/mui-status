@@ -28,7 +28,7 @@ export interface StatusObject {
 export interface SnackbarObject {
   uniqueId: string;
   open: boolean;
-	source: string;
+  source: string;
   actions: any;
   message: string;
   code: string;

@@ -1,58 +1,40 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import CheckIcon from '@mui/icons-material/Check'
-import CloseIcon from '@mui/icons-material/Close'
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined'
-import ExpandLessIcon from '@mui/icons-material/ExpandLess'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import PriorityHighOutlinedIcon from '@mui/icons-material/PriorityHighOutlined'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
-import { Alert, AlertTitle, Button, IconButton, Tooltip, Typography } from '@mui/material'
+import { Alert, Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { cloneElement, useContext, useEffect, useState } from 'react'
-import DataProvider from '../../Store'
+import { useEffect, useState } from 'react'
+import Footer from './components/Footer'
+import Header from './components/Header'
 
-const SHeader = styled('div')<{ expanded: string }>(({ expanded }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  paddingBottom: expanded === 'true' ? '8px' : '0px',
-  marginTop: expanded === 'true' ? '-4px' : '0px',
-  justifyContent: 'space-between',
-  width: '100%',
-}))
-
-const SBottom = styled('div')(() => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  width: '100%',
+const SCode = styled('textarea')<{ height: number }>(({ height, theme }) => ({
+  fontFamily: 'monospace',
+  backgroundColor: `${theme.palette.divider}`,
+  padding: '8px',
+  resize: 'vertical',
+  whiteSpace: 'nowrap',
   marginTop: '8px',
-}))
+  marginBottom: '8px',
+  borderColor: 'inherit',
+  maxHeight: '300px',
+  minHeight: `${(height * 20) + 10}px`,
+  borderRadius: '4px',
+  color: 'inherit',
 
-const SActionButtons = styled('div')(() => ({
-  display: 'flex',
-  flexDirection: 'row',
-}))
-
-const SActions = styled('div')(() => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  flex: '1 1 auto',
-  justifyContent: 'flex-end',
-}))
-
-const STitle = styled(Typography)(() => ({
-  userSelect: 'none',
-  textTransform: 'capitalize',
-  fontWeight: 'bold',
+  '&:focus-visible': {
+    outline: '0px',
+  },
 }))
 
 const SMessage = styled(Typography)<{ ellipsis: string }>(({ ellipsis }) => ({
   whiteSpace: ellipsis === 'true' ? 'nowrap' : 'normal',
   overflow: ellipsis === 'true' ? 'hidden' : 'unset',
   textOverflow: ellipsis === 'true' ? 'ellipsis' : 'unset',
-  lineHeight: 'initial'
+  lineHeight: ellipsis === 'true' ? 'initial' : '1.65',
 }))
 
 const SAlert = styled(Alert)<{ expanded: string, actions: string }>(({ expanded, actions }) => ({
@@ -60,7 +42,7 @@ const SAlert = styled(Alert)<{ expanded: string, actions: string }>(({ expanded,
     minWidth: 'unset',
     width: '100%',
     padding: expanded === 'true' ? '8px 0px' : '0px',
-    display: actions === 'true' ? 'block' : 'flex',
+    display: 'flex',
     flexDirection: (actions === 'true' || expanded === 'true') ? 'column' : 'row',
   },
 }))
@@ -71,25 +53,18 @@ export default function ({
   source,
   severity,
   message,
-  code
+  code,
+  isRemoveFlag = false,
 }: {
   uniqueId: string,
   actions?: any,
   source?: string,
   severity: any,
   message: string,
-  code: string
+  code: string,
+  isRemoveFlag?: boolean,
 }) {
-  const { handleSnackbarDestroy } = useContext(DataProvider)
   const [isExpanded, setIsExpanded] = useState(false)
-
-  const toggleExpanded = () => {
-    setIsExpanded(!isExpanded)
-  }
-
-  const closeAlert = () => {
-    handleSnackbarDestroy({ uniqueId })
-  }
 
   useEffect(() => {
     if (actions) {
@@ -115,46 +90,17 @@ export default function ({
     </Tooltip>}
     {...{ severity }}
   >
-    <SHeader expanded={isExpanded.toString()}>
-      {(isExpanded)
-        ? <STitle variant="subtitle1" color="inherit">{severity}</STitle>
-        : <>
-          {!actions
-            ? <>{getMessage(true)}</>
-            : <STitle variant="subtitle1" color="inherit">{severity}</STitle>}
-        </>}
-      <SActionButtons>
-        {!actions && <Tooltip arrow title="Expand/Collapse alert">
-          <IconButton color="inherit" size="small" onClick={toggleExpanded}>
-            {!isExpanded
-              ? <ExpandMoreIcon fontSize="small" />
-              : <ExpandLessIcon fontSize="small" />}
-          </IconButton>
-        </Tooltip>}
-        <Tooltip arrow title="Close alert">
-          <IconButton color="inherit" onClick={closeAlert} size="small">
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
-      </SActionButtons>
-    </SHeader>
+    <Header {...{ uniqueId, actions, severity, message, isRemoveFlag }} />
 
     {(isExpanded || actions) && getMessage()}
 
-    {code && <code>
-        {code}
-      </code>}
+    {isExpanded && code && <SCode
+      defaultValue={code}
+      height={Math.min(10, code.split('\n').length)}
+    />}
 
     {(isExpanded || actions) && <>
-      {(source || actions) && <SBottom>
-        {source && <Typography variant="caption" color="textSecondary">
-          Source:
-          {source}
-        </Typography>}
-        <SActions>
-          {actions && actions.map((action: any) => <>{cloneElement(action, { variant: 'contained', disableElevation: true })}</>)}
-        </SActions>
-      </SBottom>}
+      {(source || actions) && <Footer {...{ actions, severity, source }} />}
     </>}
   </SAlert>
 }

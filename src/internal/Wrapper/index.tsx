@@ -27,8 +27,9 @@ const SNotifications = styled('div')<{ column?: string }>(({ column }) => ({
   gap: '0px',
   position: 'absolute',
   display: 'flex',
-  bottom: '16px',
-  left: '16px',
+  bottom: column === PlacementPosition.Top ? 'unset' : '32px',
+  top: column === PlacementPosition.Top ? '32px' : 'unset',
+  right: '16px',
   flexDirection: column === PlacementPosition.Top ? 'column-reverse' : 'column'
 }))
 

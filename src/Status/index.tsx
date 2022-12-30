@@ -168,7 +168,10 @@ export default function ({
     }
   }, [secondary, statusObject])
 
-  useEffect(() => { setOwnId((Math.random() + 1).toString(36).substring(7)) }, [])
+  useEffect(() => {
+    console.log('generate ownId', ownId, id)
+    setOwnId((Math.random() + 1).toString(36).substring(7))
+  }, [])
 
   // validation
   useEffect(() => { if (!id) { console.error('Please define an id for the status bar item') } }, [id])

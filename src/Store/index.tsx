@@ -82,6 +82,7 @@ function StatusProvider({
   }
 
   const handleStatusAnnouncement = ({ id, ownId, secondary, children } : { id: string, ownId: string, secondary: boolean, children: any }) => {
+    console.log('registed status', id)
     setStatus((status: StatusObject[]) => {
       const findError = status.find(sItem => sItem.uniqueId === id && sItem.ownId !== ownId)
       if (findError) {
@@ -107,6 +108,7 @@ function StatusProvider({
     { ownId, severity, actions, source, message, code, autoHideDuration } :
     { ownId: string, actions: any, source: string, severity: string, message: any, code: string, autoHideDuration: number }
   ) => {
+    console.log('registed snackbar', ownId)
     setSnackbar((snackbar: SnackbarObject[]) => [
       ...snackbar.filter(({ uniqueId }) => uniqueId !== ownId),
         {
@@ -231,7 +233,7 @@ function StatusProvider({
     if (settings.debug) {
       console.log('mui-status-store:', { ...settings, status, snackbar })
     }
-  }, [settings, status])
+  }, [settings, status, snackbar])
 
   return <DataContext.Provider
     value={{
