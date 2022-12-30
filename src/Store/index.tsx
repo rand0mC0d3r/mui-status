@@ -229,11 +229,29 @@ function StatusProvider({
     }))
   }, [allowRightClick, expand, position, debug, hasLock])
 
+  // useEffect(() => {
+  //   if (settings.debug) {
+  //     console.log('mui-status-store:', { ...settings, status, snackbar })
+  //   }
+  // }, [settings, status, snackbar])
+
   useEffect(() => {
     if (settings.debug) {
-      console.log('mui-status-store:', { ...settings, status, snackbar })
+      console.log('mui-status-settings:', { ...settings })
     }
-  }, [settings, status, snackbar])
+  }, [settings])
+
+  useEffect(() => {
+    if (settings.debug) {
+      console.log('mui-status-status:', { ...status })
+    }
+  }, [status])
+
+  useEffect(() => {
+    if (settings.debug) {
+      console.log('mui-status-snackbar:', { ...snackbar })
+    }
+  }, [snackbar])
 
   return <DataContext.Provider
     value={{

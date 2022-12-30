@@ -22,30 +22,33 @@ export default function ({
 }) {
   const { snackbar, handleSnackbarAnnouncement } : { snackbar: SnackbarObject[], handleSnackbarAnnouncement: any } = useContext(DataProvider)
   const [ownId, setOwnId] = useState<string | null>()
+  const [announced, setAnnounced] = useState<boolean>(false)
   const [snackbarObject, setSnackbarObject] = useState<SnackbarObject | null>(null)
 
   const callbackHandleStatusAnnouncement = useCallback(
     () => {
-      console.log(ownId, severity, message, code, autoHideDuration)
       handleSnackbarAnnouncement({ ownId, actions, source, severity, message, code, autoHideDuration })
     },
     [severity, ownId, message, actions, source, code, autoHideDuration, handleSnackbarAnnouncement]
   )
 
   useEffect(() => {
-    if (ownId) {
+    if (ownId && announced) {
       const snackbarObjectFound = snackbar.find(({ uniqueId }) => uniqueId === ownId)
+      console.log('snackbarObjectFound', snackbarObjectFound)
       if (snackbarObjectFound) {
         setSnackbarObject(snackbarObjectFound)
       }
     }
-  }, [snackbar, ownId, snackbarObject])
+  }, [snackbar, announced, ownId, snackbarObject])
 
   useEffect(() => {
-    if (ownId && snackbarObject === null) {
+    if (ownId && !announced && snackbarObject === null) {
+      console.log('announcing snackbar', ownId)
+      setAnnounced(true)
       callbackHandleStatusAnnouncement()
     }
-  }, [ownId, snackbarObject, callbackHandleStatusAnnouncement])
+  }, [ownId, announced, snackbarObject, callbackHandleStatusAnnouncement])
 
   useEffect(() => { setOwnId((Math.random() + 1).toString(36).substring(7)) }, [])
 

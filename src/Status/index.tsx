@@ -145,12 +145,16 @@ export default function ({
     }
   }
 
-  useEffect(() => {
-    if (ownId && statusObject !== null) { handleStatusUpdate({ id, ownId, children }) }
-  }, [id, ownId, statusObject, children])
+  // useEffect(() => {
+  //   if (ownId && statusObject !== null) {
+  //     console.log('announcing status update', id)
+  //     handleStatusUpdate({ id, ownId, children })
+  //   }
+  // }, [id, ownId, statusObject, children])
 
   useEffect(() => {
     if (id && ownId && statusObject === null && !status.some(({ uniqueId }) => uniqueId === id)) {
+      console.log('announcing status', id)
       callbackHandleStatusAnnouncement()
     }
   }, [id, ownId, statusObject, status, callbackHandleStatusAnnouncement])
