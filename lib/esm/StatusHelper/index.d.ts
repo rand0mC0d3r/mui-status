@@ -12,7 +12,7 @@ import { CSSProperties, HTMLAttributes } from 'react';
  *
  * @returns (JSX.Element) Status helper element
  */
-export default function ({ icon, text, notifications, image, mask, reverse, reverseIcon, children, childrenIndex, className, style, }: {
+export default function ({ icon, text, notifications, image, mask, reverse, reverseIcon, children, childrenIndex, className, style, endSeparator, startSeparator, }: {
     icon?: JSX.Element;
     text?: string;
     notifications?: string | number;
@@ -24,4 +24,6 @@ export default function ({ icon, text, notifications, image, mask, reverse, reve
     childrenIndex?: number;
     className?: HTMLAttributes<HTMLDivElement>['className'];
     style?: CSSProperties;
+    endSeparator?: boolean;
+    startSeparator?: boolean;
 }): JSX.Element;

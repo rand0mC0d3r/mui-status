@@ -48,6 +48,8 @@ export interface SettingsObject {
     isConsoleOpen?: boolean;
     isConsoleFixed?: boolean;
     consoleActiveId?: string;
+    width: string;
+    hasBorder: boolean;
 }
 export declare enum StatusType {
     SIMPLE = "simple",
