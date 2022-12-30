@@ -34,10 +34,10 @@ const backgroundColorHover = (theme: ThemeShape, highlight?: string) => {
 }
 
 const SSpan = styled('span')(({ theme }: { theme: { spacing: any } }) => ({
-  padding: '4px 8px',
+  // padding: '0px 10px',
   display: 'flex',
   flexWrap: 'nowrap',
-  alignItems: 'center',
+  alignItems: 'stretch',
   fontSize: '14px',
 
   gap: `${theme.spacing(0.5)}`,
@@ -52,7 +52,7 @@ const SDiv = styled('div')<{ hasclick?: string, highlight?: string, isdisabled?:
   height: '100%',
   display: 'flex',
   flex: '0 0 auto',
-  alignItems: 'center',
+  alignItems: 'stretch',
   gap: '16px',
   justifyContent: 'center',
   alignSelf: 'center',

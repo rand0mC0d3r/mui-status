@@ -4,6 +4,7 @@ import { CSSProperties, HTMLAttributes } from 'react'
 
 const SStack = styled(Stack)<{ reverse: string }>(({ theme, reverse }) => ({
   display: 'flex',
+  padding: '4px 8px',
   alignItems: 'center',
   justifyContent: 'space-between',
   flexWrap: 'nowrap',
@@ -16,9 +17,8 @@ const SStack = styled(Stack)<{ reverse: string }>(({ theme, reverse }) => ({
 }))
 
 const SIcon = styled(SvgIcon)<{ reverse: string }>(({ reverse }) => ({
-  fontSize: '14px',
-  width: '14px',
-  height: '14px',
+  width: '17px',
+  height: '17px',
   flex: '0 1 auto',
 
   transform: reverse === 'true' ? 'scaleX(-1)' : 'scaleX(1)',
@@ -27,14 +27,14 @@ const SIcon = styled(SvgIcon)<{ reverse: string }>(({ reverse }) => ({
 const SText = styled(Typography)(() => ({
   whiteSpace: 'nowrap',
   userSelect: 'none',
-  fontSize: '13px',
+  fontSize: '15px',
   lineHeight: 'inherit',
 }))
 
 const SNotifications = styled(Typography)(({ theme }) => ({
   padding: '0px 6px',
   lineHeight: 'inherit',
-  fontSize: '11px',
+  fontSize: '12px',
 
   color: theme.palette.text.primary,
   borderRadius: `${theme.shape.borderRadius * 2}px`,

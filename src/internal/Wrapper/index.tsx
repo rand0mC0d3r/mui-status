@@ -70,7 +70,7 @@ const SElementItem = styled('div')(({ theme }) => ({
 const SStatusWrapper = styled('div')<{ position?: string }>(({ theme, position }: any) => ({
   gap: '4px',
   display: 'flex',
-  alignItems: 'center',
+  alignItems: 'stretch',
   justifyContent: 'space-between',
   backgroundColor: theme.palette.mode === 'light'
     ? theme.palette.background.default
