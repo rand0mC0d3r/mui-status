@@ -2,30 +2,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined'
-import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import { alpha, ClickAwayListener, Popper, Tooltip, Typography } from '@mui/material'
+import { alpha, ClickAwayListener, Popper } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react'
 import { SettingsObject, StatusObject } from '../index.types'
+import InternalHeader from '../internal/InternalHeader'
 import Status from '../Status'
 import DataProvider from '../Store'
-
-const StyledActionsWrapper = styled('div')(({ theme }) => ({
-  padding: '8px',
-  display: 'flex',
-  justifyContent: 'space-between',
-  borderTop: `1px solid ${theme.palette.divider}`,
-  userSelect: 'none',
-  alignItems: 'center'
-}))
-
-const StyledActions = styled('div')(({ theme }) => ({
-  display: 'flex',
-  gap: `${theme.shape.borderRadius}px`,
-  justifyContent: 'flex-end',
-  alignItems: 'center'
-}))
 
 const StyledPopper = styled(Popper)<{ toggled: string}>(({ toggled }) => ({
   zIndex: '99991',
@@ -44,10 +27,6 @@ const StyledContainer = styled('div')<{elevation: number}>(({ theme, elevation }
   padding: theme.spacing(0.5),
   border: `3px solid ${theme.palette.primary.main}`,
   boxShadow: theme.shadows[elevation]
-}))
-
-const StyledTypography = styled(Typography)(() => ({
-  lineHeight: 1
 }))
 
 export default function ({
@@ -149,17 +128,7 @@ export default function ({
             <ArrowDropUpOutlinedIcon color="primary" />
           </div>
           {popover}
-          <StyledActionsWrapper>
-            <StyledTypography variant="caption" color="textSecondary">{popoverTitle}</StyledTypography>
-            <StyledActions>
-              {popoverActions}
-              {settings.hasLock && <Tooltip title="Toggle keep-open">
-                {keepOpen
-                  ? <LockOutlinedIcon onClick={() => setKeepOpen(!keepOpen)} color="primary" style={{ fontSize: 14 }} />
-                  : <LockOpenOutlinedIcon onClick={() => setKeepOpen(!keepOpen)} style={{ fontSize: 14 }} />}
-              </Tooltip>}
-            </StyledActions>
-          </StyledActionsWrapper>
+          <InternalHeader {...{ id, keepOpen, setKeepOpen, popoverActions, popoverTitle }} />
         </StyledContainer>
       </ClickAwayListener>
     </StyledPopper>

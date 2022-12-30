@@ -53,7 +53,7 @@ export default function ({
           {
             color: i === 0 ? buttonColors[severity] : 'inherit',
             size: 'small',
-            style: i === 0 ? { } : { borderStyle: 'dashed' },
+            style: i === 0 ? { } : { borderStyle: 'dotted' },
             variant: i === 0 ? 'contained' : 'outlined',
             disableElevation: true
           }

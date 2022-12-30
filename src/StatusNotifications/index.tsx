@@ -8,6 +8,7 @@ import { styled } from '@mui/material/styles'
 import { useContext, useEffect, useState } from 'react'
 import { SettingsObject, SnackbarObject, StatusObject } from '../index.types'
 import InternalAlert from '../internal/InternalAlert'
+// import InternalHeader from '../internal/InternalHeader'
 import Status from '../Status'
 import StatusHelper from '../StatusHelper'
 import DataProvider from '../Store'
@@ -19,6 +20,8 @@ const StyledPopper = styled(Popper)<{ toggled: string}>(({ toggled }) => ({
 
 const StyledContainer = styled('div')<{elevation: number}>(({ theme, elevation } : {theme: any, elevation: number}) => ({
   display: 'flex',
+  width: '650px',
+  gap: '8px',
   alignItems: 'stretch',
   position: 'relative',
   flexDirection: 'column',
@@ -38,11 +41,11 @@ export default function ({
 }) {
   const {
     status,
-    snackbar,
+    // snackbar,
     settings,
   } : {
     status: StatusObject[],
-    snackbar: SnackbarObject[],
+    // snackbar: SnackbarObject[],
     settings: SettingsObject,
   } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
@@ -84,7 +87,8 @@ export default function ({
       onClick: handleOnClick,
     }}
     >
-      <StatusHelper text="Notifications" icon={<NotificationsOutlinedIcon />} notifications={snackbar.length} />
+      ffff
+      {/* <StatusHelper text="Notifications" icon={<NotificationsOutlinedIcon />} notifications={snackbar.length} /> */}
     </Status>
     <StyledPopper {...{
       open,
@@ -98,8 +102,9 @@ export default function ({
           <div style={{ position: 'absolute', top: '-17px', left: '0px', right: '0px', display: 'flex', justifyContent: 'center' }}>
             <ArrowDropUpOutlinedIcon color="primary" />
           </div>
-          {snackbar.map(({ uniqueId, severity, message, source, actions, code }) => (
-            <InternalAlert key={uniqueId} {...{ uniqueId, actions, severity, source, message, code }} />))}
+          {/* {snackbar.map(({ uniqueId, severity, message, source, actions, code }) => (
+            <InternalAlert key={uniqueId} {...{ uniqueId, actions, severity, source, message, code }} />))} */}
+          {/* <InternalHeader {...{ id }} /> */}
         </StyledContainer>
       </ClickAwayListener>
     </StyledPopper>
