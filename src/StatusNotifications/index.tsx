@@ -6,7 +6,7 @@ import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined
 import { alpha, ClickAwayListener, Popper } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { useContext, useEffect, useState } from 'react'
-import { SettingsObject, SnackbarObject, StatusObject } from '../index.types'
+import { SnackbarObject, StatusObject } from '../index.types'
 import InternalAlert from '../internal/InternalAlert'
 import InternalHeader from '../internal/InternalHeader'
 import Status from '../Status'

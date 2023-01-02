@@ -1,7 +1,6 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined'
+// import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined'
 import { alpha, ClickAwayListener, Popper } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react'
@@ -23,7 +22,7 @@ const StyledContainer = styled('div')<{elevation: number}>(({ theme, elevation }
   backgroundColor: `${alpha(theme.palette.background.default, 0.75)}`,
   backdropFilter: 'blur(8px)',
   borderRadius: `${theme.shape.borderRadius}px`,
-  margin: `${theme.spacing(0.5)} 0px`,
+  margin: `${theme.spacing(2)} 0px`,
   padding: theme.spacing(0.5),
   border: `3px solid ${theme.palette.primary.main}`,
   boxShadow: theme.shadows[elevation]
@@ -124,9 +123,9 @@ export default function ({
     >
       <ClickAwayListener onClickAway={() => handleOnClose()}>
         <StyledContainer {...{ elevation }}>
-          <div style={{ position: 'absolute', top: '-17px', left: '0px', right: '0px', display: 'flex', justifyContent: 'center' }}>
+          {/* <div style={{ position: 'absolute', top: '-17px', left: '0px', right: '0px', display: 'flex', justifyContent: 'center' }}>
             <ArrowDropUpOutlinedIcon color="primary" />
-          </div>
+          </div> */}
           {popover}
           <InternalHeader {...{ id, keepOpen, setKeepOpen, popoverActions, popoverTitle }} />
         </StyledContainer>

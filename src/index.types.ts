@@ -39,6 +39,7 @@ export interface SnackbarObject {
 export interface SettingsObject {
   statusBarAnnounced: boolean;
   allowRightClick: boolean;
+  justifyContent: string;
   position: any;
   expand: any;
   upperBar: boolean;
@@ -47,8 +48,8 @@ export interface SettingsObject {
   isConsoleOpen?: boolean;
   isConsoleFixed?: boolean;
   consoleActiveId?: string;
-	width: string;
-	hasBorder: boolean;
+  width: string;
+  hasBorder: boolean;
 }
 
 export enum StatusType {

@@ -2,15 +2,12 @@ import { Stack, SvgIcon, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, HTMLAttributes } from 'react'
 
-const SStack = styled(Stack)<{ endSeparator: string, startSeparator: string, reverse: string }>(({ theme, reverse, startSeparator, endSeparator }) => ({
+const SStack = styled(Stack)<{ reverse: string }>(({ theme, reverse }) => ({
   display: 'flex',
-  padding: '4px 8px',
   alignItems: 'center',
   justifyContent: 'space-between',
   flexWrap: 'nowrap',
   userSelect: 'none',
-  borderLeft: startSeparator === 'true' ? `1px solid ${theme.palette.divider}` : 'none',
-  borderRight: endSeparator === 'true' ? `1px solid ${theme.palette.divider}` : 'none',
   WebkitFontSmoothing: 'antialiased',
   shapeRendering: 'geometricPrecision',
 
@@ -78,8 +75,6 @@ export default function ({
   childrenIndex = 1,
   className,
   style,
-  endSeparator = false,
-  startSeparator = false,
 } : {
   icon?: JSX.Element,
   text?: string,
@@ -92,18 +87,8 @@ export default function ({
   childrenIndex?: number,
   className?: HTMLAttributes<HTMLDivElement>['className'],
   style?: CSSProperties,
-  endSeparator?: boolean,
-  startSeparator?: boolean,
 }) {
-  return <SStack {...{
-    id: 'statusHelper',
-    style,
-    className,
-    startSeparator: startSeparator.toString(),
-    endSeparator: endSeparator.toString(),
-    reverse: reverse.toString()
-  }}
-  >
+  return <SStack {...{ id: 'statusHelper', style, className, reverse: reverse.toString() }}>
     {icon && <SIcon {...{ id: 'sh.icon', reverse: reverseIcon.toString() }}>{icon}</SIcon>}
     {children && <>{childrenIndex ? <SChildren {...{ index: childrenIndex }}>{children}</SChildren> : children}</>}
     {image && <SImg {...{ id: 'sh.image', alt: '', mask: mask.toString(), src: image }} />}

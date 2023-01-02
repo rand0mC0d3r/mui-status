@@ -12,8 +12,9 @@ import { CSSProperties, MouseEvent, ReactNode } from 'react';
  *
  * @returns (JSX.Element) Status element
  */
-export default function ({ id, secondary, style, onClick, onContextMenu, disabled, highlight, tooltip, children, }: {
+export default function ({ id, hasArrow, secondary, style, onClick, onContextMenu, disabled, highlight, tooltip, children, endSeparator, startSeparator, }: {
     id: string;
+    hasArrow?: boolean;
     secondary?: boolean;
     style?: CSSProperties;
     onClick?: (e: MouseEvent<HTMLDivElement>) => void;
@@ -22,4 +23,6 @@ export default function ({ id, secondary, style, onClick, onContextMenu, disable
     highlight?: 'default' | 'primary' | 'secondary';
     tooltip?: ReactNode | string;
     children?: ReactNode;
+    endSeparator?: boolean;
+    startSeparator?: boolean;
 }): JSX.Element;

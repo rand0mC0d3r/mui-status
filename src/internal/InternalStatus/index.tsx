@@ -5,7 +5,7 @@ import DataProvider from '../../Store'
 const SPrimary = styled('div')(() => ({
   display: 'flex',
   flexWrap: 'nowrap',
-  overflow: 'scroll',
+  overflow: 'visible',
   justifyContent: 'flex-start',
 
   '&::-webkit-scrollbar': {
@@ -16,7 +16,7 @@ const SPrimary = styled('div')(() => ({
 const SSecondary = styled('div')(() => ({
   display: 'flex',
   flexWrap: 'nowrap',
-  overflow: 'hidden',
+  overflow: 'visible',
   justifyContent: 'flex-end',
   alignItems: 'center',
   flex: '0 1 auto',

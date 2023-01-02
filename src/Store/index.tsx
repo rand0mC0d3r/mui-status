@@ -65,6 +65,7 @@ function StatusProvider({
   allowRightClick,
   hasBorder = true,
   width = '100%',
+  justifyContent = 'space-between',
   debug,
   children,
 } : {
@@ -74,6 +75,7 @@ function StatusProvider({
   allowRightClick?: boolean,
   hasBorder?: boolean,
   width?: string,
+  justifyContent?: string,
   debug?: boolean,
   children?: React.ReactNode,
   }) {
@@ -230,13 +232,14 @@ function StatusProvider({
       ...settings,
       expand: expand || initialSettings.expand,
       position,
+      justifyContent,
       width: width || initialSettings.width,
       hasBorder,
       allowRightClick: allowRightClick || initialSettings.allowRightClick,
       debug: debug || initialSettings.debug,
       hasLock: valOrDefault(hasLock, initialSettings.hasLock),
     }))
-  }, [allowRightClick, hasBorder, width, expand, position, debug, hasLock])
+  }, [allowRightClick, hasBorder, justifyContent, width, expand, position, debug, hasLock])
 
   // useEffect(() => {
   //   if (settings.debug) {

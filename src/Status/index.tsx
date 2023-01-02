@@ -1,12 +1,14 @@
+/* eslint-disable no-tabs */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
-// import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined'
+import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined'
+import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined'
 import { Tooltip } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, MouseEvent, ReactNode, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { SettingsObject, StatusObject, ThemeShape } from '../index.types'
+import { PlacementPosition, SettingsObject, StatusObject, ThemeShape } from '../index.types'
 import DataProvider, { composeDomId } from '../Store'
 
 const componentId = 'statusBar'
@@ -34,7 +36,7 @@ const backgroundColorHover = (theme: ThemeShape, highlight?: string) => {
 }
 
 const SSpan = styled('span')(({ theme }: { theme: { spacing: any } }) => ({
-  // padding: '0px 10px',
+  padding: '0px 10px',
   display: 'flex',
   flexWrap: 'nowrap',
   alignItems: 'stretch',
@@ -47,36 +49,58 @@ const SSpan = styled('span')(({ theme }: { theme: { spacing: any } }) => ({
   },
 }))
 
-const SDiv = styled('div')<{ hasclick?: string, highlight?: string, isdisabled?: string }>(({ theme, hasclick, highlight, isdisabled }) => ({
-  WebkitFontSmoothing: 'auto',
-  height: '100%',
-  display: 'flex',
-  flex: '0 0 auto',
-  alignItems: 'stretch',
-  gap: '16px',
-  justifyContent: 'center',
-  alignSelf: 'center',
-
-  cursor: (hasclick === 'true' && isdisabled === 'false') ? 'pointer' : '',
-  backgroundColor: backgroundColor(theme, highlight),
-  color: theme.palette.text.primary,
-
-  '& > div > *': {
-    color: highlight !== 'default'
-      ? `${theme.palette.background.default} !important`
-      : '',
-  },
-  '& > span > div > *': {
-    color: highlight !== 'default'
-      ? `${theme.palette.background.default} !important`
-      : '',
-  },
-
-  '&:hover': (hasclick === 'true' && isdisabled === 'false') ? {
-    backgroundColor: backgroundColorHover(theme, highlight),
-    color: `${theme.palette.text.primary}`,
-  } : {}
+const SArrowDown = styled(ArrowDropDownOutlinedIcon)<{ position: string }>(({ position }: { position: string }) => ({
+  position: 'absolute',
+  bottom: position !== 'top' ? '-10px' : 'unset',
+  top: position === 'top' ? '-10px' : 'unset',
 }))
+
+const SArrowUp = styled(ArrowDropUpOutlinedIcon)<{ position: string }>(({ position }: { position: string }) => ({
+  position: 'absolute',
+  bottom: position !== 'top' ? '-10px' : 'unset',
+  top: position === 'top' ? '-10px' : 'unset',
+}))
+
+const SDiv = styled('div')<{
+	endSeparator: string,
+	startSeparator: string,
+	hasclick?: string,
+	highlight?: string,
+	isdisabled?: string
+ }>(({ theme, hasclick, highlight, startSeparator, endSeparator, isdisabled }) => ({
+   WebkitFontSmoothing: 'auto',
+   height: '100%',
+   display: 'flex',
+   flex: '0 0 auto',
+   alignItems: 'stretch',
+   gap: '16px',
+   justifyContent: 'center',
+   alignSelf: 'center',
+   position: 'relative',
+
+   borderLeft: startSeparator === 'true' ? `1px solid ${theme.palette.divider}` : 'none',
+   borderRight: endSeparator === 'true' ? `1px solid ${theme.palette.divider}` : 'none',
+
+   cursor: (hasclick === 'true' && isdisabled === 'false') ? 'pointer' : '',
+   backgroundColor: backgroundColor(theme, highlight),
+   color: theme.palette.text.primary,
+
+   '& > div > *': {
+     color: highlight !== 'default'
+       ? `${theme.palette.background.default} !important`
+       : '',
+   },
+   '& > span > div > *': {
+     color: highlight !== 'default'
+       ? `${theme.palette.background.default} !important`
+       : '',
+   },
+
+   '&:hover': (hasclick === 'true' && isdisabled === 'false') ? {
+     backgroundColor: backgroundColorHover(theme, highlight),
+     color: `${theme.palette.text.primary}`,
+   } : {}
+ }))
 
 /**
  * @param id - (string) Unique identifier for the status element.
@@ -93,7 +117,7 @@ const SDiv = styled('div')<{ hasclick?: string, highlight?: string, isdisabled?:
  */
 export default function ({
   id,
-  // hasArrow = false,
+  hasArrow = false,
   secondary = false,
   style,
   onClick,
@@ -102,9 +126,11 @@ export default function ({
   highlight = 'default',
   tooltip,
   children,
+  endSeparator = false,
+  startSeparator = false,
 } : {
   id: string,
-  // hasArrow?: boolean,
+  hasArrow?: boolean,
   secondary?: boolean,
   style?: CSSProperties,
   onClick?: (e: MouseEvent<HTMLDivElement>) => void,
@@ -113,9 +139,11 @@ export default function ({
   highlight?: 'default' | 'primary' | 'secondary',
   tooltip?: ReactNode | string,
   children?: ReactNode,
+  endSeparator?: boolean,
+  startSeparator?: boolean,
 }) {
   const { status, handleStatusUpdate, handleStatusAnnouncement, handleStatusDestroy } = useContext(DataProvider)
-  const { allowRightClick } = useContext(DataProvider).settings as SettingsObject
+  const { allowRightClick, position } = useContext(DataProvider).settings as SettingsObject
   const [ownId, setOwnId] = useState<string | null>()
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
   const [elementFound, setElementFound] = useState<HTMLElement | null>(null)
@@ -196,11 +224,17 @@ export default function ({
         style: { ...style, order: statusObject.index },
 
         highlight,
+        startSeparator: startSeparator.toString(),
+        endSeparator: endSeparator.toString(),
         hasclick: (!!onClick).toString(),
         isdisabled: disabled.toString(),
       }}
       >
-        {/* {hasArrow && <ArrowDropDownOutlinedIcon style={{ position: 'absolute', bottom: '-14px' }} color="primary" />} */}
+        {hasArrow && <>
+          {position === PlacementPosition.Bottom
+            ? <SArrowUp position={position.toString()} color="primary" />
+            : <SArrowDown position={position.toString()} color="primary" />}
+        </>}
         {tooltip
           ? <Tooltip title={tooltip} arrow><SSpan>{children}</SSpan></Tooltip>
           : <SSpan>{children}</SSpan>}

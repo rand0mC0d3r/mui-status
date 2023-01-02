@@ -67,18 +67,23 @@ const SElementItem = styled('div')(({ theme }) => ({
   },
 }))
 
-const SStatusWrapper = styled('div')<{ width: string, hasBorder?: string, position?: string }>(({ theme, hasBorder, position, width }: any) => ({
-  gap: '4px',
-  display: 'flex',
-  alignItems: 'stretch',
-  width: `${width}`,
-  alignSelf: 'center',
-  justifyContent: 'space-between',
-  backgroundColor: theme.palette.mode === 'light'
-    ? theme.palette.background.default
-    : theme.palette.background.paper,
-  boxShadow: hasBorder === 'true' ? `inset 0px ${position === 'top' ? -3 : 3}px 0px -2px ${theme.palette.divider}` : 'none',
-}))
+const SStatusWrapper = styled('div')<{
+	justifyContent: string,
+	width: string,
+	hasBorder?: string,
+	position?: string
+ }>(({ theme, justifyContent, hasBorder, position, width }: any) => ({
+   gap: '4px',
+   display: 'flex',
+   alignItems: 'stretch',
+   width: `${width}`,
+   alignSelf: 'center',
+   justifyContent: `${justifyContent}`,
+   backgroundColor: theme.palette.mode === 'light'
+     ? theme.palette.background.default
+     : theme.palette.background.paper,
+   boxShadow: hasBorder === 'true' ? `inset 0px ${position === 'top' ? -3 : 3}px 0px -2px ${theme.palette.divider}` : 'none',
+ }))
 
 export default function ({
   children
@@ -86,7 +91,7 @@ export default function ({
   children: ReactNode
 }) {
   const { status, handleStatusVisibilityToggle } = useContext(DataProvider)
-  const { position, upperBar, hasBorder, width } = useContext(DataProvider).settings as SettingsObject
+  const { position, upperBar, hasBorder, width, justifyContent } = useContext(DataProvider).settings as SettingsObject
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null)
   const open = Boolean(anchorEl)
 
@@ -114,7 +119,7 @@ export default function ({
         {children}
         {status.some(({ type }) => type === StatusType.CONSOLE) && <InternalConsole />}
       </SChildren>
-      {status.some(({ visible }) => visible) && <SStatusWrapper {...{ width, hasBorder: hasBorder.toString(), position, onContextMenu }}>
+      {status.some(({ visible }) => visible) && <SStatusWrapper {...{ justifyContent, width, hasBorder: hasBorder.toString(), position, onContextMenu }}>
         <InternalStatus />
       </SStatusWrapper>}
       <SNotifications {...{ column: position }}>

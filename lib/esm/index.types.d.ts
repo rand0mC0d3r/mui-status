@@ -40,6 +40,7 @@ export interface SnackbarObject {
 export interface SettingsObject {
     statusBarAnnounced: boolean;
     allowRightClick: boolean;
+    justifyContent: string;
     position: any;
     expand: any;
     upperBar: boolean;
